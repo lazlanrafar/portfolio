@@ -28,7 +28,7 @@ export default function AppSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="h-screen w-16 fixed top-0 left-0 flex flex-col items-center justify-between bg-background border-r py-10">
+    <aside className="h-screen w-16 sticky top-0 left-0 flex flex-col items-center justify-between bg-background border-r py-10">
       <div className="">
         <Link href="/">
           <h1 className="font-semibold select-none">La.</h1>
@@ -39,16 +39,18 @@ export default function AppSidebar() {
         <div
           ref={activeBackRef}
           className="absolute top-0 h-14 w-full border-y z-10 translate-y-0 transition-transform duration-300 ease-in-out"
-        ></div>
+        />
 
         {navigation.map((item, index) => (
           <div
             key={item.title}
             className="h-14 grid place-items-center z-20"
-            onClick={() => handleTransition(index)}
             ref={navItemRef}
           >
-            <AppSidebarLink {...item} />
+            <AppSidebarLink
+              item={item}
+              onClick={() => handleTransition(index)}
+            />
           </div>
         ))}
       </div>

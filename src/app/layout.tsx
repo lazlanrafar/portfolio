@@ -6,6 +6,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 import { AppSidebar } from "@/components/app";
+import { ResponsiveIndicator } from "@/components/atoms/responsive-indicator";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,10 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} font-mono dark`}
+        className={`${GeistSans.variable} ${GeistMono.variable} font-mono dark overflow-hidden`}
       >
-        <AppSidebar />
-        {children}
+        <div className="flex overflow-auto">
+          <AppSidebar />
+          <main className="flex-1 px-10 relative overflow-y-scroll">
+            {children}
+          </main>
+        </div>
+        <ResponsiveIndicator />
       </body>
     </html>
   );

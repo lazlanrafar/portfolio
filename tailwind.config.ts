@@ -71,8 +71,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-    // default border color
+
     borderColor: (theme: any) => ({
+      ...theme("colors"),
       DEFAULT: theme("colors.border", "currentColor"),
     }),
   },
