@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 export interface Navigation {
-  name: string;
+  title: string;
   link: string;
   content: string;
   icon: any;
@@ -15,31 +15,31 @@ export interface Navigation {
 
 const navigation: Navigation[] = [
   {
-    name: "Home",
+    title: "Home",
     link: "/",
     content: "Home",
     icon: HomeIcon,
   },
   {
-    name: "About",
+    title: "About",
     link: "/about",
     content: "About",
     icon: UserIcon,
   },
   {
-    name: "Work",
+    title: "Work",
     link: "/work",
     content: "Work",
     icon: CoffeeIcon,
   },
   {
-    name: "Project",
+    title: "Project",
     link: "/project",
     content: "Project",
     icon: CodeIcon,
   },
   {
-    name: "Contact",
+    title: "Contact",
     link: "/contact",
     content: "Contact",
     icon: PhoneIcon,

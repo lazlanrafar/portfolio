@@ -1,8 +1,32 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import navigation from "./sidebar.Constant";
+import { usePathname } from "next/navigation";
+import AppSidebarLink from "./sidebar-link";
 
 export default function AppSidebar() {
+  const pathname = usePathname();
+  const activeBackRef = React.useRef<HTMLDivElement>(null);
+  const navItemRef = React.useRef<HTMLDivElement>(null);
+
+  const handleTransition = (index: number) => {
+    const activeBack = activeBackRef.current;
+    const navItem = navItemRef.current;
+
+    if (activeBack && navItem) {
+      activeBack.style.transform = `translateY(${
+        index * navItem.offsetHeight
+      }px)`;
+    }
+  };
+
+  useEffect(() => {
+    const index = navigation.findIndex((item) => item.link === pathname);
+    handleTransition(index);
+  }, [pathname]);
+
   return (
     <aside className="h-screen w-16 fixed top-0 left-0 flex flex-col items-center justify-between bg-background border-r py-10">
       <div className="">
@@ -12,9 +36,19 @@ export default function AppSidebar() {
       </div>
 
       <div className="flex flex-col w-full relative">
-        {navigation.map((item) => (
-          <div key={item.name} className="h-14 grid place-items-center">
-            <item.icon className="w-5 h-5" />
+        <div
+          ref={activeBackRef}
+          className="absolute top-0 h-14 w-full border-y z-10 translate-y-0 transition-transform duration-300 ease-in-out"
+        ></div>
+
+        {navigation.map((item, index) => (
+          <div
+            key={item.title}
+            className="h-14 grid place-items-center z-20"
+            onClick={() => handleTransition(index)}
+            ref={navItemRef}
+          >
+            <AppSidebarLink {...item} />
           </div>
         ))}
       </div>
