@@ -28,7 +28,7 @@ export default async function AppFooter() {
         <Link
           target="_blank"
           href={siteConfig.links.github}
-          className="flex items-center gap-2 px-2 py-1 bg-blue-900 text-foreground transition-colors"
+          className="flex items-center gap-2 px-2 py-1 bg-blue-900 text-white transition-colors"
         >
           <Split size={13} />
           <p>main</p>
