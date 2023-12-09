@@ -1,4 +1,5 @@
 import { FadeIn } from "@/components/atoms/fade-in";
+import { GridPattern } from "@/components/atoms/grid-pattern";
 import { AnimatedName } from "@/components/molecules/animated-name";
 import { siteConfig } from "@/constants";
 
@@ -37,6 +38,11 @@ export default function Home() {
           </div>
         </div>
       </FadeIn>
+      <GridPattern
+        className="absolute inset-x-0 -top-14 -z-10 h-full w-full dark:fill-secondary/20 fill-neutral-100 dark:stroke-secondary/30 stroke-neutral-700/5 [mask-image:linear-gradient(to_bottom_left,white_40%,transparent_50%)]"
+        yOffset={-96}
+        interactive
+      />
     </section>
   );
 }

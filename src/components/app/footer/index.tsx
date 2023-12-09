@@ -91,7 +91,6 @@ export default async function AppFooter() {
           target="_blank"
           href={siteConfig.links.github}
           className="flex items-center gap-x-1 px-2 py-1 hover:text-foreground text-muted-foreground transition-colors"
-          data-umami-event="GitHub link footer"
         >
           <p>{siteConfig.username}</p>
           <Github size={13} />
