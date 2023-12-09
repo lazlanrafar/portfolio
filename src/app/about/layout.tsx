@@ -20,10 +20,7 @@ export default function AboutLayout({
       <aside className="md:col-span-3 lg:col-span-2 border-r border-lines md:block hidden overflow-y-auto">
         <Accordion type="single" collapsible defaultValue="about">
           <AccordionItem value={"about"} defaultChecked>
-            <AccordionTrigger
-              className="border-b border-lines px-5 py-2.5 text-left"
-              data-umami-event="About me accordion"
-            >
+            <AccordionTrigger className="border-b border-lines px-5 py-2.5 text-left">
               About Me
             </AccordionTrigger>
             <AccordionContent className="mt-5 space-y-1">
@@ -36,7 +33,6 @@ export default function AboutLayout({
                         key={title}
                         startWith="/about"
                         title={title}
-                        data-umami-event={`About me ${title} link`}
                       >
                         <SiTypescript className="w-4 h-4 shrink-0" />
                         {title}
