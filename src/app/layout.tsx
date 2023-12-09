@@ -26,7 +26,7 @@ export default function RootLayout({
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
           <main className="md:flex">
             <AppSidebar />
-            <div className="p-5 relative">
+            <div className="p-5 h-full w-full relative">
               {children}
 
               <div className="absolute top-0 right-0 hidden md:block">

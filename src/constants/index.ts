@@ -1,1 +1,2 @@
-export * from "./navigation";
+export * from "./navigationMenus";
+export * from "./siteConfig";
