@@ -8,6 +8,7 @@ import "./globals.css";
 import { AppSidebar } from "@/components/app";
 import { ResponsiveIndicator } from "@/components/atoms/responsive-indicator";
 import { ThemeWrapper } from "@/components/atoms/theme-wrapper";
+import { ThemeToggle } from "@/components/molecules/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,12 +24,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${GeistSans.variable} ${GeistMono.variable} font-mono`}>
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
-          <div className="flex overflow-auto">
+          <main className="md:flex">
             <AppSidebar />
-            <main className="flex-1 px-10 relative overflow-y-scroll">
+            <div className="p-5 relative">
               {children}
-            </main>
-          </div>
+
+              <div className="absolute top-0 right-0 hidden md:block">
+                <div className="border-b border-l">
+                  <ThemeToggle />
+                </div>
+              </div>
+            </div>
+          </main>
         </ThemeWrapper>
         <ResponsiveIndicator />
       </body>

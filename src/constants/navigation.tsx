@@ -6,14 +6,14 @@ import {
   UserIcon,
 } from "lucide-react";
 
-export interface Navigation {
+export interface INavigation {
   title: string;
   link: string;
   content: string;
   icon: any;
 }
 
-const navigation: Navigation[] = [
+export const NAVIGATION: INavigation[] = [
   {
     title: "Home",
     link: "/",
@@ -45,5 +45,3 @@ const navigation: Navigation[] = [
     icon: PhoneIcon,
   },
 ];
-
-export default navigation;
