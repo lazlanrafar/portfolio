@@ -16,6 +16,11 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: "var(--font-geist-sans)",
+        mono: "var(--font-geist-mono)",
+        laBelleAurore: "var(--font-la-belle-aurore)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -71,7 +76,6 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-
     borderColor: (theme: any) => ({
       ...theme("colors"),
       DEFAULT: theme("colors.border", "currentColor"),

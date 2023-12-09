@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <section className="h-full flex items-center">
       <FadeIn>
-        <div className="space-y-4">
+        <div className="space-y-4 ml-5">
           <header className="relative">
             <p className="text-muted-foreground text-lg font-extralight">
               Hi all. I am
@@ -24,13 +24,12 @@ export default function Home() {
           <div className="space-y-2 sm:text-sm text-xs">
             <p className="text-muted-foreground">{`// you can also see it on my Github page`}</p>
             <p className="text-muted-foreground">
-              <span className="text-purple">const</span>{" "}
-              <span className="text-green">githubLink</span> ={" "}
+              <span className=" italic">const</span>{" "}
+              <span className="">githubLink</span> ={" "}
               <a
                 target="_blank"
                 href={siteConfig.links.github}
-                className="text-light-brown hover:underline hover:text-foreground transition-colors"
-                data-umami-event="GitHub link"
+                className=" hover:underline hover:text-foreground transition-colors"
               >
                 &apos;{siteConfig.links.github}&apos;
               </a>

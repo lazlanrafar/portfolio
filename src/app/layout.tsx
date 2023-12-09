@@ -11,6 +11,13 @@ import { ThemeWrapper } from "@/components/atoms/theme-wrapper";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { siteConfig } from "@/constants";
 
+import { La_Belle_Aurore } from "next/font/google";
+const LaBelleAurore = La_Belle_Aurore({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-la-belle-aurore",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: siteConfig.name,
@@ -34,7 +41,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} font-mono`}>
+      <body
+        className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono`}
+      >
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
           <main className="md:flex">
             <AppSidebar />
