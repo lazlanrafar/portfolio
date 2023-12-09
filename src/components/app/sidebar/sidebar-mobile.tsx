@@ -4,7 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/atoms/accordion";
+import { FadeIn } from "@/components/atoms/fade-in";
 import { NAVIGATION } from "@/constants";
+import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import React, { Fragment } from "react";
 
@@ -18,9 +20,9 @@ export default function AppSidebarMobile({
   toggleNavbar,
 }: AppSidebarMobileProps) {
   return (
-    <div>
+    <AnimatePresence>
       {isOpen && (
-        <div className="absolute z-10 left-0 top-[65px] w-full h-[calc(100%-57px-27px)] bg-background p-5 overflow-y-auto">
+        <FadeIn className="absolute z-10 left-0 top-[65px] w-full h-[calc(100%-57px-27px)] bg-background p-5 overflow-y-auto">
           {NAVIGATION.map((item) => (
             <Fragment key={item.title}>
               {item.children ? (
@@ -54,8 +56,8 @@ export default function AppSidebarMobile({
               )}
             </Fragment>
           ))}
-        </div>
+        </FadeIn>
       )}
-    </div>
+    </AnimatePresence>
   );
 }
