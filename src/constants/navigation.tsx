@@ -17,31 +17,31 @@ export const NAVIGATION: INavigation[] = [
   {
     title: "Home",
     link: "/",
-    content: "Home",
+    content: "_Home",
     icon: HomeIcon,
   },
   {
     title: "About",
     link: "/about",
-    content: "About",
+    content: "_About",
     icon: UserIcon,
   },
   {
     title: "Work",
     link: "/work",
-    content: "Work",
+    content: "_Work",
     icon: CoffeeIcon,
   },
   {
     title: "Project",
     link: "/project",
-    content: "Project",
+    content: "_Project",
     icon: CodeIcon,
   },
   {
     title: "Contact",
     link: "/contact",
-    content: "Contact",
+    content: "_Contact",
     icon: PhoneIcon,
   },
 ];
