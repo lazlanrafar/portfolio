@@ -28,7 +28,7 @@ export default function AppSidebarDesktop() {
   };
 
   useEffect(() => {
-    const index = NAVIGATION.findIndex((item) => item.link === pathname);
+    const index = NAVIGATION.findIndex((item) => item.path === pathname);
     handleTransition(index);
   }, [pathname]);
 
@@ -48,7 +48,7 @@ export default function AppSidebarDesktop() {
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href={item.link} onClick={() => handleTransition(index)}>
+                <Link href={item.path} onClick={() => handleTransition(index)}>
                   <span className="sr-only">{item.title}</span>
                   <item.icon className="w-5 h-5" />
                 </Link>
