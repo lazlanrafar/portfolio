@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Tooltip,
   TooltipContent,
@@ -7,6 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip";
 import { siteConfig } from "@/constants";
+import { weeklyCodingActivity } from "@/lib/wakatime";
 import {
   AlertCircle,
   AlertTriangle,
@@ -18,10 +17,10 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
 
-export default function AppFooter() {
-  const [iconSize] = useState<number>(13);
+export default async function AppFooter() {
+  const { data } = await weeklyCodingActivity();
+  const todayData = data[data.length - 1];
 
   return (
     <div className="absolute left-0 bottom-0 w-full flex items-center justify-between bg-background text-xs border-t z-20">
@@ -31,7 +30,7 @@ export default function AppFooter() {
           href={siteConfig.links.github}
           className="flex items-center gap-2 px-2 py-1 bg-blue-900 text-foreground transition-colors"
         >
-          <Split size={iconSize} />
+          <Split size={13} />
           <p>main</p>
         </Link>
         <button
@@ -39,7 +38,7 @@ export default function AppFooter() {
           className="items-center gap-x-2 px-2 py-1 md:flex hidden group hover:text-foreground text-muted-foreground transition-colors"
         >
           <RefreshCcw
-            size={iconSize}
+            size={13}
             className="text-xl group-active:rotate-180 transition-transform"
           />
         </button>
@@ -48,11 +47,11 @@ export default function AppFooter() {
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground">
-                <XCircle size={iconSize} />
+                <XCircle size={13} />
                 <p>0</p>
-                <AlertTriangle size={iconSize} />
+                <AlertTriangle size={13} />
                 <p>0</p>
-                <AlertCircle size={iconSize} />
+                <AlertCircle size={13} />
                 <p>0</p>
               </div>
             </TooltipTrigger>
@@ -68,8 +67,8 @@ export default function AppFooter() {
                 href="/coding-activity"
                 className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground"
               >
-                <Clock size={iconSize} className="text-base" />
-                <p>Time</p>
+                <Clock size={13} className="text-base" />
+                <p>{todayData?.grand_total.text}</p>
               </Link>
             </TooltipTrigger>
             <TooltipContent className="!border-none">
@@ -85,7 +84,7 @@ export default function AppFooter() {
 
       <div className="flex items-center divide-x divide border-l">
         <div className="items-center gap-x-2 px-2 py-1 lg:flex hidden text-muted-foreground">
-          <CheckCheck size={iconSize} />
+          <CheckCheck size={13} />
           <p>Prettier</p>
         </div>
         <Link
@@ -95,7 +94,7 @@ export default function AppFooter() {
           data-umami-event="GitHub link footer"
         >
           <p>{siteConfig.username}</p>
-          <Github size={iconSize} />
+          <Github size={13} />
         </Link>
       </div>
     </div>
