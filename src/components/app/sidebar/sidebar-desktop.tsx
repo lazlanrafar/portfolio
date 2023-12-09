@@ -27,11 +27,6 @@ export default function AppSidebarDesktop() {
     }
   };
 
-  useEffect(() => {
-    const index = NAVIGATION.findIndex((item) => item.path === pathname);
-    handleTransition(index);
-  }, [pathname]);
-
   return (
     <div className="hidden md:flex flex-col w-full relative">
       <div

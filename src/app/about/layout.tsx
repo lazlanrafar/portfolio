@@ -1,13 +1,14 @@
 import { Suspense } from "react";
-
+import { allAbouts } from "contentlayer/generated";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/atoms/accordion";
-// import { AsideLink } from '@/components/atoms/aside-link'
+import { SiTypescript } from "react-icons/si";
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
+import { AsideLink } from "@/components/atoms/aside-link";
 
 export default function AboutLayout({
   children,
@@ -27,16 +28,22 @@ export default function AboutLayout({
             </AccordionTrigger>
             <AccordionContent className="mt-5 space-y-1">
               <FadeInStagger faster>
-                {/* {allAbouts.map(({ title }) => (
+                {allAbouts.map(({ title }) => (
                   <FadeIn key={title}>
                     <Suspense fallback={<>Loading...</>}>
-                      <AsideLink href={title} key={title} startWith='/about' title={title} data-umami-event={`About me ${title} link`}>
-                        <SiTypescript className='w-4 h-4 shrink-0' />
+                      <AsideLink
+                        href={title}
+                        key={title}
+                        startWith="/about"
+                        title={title}
+                        data-umami-event={`About me ${title} link`}
+                      >
+                        <SiTypescript className="w-4 h-4 shrink-0" />
                         {title}
                       </AsideLink>
                     </Suspense>
                   </FadeIn>
-                ))} */}
+                ))}
               </FadeInStagger>
             </AccordionContent>
           </AccordionItem>
