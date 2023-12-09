@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import navigation from "./sidebar.Constant";
+import navigation from "./sidebar.constant";
 import { usePathname } from "next/navigation";
 import AppSidebarLink from "./sidebar-link";
 

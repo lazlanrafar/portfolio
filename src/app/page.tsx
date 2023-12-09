@@ -1,15 +1,10 @@
 export default function Home() {
   return (
     <div>
-      {/* loop lorem */}
-      {Array.from({ length: 50 }, (_, i) => (
-        <p key={i}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          voluptatibus, voluptas quibusdam, voluptatem, voluptate quod
-          accusantium quia fugit voluptatum molestiae quos. Quisquam
-          voluptatibus, voluptas quibusdam, voluptatem, voluptate quod
-        </p>
-      ))}
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat velit
+      adipisci autem eaque iste architecto ab modi voluptatibus earum harum at
+      facilis maiores dolore molestiae quaerat, consectetur pariatur minima
+      tempora.
     </div>
   );
 }

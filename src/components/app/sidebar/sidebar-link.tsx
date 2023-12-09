@@ -5,7 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip";
 import Link from "next/link";
-import { Navigation } from "./sidebar.Constant";
+import { Navigation } from "./sidebar.constant";
 
 interface Props {
   item: Navigation;

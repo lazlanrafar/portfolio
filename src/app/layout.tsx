@@ -7,6 +7,7 @@ import "./globals.css";
 
 import { AppSidebar } from "@/components/app";
 import { ResponsiveIndicator } from "@/components/atoms/responsive-indicator";
+import { ThemeWrapper } from "@/components/atoms/theme-wrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,15 +21,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${GeistSans.variable} ${GeistMono.variable} font-mono dark overflow-hidden`}
-      >
-        <div className="flex overflow-auto">
-          <AppSidebar />
-          <main className="flex-1 px-10 relative overflow-y-scroll">
-            {children}
-          </main>
-        </div>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} font-mono`}>
+        <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
+          <div className="flex overflow-auto">
+            <AppSidebar />
+            <main className="flex-1 px-10 relative overflow-y-scroll">
+              {children}
+            </main>
+          </div>
+        </ThemeWrapper>
         <ResponsiveIndicator />
       </body>
     </html>
