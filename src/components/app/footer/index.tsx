@@ -5,7 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip";
 import { siteConfig } from "@/constants";
-import { weeklyCodingActivity } from "@/lib/wakatime";
+import { wakatimeWeeklyCodingActivity } from "@/lib/wakatime";
 import {
   AlertCircle,
   AlertTriangle,
@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 
 export default async function AppFooter() {
-  const { data } = await weeklyCodingActivity();
+  const { data } = await wakatimeWeeklyCodingActivity();
   const todayData = data[data.length - 1];
 
   return (

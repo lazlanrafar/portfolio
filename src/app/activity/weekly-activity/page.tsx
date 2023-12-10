@@ -1,8 +1,8 @@
 import { FadeIn } from "@/components/atoms/fade-in";
-import { weeklyCodingActivity } from "@/lib/wakatime";
+import { wakatimeWeeklyCodingActivity } from "@/lib/wakatime";
 
 export default async function ActivityActivityPage() {
-  const { data } = await weeklyCodingActivity();
+  const { data } = await wakatimeWeeklyCodingActivity();
 
   const maxTotalSeconds = Math.max(
     ...data.map((entry) => entry.grand_total.total_seconds)

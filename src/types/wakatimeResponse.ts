@@ -1,11 +1,11 @@
-export interface WeeklyCodingActivity {
+export interface IWakatimeCodingActivity {
   data: {
     grand_total: GrandTotal;
     range: Range;
   }[];
 }
 
-export interface WeeklyCodingLanguages {
+export interface IWakatimeCodingLanguages {
   data: {
     name: string;
     percent: number;
@@ -13,7 +13,7 @@ export interface WeeklyCodingLanguages {
   }[];
 }
 
-export interface WeeklyCodeEditor {
+export interface IWakatimeCodeEditor {
   data: {
     color: string;
     name: string;
@@ -21,7 +21,7 @@ export interface WeeklyCodeEditor {
   }[];
 }
 
-export interface WeeklyOperatingSystems {
+export interface IWakatimeOperatingSystems {
   data: {
     color: string;
     name: string;
@@ -29,12 +29,7 @@ export interface WeeklyOperatingSystems {
   }[];
 }
 
-export interface DailyCodingActivity {
-  grand_total: GrandTotal;
-  range: Range;
-}
-
-export interface GrandTotal {
+interface GrandTotal {
   decimal: string;
   digital: string;
   hours: number;
@@ -43,7 +38,7 @@ export interface GrandTotal {
   total_seconds: number;
 }
 
-export interface Range {
+interface Range {
   date: string;
   end: string;
   start: string;
