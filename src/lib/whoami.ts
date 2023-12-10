@@ -9,7 +9,7 @@ export const whoamiAssets = (path?: string) => {
   return path ? `${ENV.NEXT_PUBLIC_WHOAMI_ASSETS_URL}/${path}` : "";
 };
 
-export const fetchProjects = async () => {
+export const whoamiFetchProjects = async () => {
   const res = await fetch(`${baseUrl}/projects?limit=16`, {
     cache: "no-store",
   });

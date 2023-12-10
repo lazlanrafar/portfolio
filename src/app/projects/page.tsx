@@ -4,12 +4,12 @@ import {
   FadeInStagger,
 } from "@/components/atoms/fade-in";
 import ProjectCard from "@/components/molecules/project-card";
-import { fetchProjects } from "@/lib/whoami";
+import { whoamiFetchProjects } from "@/lib/whoami";
 import { notFound } from "next/navigation";
 import React from "react";
 
 export default async function ProjectsPage() {
-  const projects = await fetchProjects();
+  const projects = await whoamiFetchProjects();
   if (!projects) return notFound();
 
   return (
