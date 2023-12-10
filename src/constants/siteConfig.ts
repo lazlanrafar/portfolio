@@ -5,5 +5,8 @@ export const siteConfig = {
   url: "https://www.lazlanrafar.com",
   links: {
     github: "https://github.com/lazlanrafar",
+    linkedin: "https://www.linkedin.com/in/lazlanrafar",
+    instagram: "https://www.instagram.com/lazlanrafar",
+    email: "mailto:lazlanrafar@gmail.com",
   },
 };

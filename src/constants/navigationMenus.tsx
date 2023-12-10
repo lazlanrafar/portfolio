@@ -1,8 +1,10 @@
+import { siteConfig } from "@/constants/siteConfig";
 import {
   CodeIcon,
   CoffeeIcon,
   HomeIcon,
   PhoneIcon,
+  Settings,
   UserIcon,
 } from "lucide-react";
 
@@ -42,17 +44,17 @@ export const NAVIGATION: INavigation[] = [
       },
     ],
   },
-  // {
-  //   title: "Work",
-  //   path: "/work",
-  //   content: "_Work",
-  //   icon: CoffeeIcon,
-  // },
   {
     title: "Projects",
     path: "/projects",
     content: "_Projects",
-    icon: CoffeeIcon,
+    icon: CodeIcon,
+  },
+  {
+    title: "Preferences",
+    path: "/preferences",
+    content: "_Preferences",
+    icon: Settings,
   },
   {
     title: "Contact",
@@ -62,23 +64,19 @@ export const NAVIGATION: INavigation[] = [
     children: [
       {
         name: "Email",
-        path: "mailto:wwicaksono96@gmail.com",
+        path: siteConfig.links.email,
       },
       {
-        name: "Upwork",
-        path: "https://www.upwork.com/freelancers/~01df34d78e05fa69bf",
+        name: "Github",
+        path: siteConfig.links.github,
       },
       {
-        name: "WhatsApp",
-        path: "https://wa.me/+6287885002327",
-      },
-      {
-        name: "LinkedIn",
-        path: "https://www.linkedin.com/in/wiscaksono/",
+        name: "Linkedin",
+        path: siteConfig.links.linkedin,
       },
       {
         name: "Instagram",
-        path: "https://www.instagram.com/amachoker/",
+        path: siteConfig.links.instagram,
       },
     ],
   },
