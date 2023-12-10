@@ -20,3 +20,13 @@ export const weeklyCodingLanguages = async () => {
   );
   return res.json() as Promise<Wakatime.WeeklyCodingLanguages>;
 };
+
+export const wakatimeCodeEditor = async () => {
+  const res = await fetch(
+    "https://wakatime.com/share/@lazlanrafar/38c7408d-c558-4e8f-96ad-9cdb052082ee.json",
+    {
+      cache: "no-store",
+    }
+  );
+  return res.json() as Promise<Wakatime.WeeklyCodeEditor>;
+};

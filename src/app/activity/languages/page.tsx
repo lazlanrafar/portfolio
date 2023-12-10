@@ -6,7 +6,7 @@ export default async function ActivityLanguagesPage() {
 
   return (
     <FadeIn>
-      <article className="my-5">
+      <article>
         <div className="md:space-y-2 mb-2.5 pb-2.5 border-b">
           <h1 className="text-xl font-semibold">Coding Languages</h1>
         </div>
