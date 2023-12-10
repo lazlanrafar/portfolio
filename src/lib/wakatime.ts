@@ -30,3 +30,13 @@ export const wakatimeCodeEditor = async () => {
   );
   return res.json() as Promise<Wakatime.WeeklyCodeEditor>;
 };
+
+export const wakatimeOperatingSystems = async () => {
+  const res = await fetch(
+    "https://wakatime.com/share/@lazlanrafar/c7d5cffa-f1d9-461e-8fae-3560ad57a97a.json",
+    {
+      cache: "no-store",
+    }
+  );
+  return res.json() as Promise<Wakatime.WeeklyOperatingSystems>;
+};

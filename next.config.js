@@ -30,6 +30,11 @@ const nextConfig = {
         destination: "/about/personal.ts",
         permanent: true,
       },
+      {
+        source: "/activity",
+        destination: "/activity/languages",
+        permanent: true,
+      },
     ];
   },
 };

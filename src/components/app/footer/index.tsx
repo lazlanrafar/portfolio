@@ -64,7 +64,7 @@ export default async function AppFooter() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="/coding-activity"
+                href="/activity"
                 className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground"
               >
                 <Clock size={13} className="text-base" />
