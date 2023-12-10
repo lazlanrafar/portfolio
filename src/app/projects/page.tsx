@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
 
   return (
     <section className="overflow-y-auto relative h-full p-5">
-      <h3 className="text-lg mb-3 text-center">PROJECTS</h3>
+      {/* <h3 className="text-lg mb-3">PROJECTS</h3> */}
 
       <FadeInStagger
         className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"

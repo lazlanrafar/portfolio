@@ -21,11 +21,9 @@ export type IWhoamiProject = {
 };
 
 export type IWhoamiProjectTechnology = {
-  id: string;
-  project_id: string;
-  skill_id: string;
-  created_at?: Date;
-  updated_at?: Date;
+  skill: {
+    title: string;
+  };
 };
 
 export type IWhoamiProjectResponse = {
