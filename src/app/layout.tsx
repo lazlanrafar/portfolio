@@ -32,6 +32,18 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     card: "summary_large_image",
   },
+  icons: [
+    {
+      url: "/favicon.ico",
+      sizes: "192x192",
+      type: "image/png",
+    },
+    {
+      url: "/android-chrome-512x512.png",
+      sizes: "512x512",
+      type: "image/png",
+    },
+  ],
 };
 
 export default function RootLayout({
