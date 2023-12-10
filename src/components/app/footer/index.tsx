@@ -23,7 +23,7 @@ export default async function AppFooter() {
   const todayData = data[data.length - 1];
 
   return (
-    <div className="absolute left-0 bottom-0 w-full flex items-center justify-between bg-background text-xs border-t z-20">
+    <div className="absolute left-0 bottom-0 w-full flex items-center justify-between bg-background text-xs border-t z-50">
       <div className="flex items-center border-r divide-x">
         <Link
           target="_blank"

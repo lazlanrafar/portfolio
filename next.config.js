@@ -5,6 +5,13 @@ const { withContentlayer } = require("next-contentlayer");
  */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+  images: {
+    remotePatterns: [
+      {
+        hostname: "whoamiapi.lazlanrafar.com",
+      },
+    ],
+  },
   experimental: {
     webpackBuildWorker: true,
     serverActions: {

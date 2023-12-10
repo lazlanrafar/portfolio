@@ -31,36 +31,28 @@ export const NAVIGATION: INavigation[] = [
     path: "/about",
     content: "_About",
     icon: UserIcon,
-  },
-  {
-    title: "Work",
-    path: "/work",
-    content: "_Work",
-    icon: CoffeeIcon,
-  },
-  {
-    title: "Project",
-    path: "/project",
-    content: "_Project",
-    icon: CodeIcon,
     children: [
       {
-        name: "All Projects",
-        path: "/projects",
+        name: "_Personal",
+        path: "/about/personal.ts",
       },
       {
-        name: "React",
-        path: "/projects?tag=react",
-      },
-      {
-        name: "Next",
-        path: "/projects?tag=next",
-      },
-      {
-        name: "HTML",
-        path: "/projects?tag=html",
+        name: "_Tech-Stack",
+        path: "/about/tech-stack.ts",
       },
     ],
+  },
+  // {
+  //   title: "Work",
+  //   path: "/work",
+  //   content: "_Work",
+  //   icon: CoffeeIcon,
+  // },
+  {
+    title: "Projects",
+    path: "/projects",
+    content: "_Projects",
+    icon: CoffeeIcon,
   },
   {
     title: "Contact",

@@ -50,8 +50,8 @@ export default function RootLayout({
             <div className="h-full w-full relative">
               {children}
 
-              <div className="absolute top-0 right-0 hidden md:block">
-                <div className="border-b border-l">
+              <div className="absolute top-0 right-0 hidden md:block z-50">
+                <div className="border-b border-l bg-background">
                   <ThemeToggle />
                 </div>
               </div>
