@@ -26,11 +26,7 @@ export default function ContactLayout({
               <FadeInStagger faster className="space-y-2">
                 {CONTACTS.map((contact) => (
                   <FadeIn key={contact.name}>
-                    <AsideLink
-                      startWith="/"
-                      href={contact.path}
-                      target="_blank"
-                    >
+                    <AsideLink href={contact.path} target="_blank">
                       <contact.icon className="w-4 h-4 shrink-0" />
                       {contact.name}
                     </AsideLink>

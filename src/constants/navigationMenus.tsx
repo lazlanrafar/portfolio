@@ -1,5 +1,6 @@
 import { siteConfig } from "@/constants/siteConfig";
 import {
+  Activity,
   CodeIcon,
   CoffeeIcon,
   HomeIcon,
@@ -51,10 +52,10 @@ export const NAVIGATION: INavigation[] = [
     icon: CodeIcon,
   },
   {
-    title: "Preferences",
-    path: "/preferences",
-    content: "_Preferences",
-    icon: Settings,
+    title: "Activity",
+    path: "/activity",
+    content: "_Activity",
+    icon: Activity,
   },
   {
     title: "Contact",

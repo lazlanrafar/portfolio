@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 type Props = {
   href: string;
   children: React.ReactNode;
-  startWith: string;
   title?: string | null;
   className?: ClassValue;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -17,7 +16,6 @@ type Props = {
 export const AsideLink = ({
   href,
   children,
-  startWith,
   title,
   className,
   ...props

@@ -10,3 +10,13 @@ export const weeklyCodingActivity = async () => {
   );
   return res.json() as Promise<Wakatime.WeeklyCodingActivity>;
 };
+
+export const weeklyCodingLanguages = async () => {
+  const res = await fetch(
+    "https://wakatime.com/share/@lazlanrafar/c5bdb772-6066-4334-bfe9-a551bb5a61e0.json",
+    {
+      cache: "no-store",
+    }
+  );
+  return res.json() as Promise<Wakatime.WeeklyCodingLanguages>;
+};
