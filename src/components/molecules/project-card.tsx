@@ -1,5 +1,5 @@
 import { whoamiAssets } from "@/lib/whoami";
-import { IWhoamiProject } from "@/types/whoamiReponse";
+import { IWhoamiProject } from "@/types/whoamiResponse";
 import Image from "next/image";
 import React from "react";
 import {

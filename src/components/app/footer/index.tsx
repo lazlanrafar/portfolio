@@ -27,7 +27,7 @@ export default async function AppFooter() {
       <div className="flex items-center border-r divide-x">
         <Link
           target="_blank"
-          href={siteConfig.links.github}
+          href={siteConfig.repository}
           className="flex items-center gap-2 px-2 py-1 bg-blue-900 text-white transition-colors"
         >
           <Split size={13} />
@@ -46,7 +46,7 @@ export default async function AppFooter() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground">
+              <div className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground select-none">
                 <XCircle size={13} />
                 <p>0</p>
                 <AlertTriangle size={13} />

@@ -1,6 +1,6 @@
 "use server";
 
-import { IWhoamiProjectResponse } from "@/types/whoamiReponse";
+import { IWhoamiProjectResponse } from "@/types/whoamiResponse";
 import { ENV } from "./env";
 
 const baseUrl = ENV.NEXT_PUBLIC_WHOAMI_URL;
@@ -10,7 +10,7 @@ export const whoamiAssets = (path?: string) => {
 };
 
 export const fetchProjects = async () => {
-  const res = await fetch(`${baseUrl}/projects`, {
+  const res = await fetch(`${baseUrl}/projects?limit=16`, {
     cache: "no-store",
   });
   return res.json() as Promise<IWhoamiProjectResponse>;
