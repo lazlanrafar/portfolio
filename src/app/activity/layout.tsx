@@ -62,10 +62,10 @@ const ACTIVITY = [
     path: "/activity/languages",
   },
   {
-    name: "Activity",
-    slug: "activity",
+    name: "Weekly Activity",
+    slug: "weekly-activity",
     icon: BsActivity,
-    path: "/activity/activity",
+    path: "/activity/weekly-activity",
   },
   {
     name: "Code Editor",
