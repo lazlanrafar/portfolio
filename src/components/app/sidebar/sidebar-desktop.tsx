@@ -27,6 +27,19 @@ export default function AppSidebarDesktop() {
     }
   };
 
+  useEffect(() => {
+    if (pathname === "/") {
+      handleTransition(0);
+      return;
+    }
+
+    const index = NAVIGATION.findIndex((item) =>
+      item.path.startsWith(`/${pathname.split("/")[1]}`)
+    );
+
+    handleTransition(index);
+  }, [pathname]);
+
   return (
     <div className="hidden md:flex flex-col w-full relative">
       <div
@@ -43,7 +56,7 @@ export default function AppSidebarDesktop() {
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href={item.path} onClick={() => handleTransition(index)}>
+                <Link href={item.path}>
                   <span className="sr-only">{item.title}</span>
                   <item.icon className="w-5 h-5" />
                 </Link>
