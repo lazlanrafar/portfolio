@@ -11,6 +11,9 @@ import { ThemeWrapper } from "@/components/atoms/theme-wrapper";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { siteConfig } from "@/constants";
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { La_Belle_Aurore } from "next/font/google";
 const LaBelleAurore = La_Belle_Aurore({
   weight: ["400"],
@@ -72,6 +75,13 @@ export default function RootLayout({
             <AppFooter />
           </main>
         </ThemeWrapper>
+
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
         <ResponsiveIndicator />
       </body>
     </html>
