@@ -8,7 +8,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "whoamiapi.lazlanrafar.com",
+        hostname: "assets-global.website-files.com",
       },
     ],
   },
