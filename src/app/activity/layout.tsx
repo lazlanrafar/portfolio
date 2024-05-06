@@ -3,16 +3,22 @@ import { BsActivity } from "react-icons/bs";
 import { BiText } from "react-icons/bi";
 import { SiArchlinux } from "react-icons/si";
 import { Suspense } from "react";
-import { allAbouts } from "contentlayer/generated";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/atoms/accordion";
-import { SiTypescript } from "react-icons/si";
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
 import { AsideLink } from "@/components/atoms/aside-link";
+import { Metadata } from "next";
+import { siteConfig } from "@/constants";
+
+export const metadata: Metadata = {
+  title: "Activity | " + siteConfig.name,
+  description:
+    "Tech stack, weekly activity, code editor, and operating systems. All the things I use daily.",
+};
 
 export default function ActivityLayout({
   children,

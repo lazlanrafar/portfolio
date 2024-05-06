@@ -4,7 +4,9 @@ import {
   FadeInStagger,
 } from "@/components/atoms/fade-in";
 import ProjectCard from "@/components/molecules/project-card";
+import { siteConfig } from "@/constants";
 import { whoamiFetchProjects } from "@/lib/whoami";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -94,6 +96,11 @@ const projects: any = [
     category: ["Vue.js", "Tailwind"],
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Projects | " + siteConfig.name,
+  description: "A collection of projects that I have worked on.",
+};
 
 export default async function ProjectsPage() {
   // if (!projects) return notFound();

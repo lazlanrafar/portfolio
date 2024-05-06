@@ -24,12 +24,23 @@ const LaBelleAurore = La_Belle_Aurore({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: siteConfig.name,
-  description: siteConfig.description,
+  description: siteConfig.subtitle,
   openGraph: {
     title: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
     type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   twitter: {
     title: siteConfig.name,

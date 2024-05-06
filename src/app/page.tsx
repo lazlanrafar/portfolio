@@ -2,6 +2,12 @@ import { FadeIn } from "@/components/atoms/fade-in";
 import { GridPattern } from "@/components/atoms/grid-pattern";
 import { AnimatedName } from "@/components/molecules/animated-name";
 import { siteConfig } from "@/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | " + siteConfig.name,
+  description: siteConfig.description,
+};
 
 export default function Home() {
   return (

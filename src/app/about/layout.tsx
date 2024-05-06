@@ -9,6 +9,13 @@ import {
 import { SiTypescript } from "react-icons/si";
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
 import { AsideLink } from "@/components/atoms/aside-link";
+import { siteConfig } from "@/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Me | " + siteConfig.name,
+  description: siteConfig.description,
+};
 
 export default function AboutLayout({
   children,

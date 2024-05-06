@@ -1,8 +1,10 @@
 export const siteConfig = {
   name: "L Azlan Rafar",
-  description: "L Azlan Rafar's personal website",
+  subtitle: "L Azlan Rafar's personal website",
+  description:
+    "I'm a Software Developer Based in Indonesia. I describe myself as a passionate developer who loves coding, open-source, and the web platform ❤️",
   username: "lazlanrafar",
-  url: "https://www.lazlanrafar.com",
+  url: "https://lazlanrafar.com",
   repository: "https://github.com/lazlanrafar/portfolio",
   links: {
     github: "https://github.com/lazlanrafar",

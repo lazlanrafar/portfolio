@@ -8,6 +8,12 @@ import { SiGithub, SiGmail, SiInstagram, SiLinkedin } from "react-icons/si";
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
 import { AsideLink } from "@/components/atoms/aside-link";
 import { siteConfig } from "@/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | " + siteConfig.name,
+  description: "Let's get in touch! You can find me on these platforms.",
+};
 
 export default function ContactLayout({
   children,
