@@ -9,6 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         hostname: "assets-global.website-files.com",
+        hostname: "gzizpuccroyjhwkfyyxd.supabase.co",
       },
     ],
   },
