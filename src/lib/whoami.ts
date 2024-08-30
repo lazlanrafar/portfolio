@@ -1,17 +1,26 @@
 "use server";
 
-import { IWhoamiProjectResponse } from "@/types/whoamiResponse";
-import { ENV } from "./env";
+import { Project } from "@/types";
 
-const baseUrl = ENV.NEXT_PUBLIC_WHOAMI_URL;
+const baseUrl = process.env.NEXT_PUBLIC_WHOAMI_URL;
 
-export const whoamiAssets = (path?: string) => {
-  return path ? `${ENV.NEXT_PUBLIC_WHOAMI_ASSETS_URL}/${path}` : "";
-};
-
-export const whoamiFetchProjects = async () => {
-  const res = await fetch(`${baseUrl}/projects?limit=16`, {
-    cache: "no-store",
-  });
-  return res.json() as Promise<IWhoamiProjectResponse>;
+export const whoamiFetchProjects = async ({
+  page_size = 20,
+}: {
+  page_size?: number;
+}) => {
+  const res = await fetch(
+    `${baseUrl}/project?email=lazlanrafar@gmail.com&page=1&page_size=${page_size}`
+  );
+  return res.json() as Promise<{
+    status: number;
+    message: string;
+    data: Project[];
+    pagination: {
+      page: number;
+      page_size: number;
+      total_items: number;
+      total_pages: number;
+    };
+  }>;
 };
