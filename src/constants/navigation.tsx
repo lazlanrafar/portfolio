@@ -1,39 +1,27 @@
+import { Icons } from "@/components/atoms/icons";
 import { siteConfig } from "@/constants/siteConfig";
-import {
-  Activity,
-  CodeIcon,
-  CoffeeIcon,
-  HomeIcon,
-  PhoneIcon,
-  Settings,
-  UserIcon,
-} from "lucide-react";
 
-interface INavigationChild {
-  name: string;
-  path: string;
-}
-
-export interface INavigation {
+export const NAVIGATION: {
   title: string;
   path: string;
   content: string;
   icon: any;
-  children?: INavigationChild[];
-}
-
-export const NAVIGATION: INavigation[] = [
+  children?: {
+    name: string;
+    path: string;
+  }[];
+}[] = [
   {
     title: "Home",
     path: "/",
     content: "_Home",
-    icon: HomeIcon,
+    icon: Icons.home,
   },
   {
     title: "About",
     path: "/about",
     content: "_About",
-    icon: UserIcon,
+    icon: Icons.user,
     children: [
       {
         name: "_Personal",
@@ -49,19 +37,19 @@ export const NAVIGATION: INavigation[] = [
     title: "Projects",
     path: "/projects",
     content: "_Projects",
-    icon: CodeIcon,
+    icon: Icons.code,
   },
   {
     title: "Activity",
     path: "/activity",
     content: "_Activity",
-    icon: Activity,
+    icon: Icons.chart,
   },
   {
     title: "Contact",
     path: "/contact",
     content: "_Contact",
-    icon: PhoneIcon,
+    icon: Icons.phone,
     children: [
       {
         name: "Email",
