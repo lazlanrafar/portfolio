@@ -1,5 +1,0 @@
-export const ENV = {
-  NEXT_PUBLIC_WHOAMI_URL:
-    process.env.NEXT_PUBLIC_WHOAMI_URL || "localhost:3000",
-  NEXT_PUBLIC_WHOAMI_ASSETS_URL: process.env.NEXT_PUBLIC_WHOAMI_ASSETS_URL,
-};
