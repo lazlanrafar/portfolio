@@ -10,6 +10,7 @@ const nextConfig = {
       {
         hostname: "assets-global.website-files.com",
         hostname: "gzizpuccroyjhwkfyyxd.supabase.co",
+        hostname: "images.microcms-assets.io",
       },
     ],
   },
