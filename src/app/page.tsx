@@ -16,7 +16,7 @@ export default function Home() {
         <FadeIn>
           <div className="space-y-4 ml-5">
             <header className="relative">
-              <p className="text-muted-foreground text-lg">Hi all. I am</p>
+              <p className="text-lg">Hi all. I am</p>
               <AnimatedName />
               <h2 className="text-muted-foreground text-base sm:text-xl md:text-2xl">
                 <span className="animate-pulse">&gt; </span>
@@ -29,8 +29,13 @@ export default function Home() {
             <div className="space-y-2 sm:text-sm text-xs">
               <p className="text-muted-foreground">{`// you can also see it on my Github page`}</p>
               <p className="text-muted-foreground">
-                <span className=" italic">const</span> <span className="">githubLink</span> ={" "}
-                <a target="_blank" href={siteConfig.links.github} className=" hover:underline hover:text-foreground transition-colors">
+                <span className=" italic">const</span>{" "}
+                <span className="">githubLink</span> ={" "}
+                <a
+                  target="_blank"
+                  href={siteConfig.links.github}
+                  className=" hover:underline hover:text-foreground transition-colors"
+                >
                   &apos;{siteConfig.links.github}&apos;
                 </a>
               </p>
