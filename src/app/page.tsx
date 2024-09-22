@@ -1,6 +1,7 @@
 import { FadeIn } from "@/components/atoms/fade-in";
 import { GridPattern } from "@/components/atoms/grid-pattern";
 import { AnimatedName } from "@/components/molecules/animated-name";
+import HomeAboutMe from "@/components/organisms/home-about-me";
 import { siteConfig } from "@/constants";
 import { Metadata } from "next";
 
@@ -12,9 +13,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <section className="h-full flex items-center">
+      <section className="h-full flex items-center justify-center">
         <FadeIn>
-          <div className="space-y-4 ml-5">
+          <div className="space-y-4 text-center">
             <header className="relative">
               <p className="text-lg">Hi all. I am</p>
               <AnimatedName />
@@ -43,6 +44,9 @@ export default function Home() {
           </div>
         </FadeIn>
       </section>
+
+      <HomeAboutMe />
+
       {/* <div className="h-[2000px]"></div>
       <div className="h-[2000px]"></div>
       <div className="h-[2000px]"></div>
