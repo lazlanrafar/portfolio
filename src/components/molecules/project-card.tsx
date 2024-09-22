@@ -75,6 +75,15 @@ export default function ProjectCard({
             ))}
           </div>
         </div>
+        {/* <div className="p-3 text-sm text-muted-foreground text-start">
+          <p
+            dangerouslySetInnerHTML={{
+              __html: project.description
+                ? project.description.slice(0, 65)
+                : "",
+            }}
+          ></p>
+        </div> */}
       </article>
     </a>
   );
