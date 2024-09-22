@@ -62,10 +62,16 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono`}>
+      <body
+        className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono`}
+      >
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
           <main className="md:flex">
             <AppSidebar />

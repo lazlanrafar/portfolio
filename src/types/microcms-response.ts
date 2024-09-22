@@ -16,6 +16,7 @@ export interface IMicrocmsProject {
   project_url: string;
   description: string;
   github_url: string;
+  skills: string[];
 }
 
 export interface IMicrocmsMedia {
