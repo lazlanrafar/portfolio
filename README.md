@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/github/lazlanrafar/portfolio.svg)](https://wakatime.com/badge/github/lazlanrafar/portfolio)
+
 # Latoe's Homepage
 
 [https://lazlanrafar.vercel.app/](https://lazlanrafar.vercel.app/)
