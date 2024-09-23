@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { type ClassValue } from "clsx";
 
@@ -22,7 +22,9 @@ export const AsideLink = ({
 }: Props) => {
   const segment = useSelectedLayoutSegment();
   const tag = useSearchParams().get("tag");
-  const isActive = tag === title || segment === title;
+  const pathname = usePathname();
+
+  const isActive = tag === title || segment === title || pathname === href;
 
   return (
     <Link
