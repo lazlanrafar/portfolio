@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { allAbouts } from "contentlayer/generated";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +8,7 @@ import {
 import { SiTypescript } from "react-icons/si";
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
 import { AsideLink } from "@/components/atoms/aside-link";
-import { siteConfig } from "@/constants";
+import { NAVIGATION, siteConfig } from "@/constants";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,6 +21,9 @@ export default function AboutLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const tabs = NAVIGATION.find((nav) => nav.title === "About")?.children;
+  if (!tabs) return null;
+
   return (
     <section className="grid grid-cols-12 overflow-hidden h-full">
       <aside className="md:col-span-3 lg:col-span-2 border-r border-lines md:block hidden overflow-y-auto">
@@ -32,12 +34,12 @@ export default function AboutLayout({
             </AccordionTrigger>
             <AccordionContent className="mt-5 space-y-1">
               <FadeInStagger faster>
-                {allAbouts.map(({ title }) => (
-                  <FadeIn key={title}>
+                {tabs.map((tab) => (
+                  <FadeIn key={tab.path}>
                     <Suspense fallback={<>Loading...</>}>
-                      <AsideLink href={title} key={title} title={title}>
+                      <AsideLink href={tab.path} key={tab.name}>
                         <SiTypescript className="w-4 h-4 shrink-0" />
-                        {title}
+                        {tab.name}
                       </AsideLink>
                     </Suspense>
                   </FadeIn>

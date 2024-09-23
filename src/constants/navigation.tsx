@@ -1,6 +1,10 @@
 import { Icons } from "@/components/atoms/icons";
 import { siteConfig } from "@/constants/siteConfig";
 
+// Markdown navigation
+import MDXPersonal from "@/markdown/personal.mdx";
+import MDXSkills from "@/markdown/skills.mdx";
+
 export const NAVIGATION: {
   title: string;
   path: string;
@@ -9,6 +13,7 @@ export const NAVIGATION: {
   children?: {
     name: string;
     path: string;
+    mdx_component?: any;
   }[];
 }[] = [
   {
@@ -24,12 +29,14 @@ export const NAVIGATION: {
     icon: Icons.user,
     children: [
       {
-        name: "_Personal",
+        name: "_personal.ts",
         path: "/about/personal.ts",
+        mdx_component: MDXPersonal,
       },
       {
-        name: "_Tech-Stack",
-        path: "/about/tech-stack.ts",
+        name: "_skills.ts",
+        path: "/about/skills.ts",
+        mdx_component: MDXSkills,
       },
     ],
   },
