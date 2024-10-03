@@ -35,7 +35,7 @@ export default function ActivityLayout({
             </AccordionTrigger>
             <AccordionContent className="mt-5 space-y-1">
               <FadeInStagger faster>
-                {ACTIVITY.map((item) => (
+                {LIST_ACTIVITY.map((item) => (
                   <FadeIn key={item.name}>
                     <Suspense fallback={<>Loading...</>}>
                       <AsideLink
@@ -60,7 +60,7 @@ export default function ActivityLayout({
   );
 }
 
-const ACTIVITY = [
+export const LIST_ACTIVITY = [
   {
     name: "Languages",
     slug: "languages",
