@@ -4,12 +4,12 @@ import { AnimatedName } from "../molecules/animated-name";
 
 export default function HomeWelcome() {
   return (
-    <section className="flex flex-col w-full h-full px-10 py-20">
+    <section className="flex flex-col w-full h-full px-10 py-[10rem] md:py-20">
       <div className="flex-1 flex items-center justify-between">
-        <div className="text-xs md:text-sm ">2003</div>
+        <div className="text-xs md:text-sm hidden sm:block">2003</div>
         <div className="text-xs md:text-sm hidden md:block">12.5</div>
         <FadeIn>
-          <div className="space-y-4 text-center">
+          <div className="space-y-4 text-center ">
             <svg
               data-name="Calque 1"
               xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +18,7 @@ export default function HomeWelcome() {
               width={24}
               height={24}
               color="currentColor"
-              className="mx-auto animate-pulse"
+              className="mx-auto text-red-500 animate-pulse"
             >
               <path
                 d="M.1,60.51V13.56H11.26V3.38h22V13.69H44.48V29.18H55.57V13.69H66.74V3.38h22V13.56H99.9V60.51H88.77V70.75h-11V81.16H61.16V96.62H38.84V81H22.23V70.69H11.17V60.51Z"
@@ -55,11 +55,13 @@ export default function HomeWelcome() {
           </div>
         </FadeIn>
         <div className="text-xs md:text-sm hidden md:block">FREE</div>
-        <div className="text-xs md:text-sm ">{new Date().getFullYear()}</div>
+        <div className="text-xs md:text-sm hidden sm:block">
+          {new Date().getFullYear()}
+        </div>
       </div>
 
       <div>
-        <ul className="flex justify-between md:justify-start gap-4">
+        <ul className="flex justify-between md:justify-start gap-8">
           <li>
             <a
               className="text-sm hover:underline"
