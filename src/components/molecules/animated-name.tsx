@@ -52,7 +52,10 @@ export const AnimatedName = () => {
   }, [handleMouseOver, ref]);
 
   return (
-    <h1 ref={ref} className="text-[max(6vw,21px)] font-medium leading-none">
+    <h1
+      ref={ref}
+      className="text-5xl md:text-[max(6vw,21px)] font-bold leading-none"
+    >
       {text}
     </h1>
   );

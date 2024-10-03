@@ -51,13 +51,42 @@ export const metadata: Metadata = {
   icons: [
     {
       url: "/favicon.ico",
+      sizes: "32x32",
+      type: "image/x-icon",
+    },
+    {
+      url: "/assets/android-chrome-192x192.png",
       sizes: "192x192",
       type: "image/png",
     },
     {
-      url: "/android-chrome-512x512.png",
+      url: "/assets/android-chrome-512x512.png",
       sizes: "512x512",
       type: "image/png",
+    },
+    {
+      url: "/assets/apple-touch-icon.png",
+      sizes: "180x180",
+      type: "image/png",
+    },
+    {
+      url: "/assets/favicon-16x16.png",
+      sizes: "16x16",
+      type: "image/png",
+    },
+    {
+      url: "/assets/favicon-32x32.png",
+      sizes: "32x32",
+      type: "image/png",
+    },
+  ],
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  authors: [
+    {
+      name: siteConfig.author,
+      url: siteConfig.url,
     },
   ],
 };

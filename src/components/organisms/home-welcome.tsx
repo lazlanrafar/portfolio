@@ -59,7 +59,7 @@ export default function HomeWelcome() {
       </div>
 
       <div>
-        <ul className="flex justify-between md:justify-start gap-4">
+        <ul className="flex justify-between md:justify-start gap-8">
           <li>
             <a
               className="text-sm hover:underline"

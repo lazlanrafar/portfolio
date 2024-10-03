@@ -1,4 +1,5 @@
 export const siteConfig = {
+  author: "L Azlan Rafar",
   name: "L Azlan Rafar",
   subtitle: "L Azlan Rafar's personal website",
   description:
