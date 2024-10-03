@@ -5,6 +5,12 @@ import { siteConfig } from "@/constants/siteConfig";
 import MDXPersonal from "@/markdown/personal.mdx";
 import MDXSkills from "@/markdown/skills.mdx";
 
+// Icons
+import { HiTerminal } from "react-icons/hi";
+import { BsActivity } from "react-icons/bs";
+import { BiText } from "react-icons/bi";
+import { SiArchlinux } from "react-icons/si";
+
 export const NAVIGATION: {
   title: string;
   path: string;
@@ -75,5 +81,32 @@ export const NAVIGATION: {
         path: siteConfig.links.instagram,
       },
     ],
+  },
+];
+
+export const LIST_ACTIVITY = [
+  {
+    name: "Languages",
+    slug: "languages",
+    icon: HiTerminal,
+    path: "/activity/languages",
+  },
+  {
+    name: "Weekly Activity",
+    slug: "weekly-activity",
+    icon: BsActivity,
+    path: "/activity/weekly-activity",
+  },
+  {
+    name: "Code Editor",
+    slug: "code-editor",
+    icon: BiText,
+    path: "/activity/code-editor",
+  },
+  {
+    name: "Operating Systems",
+    slug: "operating-systems",
+    icon: SiArchlinux,
+    path: "/activity/operating-systems",
   },
 ];

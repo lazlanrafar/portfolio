@@ -1,7 +1,3 @@
-import { HiTerminal } from "react-icons/hi";
-import { BsActivity } from "react-icons/bs";
-import { BiText } from "react-icons/bi";
-import { SiArchlinux } from "react-icons/si";
 import { Suspense } from "react";
 import {
   Accordion,
@@ -12,7 +8,7 @@ import {
 import { FadeInStagger, FadeIn } from "@/components/atoms/fade-in";
 import { AsideLink } from "@/components/atoms/aside-link";
 import { Metadata } from "next";
-import { siteConfig } from "@/constants";
+import { LIST_ACTIVITY, siteConfig } from "@/constants";
 
 export const metadata: Metadata = {
   title: "Activity | " + siteConfig.name,
@@ -59,30 +55,3 @@ export default function ActivityLayout({
     </section>
   );
 }
-
-export const LIST_ACTIVITY = [
-  {
-    name: "Languages",
-    slug: "languages",
-    icon: HiTerminal,
-    path: "/activity/languages",
-  },
-  {
-    name: "Weekly Activity",
-    slug: "weekly-activity",
-    icon: BsActivity,
-    path: "/activity/weekly-activity",
-  },
-  {
-    name: "Code Editor",
-    slug: "code-editor",
-    icon: BiText,
-    path: "/activity/code-editor",
-  },
-  {
-    name: "Operating Systems",
-    slug: "operating-systems",
-    icon: SiArchlinux,
-    path: "/activity/operating-systems",
-  },
-];
