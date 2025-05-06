@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Tooltip,
   TooltipContent,
@@ -17,10 +19,24 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default async function AppFooter() {
-  const { data } = await wakatimeWeeklyCodingActivity();
-  const todayData = data[data.length - 1];
+export default function AppFooter() {
+  const [todayTotal, setTodayTotal] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await wakatimeWeeklyCodingActivity();
+        const todayData = data[data.length - 1];
+        setTodayTotal(todayData?.grand_total?.text || null);
+      } catch (error) {
+        console.error("Failed to fetch Wakatime data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="absolute left-0 bottom-0 w-full flex items-center justify-between bg-background text-xs border-t z-50">
@@ -60,6 +76,7 @@ export default async function AppFooter() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -68,7 +85,7 @@ export default async function AppFooter() {
                 className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground"
               >
                 <Clock size={13} className="text-base" />
-                <p>{todayData?.grand_total.text}</p>
+                <p>{todayTotal ?? "--"}</p>
               </Link>
             </TooltipTrigger>
             <TooltipContent className="!border-none">
@@ -77,6 +94,7 @@ export default async function AppFooter() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
         <div className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground">
           <p>--NORMAL--</p>
         </div>

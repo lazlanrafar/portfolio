@@ -4,10 +4,8 @@ import { AnimatedName } from "../molecules/animated-name";
 
 export default function HomeWelcome() {
   return (
-    <section className="flex flex-col w-full h-full px-10 py-[10rem] md:py-20">
-      <div className="flex-1 flex items-center justify-between">
-        <div className="text-xs md:text-sm hidden sm:block">2003</div>
-        <div className="text-xs md:text-sm hidden md:block">12.5</div>
+    <section className="flex flex-col w-full h-full px-10 py-10">
+      <div className="flex-1 flex items-center justify-around">
         <FadeIn>
           <div className="space-y-4 text-center ">
             <svg
@@ -28,9 +26,21 @@ export default function HomeWelcome() {
             </svg>
 
             <header className="relative">
-              <p className="text-lg uppercase">Hi all. I am</p>
-              <AnimatedName />
-              <h2 className="text-muted-foreground text-base sm:text-xl md:text-2xl">
+              <p className="text-base uppercase">Hi all. I am</p>
+              {/* <AnimatedName /> */}
+              <code className="block text-[2dvw] leading-[0.9] tracking-[-0.1em] whitespace-pre-wrap lg:text-[1.4dvh]">
+                {`
+____   __________________   _________________________________________________
+7  7   7  _  77     77  7   7  _  77     77  _  77  _  77     77  _  77  _  7
+|  |   |  _  |!___  ||  |   |  _  ||  _  ||    _||  _  ||  ___!|  _  ||    _|
+|  !___|  7  ||   __!|  !___|  7  ||  7  ||  _ \ |  7  ||  __| |  7  ||  _ \ 
+|     7|  |  ||     7|     7|  |  ||  |  ||  7  ||  |  ||  7   |  |  ||  7  |
+!_____!!__!__!!_____!!_____!!__!__!!__!__!!__!__!!__!__!!__!   !__!__!!__!__!
+                                                                             
+`}
+              </code>
+              <br />
+              <h2 className="text-muted-foreground text-base sm:text-lg">
                 <span className="animate-pulse">&gt; </span>
                 Software developer
               </h2>
@@ -54,17 +64,13 @@ export default function HomeWelcome() {
             </div>
           </div>
         </FadeIn>
-        <div className="text-xs md:text-sm hidden md:block">FREE</div>
-        <div className="text-xs md:text-sm hidden sm:block">
-          {new Date().getFullYear()}
-        </div>
       </div>
 
       <div>
         <ul className="flex justify-between md:justify-start gap-8">
           <li>
             <a
-              className="text-sm hover:underline"
+              className="text-xs xl:text-sm hover:underline"
               href={siteConfig.links.github}
               target="_blank"
               rel="noopener noreferrer"
@@ -74,7 +80,7 @@ export default function HomeWelcome() {
           </li>
           <li>
             <a
-              className="text-sm hover:underline"
+              className="text-xs xl:text-sm hover:underline"
               href={siteConfig.links.instagram}
               target="_blank"
               rel="noopener noreferrer"
@@ -84,7 +90,7 @@ export default function HomeWelcome() {
           </li>
           <li>
             <a
-              className="text-sm hover:underline"
+              className="text-xs xl:text-sm hover:underline"
               href={siteConfig.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
