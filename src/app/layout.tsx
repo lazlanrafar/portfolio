@@ -14,6 +14,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
+import Image from "next/image";
 
 const LaBelleAurore = La_Belle_Aurore({
   weight: ["400"],
@@ -97,7 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono`}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono relative`}
       >
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
           {children}
@@ -112,6 +114,8 @@ export default function RootLayout({
         )}
 
         <ResponsiveIndicator />
+        <AnimatedGridPattern className="opacity-20" />
+        <div className="grain-noise pointer-events-none fixed top-0 size-[300%]" />
       </body>
     </html>
   );
