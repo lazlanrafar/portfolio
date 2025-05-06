@@ -53,8 +53,9 @@
   html {
     scroll-behavior: smooth;
   }
+
   body {
-    @apply flex items-center justify-center h-screen w-full overflow-hidden;
+    @apply grid h-dvh place-items-center overflow-hidden font-mono antialiased;
   }
 
   code {
@@ -84,5 +85,40 @@
   }
   html.dark [data-theme="light"] {
     display: none;
+  }
+}
+
+.grid-pattern {
+  background-image: linear-gradient(to right, #a4a4a4 1px, transparent 1px),
+    linear-gradient(to bottom, #a4a4a4 1px, transparent 1px);
+  background-size: 3vh 3vh;
+  background-position: center;
+  opacity: 0.1;
+}
+
+.grain-noise {
+  background-image: url("/noise.png");
+  animation: animate-noise 8s steps(10) infinite;
+  opacity: 0.05;
+}
+
+@keyframes animate-noise {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate(-5%, -10%);
+  }
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+    transform: translate(-15%, -20%);
   }
 }
