@@ -3,12 +3,11 @@ import type { Metadata } from "next";
 // Assets
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { La_Belle_Aurore } from "next/font/google";
 import "./globals.css";
 
-import { AppFooter, AppSidebar } from "@/components/app";
 import { ResponsiveIndicator } from "@/components/atoms/responsive-indicator";
 import { ThemeWrapper } from "@/components/atoms/theme-wrapper";
-import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { siteConfig } from "@/constants";
 
 import { Analytics } from "@vercel/analytics/react";
@@ -16,7 +15,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import { La_Belle_Aurore } from "next/font/google";
 const LaBelleAurore = La_Belle_Aurore({
   weight: ["400"],
   subsets: ["latin"],
@@ -102,20 +100,7 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono`}
       >
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
-          <main className="md:flex">
-            <AppSidebar />
-            <div className="h-full w-full relative overflow-y-auto">
-              {children}
-
-              <div className="absolute top-0 right-0 hidden md:block z-50">
-                <div className="border-b border-l bg-background">
-                  <ThemeToggle />
-                </div>
-              </div>
-            </div>
-
-            <AppFooter />
-          </main>
+          {children}
         </ThemeWrapper>
 
         {process.env.NODE_ENV === "production" && (
