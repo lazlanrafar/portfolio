@@ -15,7 +15,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
-import Image from "next/image";
+
+import { AppLayout } from "@/layouts/app.layout";
 
 const LaBelleAurore = La_Belle_Aurore({
   weight: ["400"],
@@ -102,7 +103,7 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} ${LaBelleAurore.variable} font-mono relative`}
       >
         <ThemeWrapper attribute="class" defaultTheme="dark" enableSystem>
-          {children}
+          <AppLayout>{children}</AppLayout>
         </ThemeWrapper>
 
         {process.env.NODE_ENV === "production" && (
