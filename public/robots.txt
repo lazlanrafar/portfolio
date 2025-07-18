@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://lazlanrafar.com/sitemap.xml
+
+# Disallow crawling of API routes
+Disallow: /api/
+
+# Disallow crawling of admin areas (if any)
+Disallow: /admin/
+
+# Allow all other content
+Allow: /
+Allow: /about/
+Allow: /projects/
+Allow: /activity/
+Allow: /contact/
+
+# Crawl-delay for politeness
+Crawl-delay: 1

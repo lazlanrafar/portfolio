@@ -52,14 +52,28 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
   }
 
   body {
     @apply grid h-dvh place-items-center overflow-hidden font-mono antialiased;
   }
 
+  /* Improved focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-500;
+  }
+
+  /* Smooth transitions for theme changes */
+  * {
+    transition: background-color 0.2s ease, color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  /* Code styling improvements */
   code {
     counter-reset: line;
+    @apply text-sm;
   }
 
   code > [data-line]::before {
@@ -77,6 +91,8 @@
   code[data-line-numbers-max-digits="3"] > [data-line]::before {
     width: 3rem;
   }
+
+  /* Theme-specific styling */
   html.light {
     @apply bg-gray-100;
   }
@@ -86,39 +102,111 @@
   html.dark [data-theme="light"] {
     display: none;
   }
+
+  /* Loading spinner */
+  .loading-spinner {
+    @apply fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm;
+  }
+
+  .loading-spinner::after {
+    content: "";
+    @apply h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent;
+  }
+
+  /* Responsive typography */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      font-size: 18px;
+    }
+  }
 }
 
+/* Optimized grid pattern with reduced repaints */
 .grid-pattern {
   background-image: linear-gradient(to right, #a4a4a4 1px, transparent 1px),
     linear-gradient(to bottom, #a4a4a4 1px, transparent 1px);
   background-size: 3vh 3vh;
   background-position: center;
   opacity: 0.1;
+  will-change: opacity;
 }
 
+/* Optimized grain noise animation */
 .grain-noise {
   background-image: url("/noise.png");
   animation: animate-noise 8s steps(10) infinite;
   opacity: 0.05;
+  will-change: transform;
+  transform: translateZ(0); /* GPU acceleration */
 }
 
 @keyframes animate-noise {
   0%,
   100% {
-    transform: translate(0);
+    transform: translate3d(0, 0, 0);
   }
   10%,
   30%,
   50%,
   70%,
   90% {
-    transform: translate(-5%, -10%);
+    transform: translate3d(-5%, -10%, 0);
   }
   20%,
   40%,
   60%,
   80%,
   100% {
-    transform: translate(-15%, -20%);
+    transform: translate3d(-15%, -20%, 0);
+  }
+}
+
+/* Utility classes for better performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .responsive-text {
+    @apply text-sm;
+  }
+
+  .responsive-spacing {
+    @apply p-4 space-y-4;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .responsive-text {
+    @apply text-base;
+  }
+
+  .responsive-spacing {
+    @apply p-6 space-y-6;
+  }
+}
+
+@media (min-width: 1025px) {
+  .responsive-text {
+    @apply text-lg;
+  }
+
+  .responsive-spacing {
+    @apply p-8 space-y-8;
   }
 }
