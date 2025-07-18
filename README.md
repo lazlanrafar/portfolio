@@ -163,7 +163,7 @@ A modern, high-performance portfolio website built with Next.js 14, TypeScript, 
 ### Environment Variables
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://lazlanrafar.com
+NEXT_PUBLIC_BASE_URL=https://lazlanrafar.com
 NEXT_PUBLIC_GA_ID=your-google-analytics-id
 ```
 
