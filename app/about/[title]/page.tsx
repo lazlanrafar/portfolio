@@ -14,8 +14,9 @@ async function getContent(params: ParamsProps) {
   return post;
 }
 
-export default async function AboutPage({ params }: { params: ParamsProps }) {
-  const content = await getContent(params);
+export default async function AboutPage({ params }: { params: Promise<ParamsProps> }) {
+  const resolvedParams = await params;
+  const content = await getContent(resolvedParams);
   if (!content) return notFound();
 
   return (

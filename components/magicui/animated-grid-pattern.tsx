@@ -40,7 +40,10 @@ export function AnimatedGridPattern({
   const id = useId();
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [squares, setSquares] = useState(() => generateSquares(numSquares));
+  const [squares, setSquares] = useState<Array<{ id: number; pos: number[] }>>(
+    []
+  );
+  const [isClient, setIsClient] = useState(false);
 
   function getPos() {
     return [
@@ -49,13 +52,10 @@ export function AnimatedGridPattern({
     ];
   }
 
-  // Adjust the generateSquares function to return objects with an id, x, and y
-  function generateSquares(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      pos: getPos(),
-    }));
-  }
+  // Set client-side flag to prevent hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Function to update a single square's position
   const updateSquarePosition = (id: number) => {
@@ -66,17 +66,26 @@ export function AnimatedGridPattern({
               ...sq,
               pos: getPos(),
             }
-          : sq,
-      ),
+          : sq
+      )
     );
   };
 
   // Update squares to animate in
   useEffect(() => {
-    if (dimensions.width && dimensions.height) {
+    if (isClient && dimensions.width && dimensions.height) {
+      const generateSquares = (count: number) => {
+        return Array.from({ length: count }, (_, i) => ({
+          id: i,
+          pos: [
+            Math.floor((Math.random() * dimensions.width) / width),
+            Math.floor((Math.random() * dimensions.height) / height),
+          ],
+        }));
+      };
       setSquares(generateSquares(numSquares));
     }
-  }, [dimensions, numSquares]);
+  }, [dimensions, numSquares, isClient, width, height]);
 
   // Resize observer to update container dimensions
   useEffect(() => {
@@ -89,16 +98,17 @@ export function AnimatedGridPattern({
       }
     });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
+    const currentRef = containerRef.current;
+    if (currentRef) {
+      resizeObserver.observe(currentRef);
     }
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      if (currentRef) {
+        resizeObserver.unobserve(currentRef);
       }
     };
-  }, [containerRef]);
+  }, []);
 
   return (
     <svg
@@ -106,7 +116,7 @@ export function AnimatedGridPattern({
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
-        className,
+        className
       )}
       {...props}
     >

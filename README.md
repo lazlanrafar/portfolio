@@ -18,7 +18,7 @@ A modern, high-performance portfolio website built with Next.js 14, TypeScript, 
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: Radix UI
@@ -31,8 +31,7 @@ A modern, high-performance portfolio website built with Next.js 14, TypeScript, 
 ## 🏗️ Architecture
 
 ```
-src/
-├── app/                  # Next.js App Router
+├── app/                  # Next.js 15 App Router
 │   ├── layout.tsx       # Root layout with SEO optimization
 │   ├── page.tsx         # Home page with structured data
 │   ├── loading.tsx      # Loading UI

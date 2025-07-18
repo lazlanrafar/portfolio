@@ -12,6 +12,21 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Only run on client-side
+    if (typeof window !== "undefined") {
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+
+      return () => window.removeEventListener("resize", checkMobile);
+    }
+  }, []);
+
   function onMouseDown(e: React.MouseEvent<HTMLElement>) {
     if (isMobile) return;
     setDragging(true);
@@ -47,7 +62,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, [dragging, onMouseMove]);
 
   return (
-    <main
+    <div
       ref={containerRef}
       className="h-dvh w-dvw lg:h-[75dvh] lg:w-[70dvw] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
       style={{
@@ -71,6 +86,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
         <AppFooter />
       </div>
-    </main>
+    </div>
   );
 }

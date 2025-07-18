@@ -26,25 +26,6 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // Experimental features for performance
-  experimental: {
-    webpackBuildWorker: true,
-    serverActions: {
-      enabled: true,
-    },
-    optimizeCss: true,
-    optimizePackageImports: [
-      "lucide-react",
-      "framer-motion",
-      "@radix-ui/react-accordion",
-      "@radix-ui/react-dialog",
-      "@radix-ui/react-dropdown-menu",
-      "@radix-ui/react-label",
-      "@radix-ui/react-slot",
-      "@radix-ui/react-tooltip",
-    ],
-  },
-
   // Logging configuration
   logging: {
     fetches: {
