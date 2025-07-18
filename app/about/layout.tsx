@@ -12,7 +12,7 @@ import { NAVIGATION, siteConfig } from "@/constants";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Me | " + siteConfig.name,
+  title: "About Me",
   description: siteConfig.description,
 };
 
@@ -49,7 +49,7 @@ export default function AboutLayout({
           </AccordionItem>
         </Accordion>
       </aside>
-      <section className="md:col-span-9 lg:col-span-10 col-span-12 overflow-y-auto relative h-[84dvh] md:h-auto">
+      <section className="md:col-span-9 lg:col-span-10 col-span-12 overflow-y-auto relative h-[84dvh] md:h-auto pb-8">
         {children}
       </section>
     </section>

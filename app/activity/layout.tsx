@@ -11,7 +11,7 @@ import { Metadata } from "next";
 import { LIST_ACTIVITY, siteConfig } from "@/constants";
 
 export const metadata: Metadata = {
-  title: "Activity | " + siteConfig.name,
+  title: "Activity",
   description:
     "Tech stack, weekly activity, code editor, and operating systems. All the things I use daily.",
 };

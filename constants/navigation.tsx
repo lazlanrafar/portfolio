@@ -4,6 +4,7 @@ import { siteConfig } from "@/constants/siteConfig";
 // Markdown navigation
 import MDXPersonal from "@/markdown/personal.mdx";
 import MDXSkills from "@/markdown/skills.mdx";
+import MDXSetup from "@/markdown/setup.mdx";
 
 // Icons
 import { HiTerminal } from "react-icons/hi";
@@ -43,6 +44,11 @@ export const NAVIGATION: {
         name: "_skills.ts",
         path: "/about/skills.ts",
         mdx_component: MDXSkills,
+      },
+      {
+        name: "_setup.ts",
+        path: "/about/setup.ts",
+        mdx_component: MDXSetup,
       },
     ],
   },

@@ -15,7 +15,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      // Reset position when switching to mobile
+      if (mobile) {
+        setPosition({ x: 0, y: 0 });
+        setDragging(false);
+      }
     };
 
     // Only run on client-side
@@ -66,7 +73,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       ref={containerRef}
       className="h-dvh w-dvw lg:h-[75dvh] lg:w-[70dvw] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
+        transform: isMobile
+          ? "translate(0, 0)"
+          : `translate(${position.x}px, ${position.y}px)`,
         transition: dragging ? "none" : "transform 0.2s ease-out",
       }}
     >

@@ -230,7 +230,7 @@ html.dark [data-theme="light"] {
 }
 
 /* Responsive utilities */
-/* @media (max-width: 640px) {
+@media (max-width: 640px) {
   .responsive-text {
     @apply text-sm;
   }
@@ -258,4 +258,4 @@ html.dark [data-theme="light"] {
   .responsive-spacing {
     @apply p-8 space-y-8;
   }
-} */
+}
