@@ -40,14 +40,14 @@ function HomeWelcome() {
 
               {/* ASCII Art - Responsive */}
               <div className="relative overflow-hidden">
-                <code className="block text-[clamp(0.3rem,1.5vw,0.8rem)] leading-[0.9] tracking-[-0.05em] whitespace-pre font-mono text-foreground">
+                <span className="block text-[clamp(0.2rem,1.5vw,0.8rem)] leading-[0.9] tracking-[-0.05em] whitespace-pre font-mono text-foreground">
                   {`
  __       _____ _____ __    _____ _____    _____ _____ _____ _____ _____ 
 |  |     |  _  |__   |  |  |  _  |   | |  | __  |  _  |   __|  _  | __  |
 |  |__   |     |   __|  |__|     | | | |  |    -|     |   __|     |    -|
 |_____|  |__|__|_____|_____|__|__|_|___|  |__|__|__|__|__|  |__|__|__|__|
                   `}
-                </code>
+                </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-pulse -z-10" />
               </div>
 
@@ -87,27 +87,29 @@ function HomeWelcome() {
       </div>
 
       {/* Social Links Footer */}
-      <footer className="mt-8">
-        <nav aria-label="Social media links">
-          <ul className="flex justify-center gap-6 sm:gap-8">
-            {socialLinks.map(({ name, href, icon: Icon, ariaLabel }) => (
-              <li key={name}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-xs sm:text-sm hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md p-1"
-                  aria-label={ariaLabel}
-                >
-                  <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  <span className="group-hover:underline">{name}</span>
-                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </footer>
+      <FadeIn>
+        <footer className="mt-8">
+          <nav aria-label="Social media links">
+            <ul className="flex justify-center gap-6 sm:gap-8">
+              {socialLinks.map(({ name, href, icon: Icon, ariaLabel }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2 text-xs sm:text-sm hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md p-1"
+                    aria-label={ariaLabel}
+                  >
+                    <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    <span className="group-hover:underline">{name}</span>
+                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </footer>
+      </FadeIn>
     </section>
   );
 }

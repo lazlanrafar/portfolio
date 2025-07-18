@@ -1,3 +1,5 @@
+"use client";
+
 import { Project } from "@/types/api";
 import Image from "next/image";
 import React from "react";
@@ -5,52 +7,130 @@ import { Icons } from "../atoms/icons";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group cursor-pointer w-full sm:w-[300px] xl:w-[370px] 2xl:w-[336px] mb-10 mx-1">
+    <article className="group relative overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 h-full">
       <a
         href={project?.url || "#"}
         target={project?.url ? "_blank" : "_self"}
         rel="noopener noreferrer"
         className="block"
       >
-        <div className="relative mb-8">
-          {project?.thumbnail && (
-            <Image
-              src={project?.thumbnail}
-              quality={10}
-              width={768}
-              height={640}
-              alt={`${project?.name} thumbnail`}
-            />
+        <div className="relative overflow-hidden">
+          {project?.thumbnail ? (
+            <div className="relative aspect-video overflow-hidden">
+              <Image
+                src={project?.thumbnail?.formats?.large?.url || ""}
+                fill
+                quality={90}
+                alt={`${project?.name} thumbnail`}
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          ) : (
+            <div className="aspect-video bg-muted flex items-center justify-center">
+              <Icons.image className="w-12 h-12 text-muted-foreground" />
+            </div>
           )}
 
-          <div className="absolute -left-5 -bottom-5 bg-background h-[90px] w-[90px] grid place-items-center rounded-full border text-xs text-center">
-            _Preview <br />
-            プレビュー
+          {/* Floating Action Buttons */}
+          <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {project?.source_code_url && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(project?.source_code_url || undefined, "_blank");
+                }}
+                className="cursor-pointer h-10 w-10 flex items-center justify-center bg-background/90 backdrop-blur-sm rounded-full border shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                title="View Source Code"
+              >
+                <Icons.github className="w-4 h-4" />
+              </button>
+            )}
+            {project?.url && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(project?.url || undefined, "_blank");
+                }}
+                className="cursor-pointer h-10 w-10 flex items-center justify-center bg-background/90 backdrop-blur-sm rounded-full border shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                title="Live Demo"
+              >
+                <Icons.externalLink className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
-          <div className="absolute -right-5 -bottom-5 flex flex-col gap-3">
-            {project?.source_code_url && (
-              <div className="h-[40px] w-[40px] grid place-items-center bg-background rounded-full border text-xs text-center hover:bg-primary-foreground">
-                <button className="flex items-center justify-center w-full h-full">
-                  <Icons.github className="w-4 h-4" />
-                </button>
-              </div>
-            )}
+          {/* Status Badge */}
+          <div className="absolute top-3 left-3">
+            <span className="px-2 py-1 text-xs font-medium bg-primary/90 text-primary-foreground rounded-full backdrop-blur-sm">
+              Project
+            </span>
           </div>
         </div>
       </a>
-      <div className="mt-3">
-        <h3 className="text-sm truncate mb-1">{project?.name}</h3>
 
-        <div className="text-xs text-muted-foreground hover:underline mb-2">
-          {project?.url ? <button>{project?.url}</button> : "No project URL"}
+      <div className="p-6">
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors duration-200">
+            {project?.name}
+          </h3>
+
+          {project?.description && (
+            <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
+              {project.description}
+            </p>
+          )}
+
+          {project?.url && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Icons.link className="w-3 h-3" />
+              <span className="truncate hover:text-primary transition-colors duration-200">
+                {project.url.replace(/^https?:\/\//, "")}
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* <div className="truncate text-xs text-muted-foreground flex gap-2">
-          {project?.skills.slice(0, 4).map((skill) => (
-            <span key={skill}>#{skill}</span>
-          ))}
-        </div> */}
+        {/* Technologies/Skills Tags */}
+        {project?.skills && project.skills.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {project.skills.slice(0, 3).map((skill, index) => (
+              <span
+                key={index}
+                className="px-2 py-1 text-xs font-medium bg-secondary text-secondary-foreground rounded-md"
+              >
+                {skill}
+              </span>
+            ))}
+            {project.skills.length > 3 && (
+              <span className="px-2 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-md">
+                +{project.skills.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Footer with actions */}
+        <div className="flex items-center justify-between pt-4 border-t border-border">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Icons.calendar className="w-3 h-3" />
+            <span>
+              {project?.created_at
+                ? new Date(project.created_at).getFullYear()
+                : "Recent"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            {project?.url && (
+              <span className="text-xs text-primary font-medium">
+                View Project
+              </span>
+            )}
+            <Icons.arrowRight className="w-3 h-3 text-primary group-hover:translate-x-1 transition-transform duration-200" />
+          </div>
+        </div>
       </div>
     </article>
   );

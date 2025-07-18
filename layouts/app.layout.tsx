@@ -71,7 +71,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={containerRef}
-      className="h-dvh w-dvw lg:h-[75dvh] lg:w-[70dvw] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
+      className="h-screen w-screen lg:h-[75dvh] lg:w-[70dvw] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
       style={{
         transform: isMobile
           ? "translate(0, 0)"
@@ -81,7 +81,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     >
       <AppHeader onMouseDown={onMouseDown} />
 
-      <div className="md:flex flex-1 flex-grow overflow-y-auto">
+      <div className="md:flex flex-1 flex-grow overflow-hidden overflow-y-auto">
         <AppSidebar />
         <div className="relative w-full h-full">
           {children}

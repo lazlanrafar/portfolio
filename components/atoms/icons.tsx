@@ -166,4 +166,82 @@ export const Icons = {
       <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
     </svg>
   ),
+  externalLink: (props: Props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="44"
+      height="44"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+      <path d="M11 13l9 -9" />
+      <path d="M15 4h5v5" />
+    </svg>
+  ),
+  calendar: (props: Props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="44"
+      height="44"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+      <path d="M16 3v4" />
+      <path d="M8 3v4" />
+      <path d="M4 11h16" />
+    </svg>
+  ),
+  arrowRight: (props: Props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="44"
+      height="44"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M5 12l14 0" />
+      <path d="M13 18l6 -6" />
+      <path d="M13 6l6 6" />
+    </svg>
+  ),
+  image: (props: Props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="44"
+      height="44"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M15 8h.01" />
+      <path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
+      <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
+      <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
+    </svg>
+  ),
 };
