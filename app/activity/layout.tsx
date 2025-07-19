@@ -26,7 +26,7 @@ export default function ActivityLayout({
       <aside className="md:col-span-3 lg:col-span-2 border-r border-lines md:block hidden overflow-y-auto">
         <Accordion type="single" collapsible defaultValue="about">
           <AccordionItem value={"about"} defaultChecked>
-            <AccordionTrigger className="border-b border-lines px-5 py-2.5 text-left">
+            <AccordionTrigger className="border-b border-lines px-5 py-2.5 text-left text-xs">
               Coding Activity
             </AccordionTrigger>
             <AccordionContent className="mt-5 space-y-1">

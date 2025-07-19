@@ -71,7 +71,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={containerRef}
-      className="h-screen w-screen lg:h-[75dvh] lg:w-[70dvw] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
+      className="h-screen w-screen lg:h-[80dvh] lg:w-[70dvw] lg:max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] flex flex-col backdrop-blur rounded-lg relative z-50 transition-all bg-background overflow-hidden"
       style={{
         transform: isMobile
           ? "translate(0, 0)"

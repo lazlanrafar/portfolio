@@ -8,10 +8,6 @@ declare global {
       //   Analytics
       NEXT_PUBLIC_GA_ID: string;
 
-      //   MicroCMS Configuration
-      MICROCMS_URL: string;
-      MICROCMS_API_KEY: string;
-
       //   Optional: Google Site Verification
       NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?: string;
 

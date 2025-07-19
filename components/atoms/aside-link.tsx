@@ -33,7 +33,7 @@ export const AsideLink = ({
         isActive
           ? "text-foreground bg-primary/10"
           : "text-muted-foreground hover:text-foreground hover:bg-primary/10",
-        "w-full transition-colors flex items-center gap-x-2.5 hover:bg-primary/10 px-5 py-1",
+        "w-full transition-colors flex items-center gap-x-2.5 hover:bg-primary/10 px-5 py-1 text-xs",
         className
       )}
       {...props}

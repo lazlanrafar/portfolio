@@ -1,156 +1,232 @@
 "use client";
 
-import { Icons } from "../atoms/icons";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useCallback } from "react";
+import {
+  Pagination as PaginationWrapper,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/atoms/pagination";
 
 interface PaginationProps {
-  currentPage: number;
+  page: number;
+  pageSize: number;
   totalPages: number;
-  baseUrl: string;
-  searchParams?: { [key: string]: string | string[] | undefined };
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
 }
 
-export function Pagination({
-  currentPage,
+export default function Pagination({
+  page,
+  pageSize,
   totalPages,
-  baseUrl,
-  searchParams,
+  onPageChange,
+  onPageSizeChange,
 }: PaginationProps) {
-  if (totalPages <= 1) return null;
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const createPageUrl = (page: number) => {
-    const params = new URLSearchParams();
+  console.log({
+    page,
+    pageSize,
+    totalPages,
+    pathname,
+    searchParams: Object.fromEntries(searchParams.entries()),
+  });
 
-    // Add existing search params except page
-    if (searchParams) {
-      Object.entries(searchParams).forEach(([key, value]) => {
-        if (key !== "page" && value) {
-          if (Array.isArray(value)) {
-            value.forEach((v) => params.append(key, v));
-          } else {
-            params.append(key, value);
-          }
-        }
-      });
-    }
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
+  );
 
-    // Add page param
-    if (page > 1) {
-      params.append("page", page.toString());
-    }
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      if (newPage < 1 || newPage > totalPages) return;
 
-    const queryString = params.toString();
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-  };
+      // Update query params
+      const queryString = createQueryString("page", newPage.toString());
+      router.push(`${pathname}?${queryString}`);
 
-  const getVisiblePages = () => {
-    const delta = 2;
-    const range = [];
-    const rangeWithDots = [];
+      // Call external handler if provided
+      onPageChange?.(newPage);
+    },
+    [createQueryString, onPageChange, pathname, router, totalPages]
+  );
 
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
-      range.push(i);
-    }
+  const handlePageSizeChange = useCallback(
+    (newPageSize: number) => {
+      // Reset to page 1 when changing page size
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("page", "1");
+      params.set("pageSize", newPageSize.toString());
 
-    if (currentPage - delta > 2) {
-      rangeWithDots.push(1, "...");
+      router.push(`${pathname}?${params.toString()}`);
+
+      // Call external handler if provided
+      onPageSizeChange?.(newPageSize);
+    },
+    [onPageSizeChange, pathname, router, searchParams]
+  );
+
+  const renderPageNumbers = () => {
+    const pages = [];
+    const showEllipsis = totalPages > 7;
+
+    if (!showEllipsis) {
+      // Show all pages if 7 or fewer
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              className="text-xs"
+              isActive={page === i}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
     } else {
-      rangeWithDots.push(1);
+      // Show pages with ellipsis
+      pages.push(
+        <PaginationItem key={1}>
+          <PaginationLink
+            href="#"
+            isActive={page === 1}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(1);
+            }}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+
+      if (page > 3) {
+        pages.push(
+          <PaginationItem key="ellipsis-start">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Show current page and neighbors
+      const start = Math.max(2, page - 1);
+      const end = Math.min(totalPages - 1, page + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              isActive={page === i}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      if (page < totalPages - 2) {
+        pages.push(
+          <PaginationItem key="ellipsis-end">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      if (totalPages > 1) {
+        pages.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink
+              href="#"
+              isActive={page === totalPages}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(totalPages);
+              }}
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
     }
 
-    rangeWithDots.push(...range);
-
-    if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push("...", totalPages);
-    } else {
-      rangeWithDots.push(totalPages);
-    }
-
-    return rangeWithDots;
+    return pages;
   };
 
   return (
-    <nav
-      className="flex items-center justify-center gap-2 mt-12"
-      aria-label="Pagination"
-    >
-      {/* Previous Button */}
-      <a
-        href={currentPage > 1 ? createPageUrl(currentPage - 1) : "#"}
-        className={`
-          flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-colors
-          ${
-            currentPage > 1
-              ? "border-border bg-background hover:bg-muted text-foreground hover:border-primary"
-              : "border-border bg-muted text-muted-foreground cursor-not-allowed"
-          }
-        `}
-        aria-disabled={currentPage <= 1}
-      >
-        <Icons.arrowRight className="w-4 h-4 rotate-180" />
-        <span className="hidden sm:inline">Previous</span>
-      </a>
-      {/* Page Numbers */}
-      <div className="flex items-center gap-1">
-        {getVisiblePages().map((page, index) => {
-          if (page === "...") {
-            return (
-              <span
-                key={`dots-${index}`}
-                className="px-3 py-2 text-muted-foreground"
-              >
-                ...
-              </span>
-            );
-          }
+    <div className="flex flex-col items-center gap-4">
+      <PaginationWrapper>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              className="text-xs"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(page - 1);
+              }}
+              style={{
+                opacity: page <= 1 ? 0.5 : 1,
+                pointerEvents: page <= 1 ? "none" : "auto",
+              }}
+            />
+          </PaginationItem>
 
-          const pageNum = page as number;
-          const isActive = pageNum === currentPage;
+          {renderPageNumbers()}
 
-          return (
-            <a
-              key={pageNum}
-              href={createPageUrl(pageNum)}
-              className={`
-                px-3 py-2 text-sm font-medium rounded-lg border transition-colors
-                ${
-                  isActive
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background hover:bg-muted text-foreground hover:border-primary"
-                }
-              `}
-              aria-current={isActive ? "page" : undefined}
-            >
-              {pageNum}
-            </a>
-          );
-        })}
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              className="text-xs"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(page + 1);
+              }}
+              style={{
+                opacity: page >= totalPages ? 0.5 : 1,
+                pointerEvents: page >= totalPages ? "none" : "auto",
+              }}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </PaginationWrapper>
+
+      {/* Page Size Selector */}
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Items per page:</span>
+        <select
+          value={pageSize}
+          onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+          className="rounded border border-input bg-background px-2 py-1 text-xs"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+        </select>
       </div>
-      {/* Next Button */}
-      <a
-        href={currentPage < totalPages ? createPageUrl(currentPage + 1) : "#"}
-        className={`
-          flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-colors
-          ${
-            currentPage < totalPages
-              ? "border-border bg-background hover:bg-muted text-foreground hover:border-primary"
-              : "border-border bg-muted text-muted-foreground cursor-not-allowed"
-          }
-        `}
-        aria-disabled={currentPage >= totalPages}
-      >
-        <span className="hidden sm:inline">Next</span>
-        <Icons.arrowRight className="w-4 h-4" />
-      </a>
-      {/* Page Info */}
-      <div className="hidden md:flex items-center gap-2 ml-4 text-sm text-muted-foreground">
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-      </div>
-    </nav>
+    </div>
   );
 }

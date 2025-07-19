@@ -1,6 +1,6 @@
 "use server";
 import { WAKATIME } from "@/constants";
-import * as Wakatime from "@/types/wakatimeResponse";
+import * as Wakatime from "@/types/wakatime-response";
 
 export const wakatimeWeeklyCodingActivity = async () => {
   const res = await fetch(WAKATIME.codingActivity);

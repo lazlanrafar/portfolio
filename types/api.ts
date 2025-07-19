@@ -6,7 +6,10 @@ export interface MetaPagination {
 }
 
 export interface PaginatedResponse<T> {
-  meta: MetaPagination;
+  meta: {
+    pagination: MetaPagination;
+    [key: string]: any; // Allow additional properties
+  };
   data: T[];
 }
 

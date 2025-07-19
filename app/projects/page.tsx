@@ -1,11 +1,13 @@
-import { AnimatePresence, FadeIn } from "@/components/atoms/fade-in";
+import { FadeIn } from "@/components/atoms/fade-in";
 import ProjectCard from "@/components/molecules/project-card";
-import { Pagination } from "@/components/molecules/pagination";
 import { siteConfig } from "@/constants";
 import { $api } from "@/lib/api";
 import { PaginatedResponse, Project } from "@/types/api";
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
+import { Skeleton } from "@/components/atoms/skeleton";
+import Pagination from "@/components/molecules/pagination";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 export const metadata: Metadata = {
   title: "Projects | " + siteConfig.name,
@@ -13,24 +15,24 @@ export const metadata: Metadata = {
 };
 
 interface ProjectsPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function ProjectsPage({
   searchParams,
 }: ProjectsPageProps) {
-  const page = Number(searchParams?.page) || 1;
-  const pageSize = 8; // Projects per page
+  const resolvedSearchParams = await searchParams;
+  const page = Number(resolvedSearchParams?.page) || 1;
+  const pageSize = Number(resolvedSearchParams?.pageSize) || 9;
 
   const response = await $api<PaginatedResponse<Project>>(
     `/projects?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc`
   );
 
-  const { data: projects, meta } = response;
-  const totalPages = meta?.pageCount || 1;
-  const currentPage = meta?.page || 1;
-
-  console.log({ meta });
+  const {
+    data: projects,
+    meta: { pagination },
+  } = response;
 
   return (
     <section className="overflow-y-auto relative h-full pb-10">
@@ -39,30 +41,38 @@ export default async function ProjectsPage({
         <div className="mb-8">
           <h1 className="text-base font-bold text-foreground mb-1">Projects</h1>
           <p className="text-muted-foreground text-xs">
-            A collection of {meta?.total || projects.length} projects that I
-            have worked on.
+            A collection of {pagination?.total || projects.length} projects that
+            I have worked on.
           </p>
         </div>
 
         {/* Projects Grid */}
         {projects.length > 0 ? (
           <>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <AnimatePresence mode="wait">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 ">
+              <Suspense
+                fallback={
+                  <Skeleton
+                    className="w-full h-64 sm:h-72 lg:h-80"
+                    style={{ gridColumn: "span 1" }}
+                  />
+                }
+              >
                 {projects.map((project) => (
-                  <FadeIn key={`Project-${project.id}-${currentPage}`}>
+                  <FadeIn
+                    key={`Project-${project.id}-${pagination?.page || 1}`}
+                  >
                     <ProjectCard project={project} />
                   </FadeIn>
                 ))}
-              </AnimatePresence>
+              </Suspense>
             </div>
+            <Separator className="my-6" />
 
-            {/* Pagination */}
             <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              baseUrl="/projects"
-              searchParams={searchParams}
+              page={pagination?.page}
+              pageSize={pagination?.pageSize}
+              totalPages={pagination?.pageCount || 1}
             />
           </>
         ) : (

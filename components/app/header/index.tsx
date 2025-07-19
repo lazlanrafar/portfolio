@@ -14,7 +14,7 @@ export default function AppHeader({
   return (
     <header
       className={cn(
-        "relative flex cursor-default items-center justify-between overflow-hidden px-4 py-5 lg:cursor-grab lg:active:cursor-grabbing bg-slate-200 dark:bg-[#000000]",
+        "relative flex cursor-default items-center justify-between overflow-hidden px-4 py-4 lg:cursor-grab lg:active:cursor-grabbing bg-slate-200 dark:bg-[#000000]",
         "hidden lg:flex"
       )}
       onMouseDown={onMouseDown}
