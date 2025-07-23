@@ -1,8 +1,8 @@
 import { FadeIn } from "@/components/atoms/fade-in";
-import { wakatimeCodeEditor } from "@/lib/wakatime";
+import { getCodeEditors } from "@/actions/activity";
 
-export default async function CodeEditor() {
-  const { data } = await wakatimeCodeEditor();
+export default async function ActivityCodeEditorPage() {
+  const { data } = await getCodeEditors();
 
   return (
     <FadeIn>

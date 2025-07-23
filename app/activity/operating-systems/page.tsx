@@ -1,8 +1,8 @@
 import { FadeIn } from "@/components/atoms/fade-in";
-import { wakatimeOperatingSystems } from "@/lib/wakatime";
+import { getOperatingSystems } from "@/actions/activity";
 
-export default async function OperatingSystems() {
-  const { data } = await wakatimeOperatingSystems();
+export default async function ActivityOperatingSystemsPage() {
+  const { data } = await getOperatingSystems();
 
   return (
     <FadeIn>

@@ -86,11 +86,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     >
       <AppHeader onMouseDown={onMouseDown} />
 
-      <div className="md:flex flex-1 flex-grow overflow-hidden">
-        <AppSidebar />
-        <div className="relative w-full h-full overflow-auto">{children}</div>
-      </div>
-      <AppFooter />
+      {children}
     </main>
   );
 }

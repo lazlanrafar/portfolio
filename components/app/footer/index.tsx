@@ -1,5 +1,7 @@
-"use client";
+"use server";
 
+import { ComponentPropsWithoutRef } from "react";
+import { cn } from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -7,7 +9,6 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip";
 import { siteConfig } from "@/constants";
-import { wakatimeWeeklyCodingActivity } from "@/lib/wakatime";
 import {
   AlertCircle,
   AlertTriangle,
@@ -19,24 +20,13 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { getActivityMetrics } from "@/actions";
 
-export default function AppFooter() {
-  const [todayTotal, setTodayTotal] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await wakatimeWeeklyCodingActivity();
-        const todayData = data?.[data.length - 1];
-        setTodayTotal(todayData?.grand_total?.text || null);
-      } catch (error) {
-        console.error("Failed to fetch Wakatime data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+export default async function AppFooter({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"footer">) {
+  const codingActivity = await getActivityMetrics();
 
   return (
     <div className="absolute left-0 bottom-0 w-full flex items-center justify-between bg-background text-xs border-t z-50">
@@ -85,7 +75,7 @@ export default function AppFooter() {
                 className="items-center gap-x-1 px-2 py-1 md:flex hidden text-muted-foreground"
               >
                 <Clock size={13} className="text-base" />
-                <p>{todayTotal ?? "--"}</p>
+                <p>{codingActivity?.totalCodingTime?.text ?? "--"}</p>
               </Link>
             </TooltipTrigger>
             <TooltipContent className="!border-none">

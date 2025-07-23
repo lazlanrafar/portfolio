@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip";
 import { siteConfig } from "@/constants";
-import { $api } from "@/lib/api";
+import { getProjectById } from "@/actions/projects";
 import { Project } from "@/types/api";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -54,9 +54,7 @@ export async function generateMetadata({
   const projectId = resolvedParams.id;
 
   try {
-    const project = await $api<{ data: Project }>(
-      `/projects/${projectId}?populate=*`
-    );
+    const project = await getProjectById(projectId);
 
     return {
       title: `${project.data.name} | Projects | ${siteConfig.name}`,
@@ -94,9 +92,7 @@ export default async function ProjectDetailPage({
   let project: Project;
 
   try {
-    const response = await $api<{ data: Project }>(
-      `/projects/${projectId}?populate=*`
-    );
+    const response = await getProjectById(projectId);
     project = response.data;
   } catch {
     notFound();

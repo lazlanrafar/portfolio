@@ -17,6 +17,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { AppLayout } from "@/layouts/app.layout";
+import { AppFooter, AppSidebar } from "@/components/app";
 
 const LaBelleAurore = La_Belle_Aurore({
   weight: ["400"],
@@ -217,7 +218,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Suspense fallback={<div className="loading-spinner" />}>
-            <AppLayout>{children}</AppLayout>
+            <AppLayout>
+              <div className="md:flex flex-1 flex-grow overflow-hidden">
+                <AppSidebar />
+                <div className="relative w-full h-full overflow-auto">
+                  {children}
+                </div>
+              </div>
+              <AppFooter />
+            </AppLayout>
           </Suspense>
         </ThemeWrapper>
 

@@ -1,14 +1,14 @@
 import { FadeIn } from "@/components/atoms/fade-in";
-import { wakatimeWeeklyCodingActivity } from "@/lib/wakatime";
+import { getCodingActivity } from "@/actions/activity";
 
 export default async function ActivityActivityPage() {
-  const { data } = await wakatimeWeeklyCodingActivity();
+  const { data } = await getCodingActivity();
 
   const maxTotalSeconds = Math.max(
-    ...data.map((entry) => entry.grand_total.total_seconds)
+    ...data.map((entry) => entry.grandTotal.totalSeconds)
   );
   const minTotalSeconds = Math.min(
-    ...data.map((entry) => entry.grand_total.total_seconds)
+    ...data.map((entry) => entry.grandTotal.totalSeconds)
   );
 
   return (
@@ -30,7 +30,7 @@ export default async function ActivityActivityPage() {
                 className="h-1 bg-foreground rounded"
                 style={{
                   width: `${
-                    ((item.grand_total.total_seconds - minTotalSeconds) /
+                    ((item.grandTotal.totalSeconds - minTotalSeconds) /
                       (maxTotalSeconds - minTotalSeconds)) *
                     100
                   }%`,
@@ -38,7 +38,7 @@ export default async function ActivityActivityPage() {
               />
             </div>
             <code className="w-32 text-end text-muted-foreground ml-4 md:ml-0 shrink-0 !text-sm">
-              {item.grand_total.text}
+              {item.grandTotal.text}
             </code>
           </pre>
         ))}

@@ -1,8 +1,8 @@
 import { FadeIn } from "@/components/atoms/fade-in";
-import { wakatimeCodingLanguages } from "@/lib/wakatime";
+import { getCodingLanguages } from "@/actions/activity";
 
 export default async function ActivityLanguagesPage() {
-  const { data } = await wakatimeCodingLanguages();
+  const { data } = await getCodingLanguages();
 
   return (
     <FadeIn>

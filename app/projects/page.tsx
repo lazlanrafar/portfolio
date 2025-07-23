@@ -3,8 +3,7 @@ import ProjectCard from "@/components/molecules/project-card";
 import UnifiedFilter from "@/components/molecules/unified-filter";
 import ClearFiltersButton from "@/components/molecules/clear-filters-button";
 import { siteConfig } from "@/constants";
-import { $api } from "@/lib/api";
-import { PaginatedResponse, Project } from "@/types/api";
+import { getProjects, getProjectFilterOptions } from "@/actions/projects";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 import { Skeleton } from "@/components/atoms/skeleton";
@@ -42,89 +41,23 @@ export default async function ProjectsPage({
     ? String(resolvedSearchParams.types).split(",")
     : [];
 
-  // Fetch all filter options from dedicated endpoints
-  const [
-    technologiesResponse,
-    categoriesResponse,
-    platformsResponse,
-    typesResponse,
-  ] = await Promise.all([
-    $api<PaginatedResponse<{ name: string }>>(
-      `/project-technologies?pagination[pageSize]=100&sort=name:ASC`
-    ),
-    $api<PaginatedResponse<{ name: string }>>(
-      `/project-categories?pagination[pageSize]=100&sort=name:ASC`
-    ),
-    $api<PaginatedResponse<{ name: string }>>(
-      `/project-platforms?pagination[pageSize]=100&sort=name:ASC`
-    ),
-    $api<PaginatedResponse<{ name: string }>>(
-      `/project-types?pagination[pageSize]=100&sort=name:ASC`
-    ),
+  // Fetch filter options and projects using the new actions
+  const [filterOptions, projectsResponse] = await Promise.all([
+    getProjectFilterOptions(),
+    getProjects({
+      page,
+      pageSize,
+      technologies: selectedTechnologies,
+      categories: selectedCategories,
+      platforms: selectedPlatforms,
+      types: selectedTypes,
+    }),
   ]);
-
-  // Transform filter data
-  const availableTechnologies = technologiesResponse.data.map((tech) => ({
-    name: tech.name,
-    count: 0,
-  }));
-  const availableCategories = categoriesResponse.data.map((cat) => ({
-    name: cat.name,
-    count: 0,
-  }));
-  const availablePlatforms = platformsResponse.data.map((platform) => ({
-    name: platform.name,
-    count: 0,
-  }));
-  const availableTypes = typesResponse.data.map((type) => ({
-    name: type.name,
-    count: 0,
-  }));
-
-  // Build projects query with all filters
-  let projectsQuery = `/projects?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc`;
-
-  // Add technology filter
-  if (selectedTechnologies.length > 0) {
-    selectedTechnologies.forEach((tech, index) => {
-      projectsQuery += `&filters[technologies][name][$in][${index}]=${encodeURIComponent(
-        tech
-      )}`;
-    });
-  }
-
-  // Add category filter
-  if (selectedCategories.length > 0) {
-    selectedCategories.forEach((category, index) => {
-      projectsQuery += `&filters[categories][name][$in][${index}]=${encodeURIComponent(
-        category
-      )}`;
-    });
-  }
-
-  // Add platform filter
-  if (selectedPlatforms.length > 0) {
-    selectedPlatforms.forEach((platform, index) => {
-      projectsQuery += `&filters[platforms][name][$in][${index}]=${encodeURIComponent(
-        platform
-      )}`;
-    });
-  }
-
-  // Add type filter
-  if (selectedTypes.length > 0) {
-    selectedTypes.forEach((type, index) => {
-      projectsQuery += `&filters[types][name][$in][${index}]=${encodeURIComponent(
-        type
-      )}`;
-    });
-  }
-  const response = await $api<PaginatedResponse<Project>>(projectsQuery);
 
   const {
     data: projects,
     meta: { pagination },
-  } = response;
+  } = projectsResponse;
 
   return (
     <section className="overflow-y-auto relative h-full">
@@ -143,10 +76,10 @@ export default async function ProjectsPage({
           <div className="flex flex-wrap items-center gap-3 mb-4">
             {/* Unified Filter */}
             <UnifiedFilter
-              technologies={availableTechnologies}
-              categories={availableCategories}
-              platforms={availablePlatforms}
-              types={availableTypes}
+              technologies={filterOptions.technologies}
+              categories={filterOptions.categories}
+              platforms={filterOptions.platforms}
+              types={filterOptions.types}
               selectedTechnologies={selectedTechnologies}
               selectedCategories={selectedCategories}
               selectedPlatforms={selectedPlatforms}
