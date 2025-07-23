@@ -66,7 +66,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </Link>
 
-      <div className="p-6">
+      <div className="p-3">
         <div className="mb-4">
           <h3 className="text-sm font-semibold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors duration-200">
             {project?.name}
@@ -108,7 +108,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         )}
 
         {/* Footer with actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-border">
+        {/* <div className="flex items-center justify-between pt-4 border-t border-border">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Icons.calendar className="w-3 h-3" />
             <span>
@@ -124,7 +124,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </span>
             <Icons.arrowRight className="w-3 h-3 text-primary group-hover:translate-x-1 transition-transform duration-200" />
           </div>
-        </div>
+        </div> */}
       </div>
     </article>
   );

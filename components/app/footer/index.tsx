@@ -28,7 +28,7 @@ export default function AppFooter() {
     const fetchData = async () => {
       try {
         const { data } = await wakatimeWeeklyCodingActivity();
-        const todayData = data[data.length - 1];
+        const todayData = data?.[data.length - 1];
         setTodayTotal(todayData?.grand_total?.text || null);
       } catch (error) {
         console.error("Failed to fetch Wakatime data:", error);

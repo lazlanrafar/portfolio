@@ -87,7 +87,7 @@ const nextConfig = {
     return [
       {
         source: "/about",
-        destination: "/about/personal",
+        destination: "/about/personal.ts",
         permanent: true,
       },
       {
