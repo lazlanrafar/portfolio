@@ -2,6 +2,20 @@ import { FadeIn } from "@/components/atoms/fade-in";
 import { OptimizedImage } from "@/components/atoms/optimized-image";
 import { Button } from "@/components/atoms/button";
 import { Separator } from "@/components/atoms/separator";
+import { Badge } from "@/components/atoms/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/atoms/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/atoms/tooltip";
 import { siteConfig } from "@/constants";
 import { $api } from "@/lib/api";
 import { Project } from "@/types/api";
@@ -22,6 +36,8 @@ import {
   GitBranch,
   Eye,
   Star,
+  Clock,
+  User,
 } from "lucide-react";
 
 // Add revalidation to cache API responses
@@ -107,10 +123,10 @@ export default async function ProjectDetailPage({
                     {project.name}
                   </h1>
                   {project.is_released && (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-medium rounded-full border border-green-500/20 w-fit">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                    <Badge variant="success" className="w-fit">
+                      <Globe className="w-3 h-3 mr-1" />
                       Live
-                    </span>
+                    </Badge>
                   )}
                 </div>
 
@@ -203,12 +219,9 @@ export default async function ProjectDetailPage({
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1.5 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 text-sm rounded-lg border border-blue-200 dark:border-blue-800"
-                      >
+                      <Badge key={index} variant="info" className="text-xs">
                         {tech.name}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -223,12 +236,9 @@ export default async function ProjectDetailPage({
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {project.categories.map((category, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1.5 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300 text-sm rounded-lg border border-green-200 dark:border-green-800"
-                      >
+                      <Badge key={index} variant="success" className="text-xs">
                         {category.name}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -243,12 +253,9 @@ export default async function ProjectDetailPage({
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {project.platforms.map((platform, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1.5 bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300 text-sm rounded-lg border border-purple-200 dark:border-purple-800"
-                      >
+                      <Badge key={index} variant="purple" className="text-xs">
                         {platform.name}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -263,12 +270,9 @@ export default async function ProjectDetailPage({
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {project.types.map((type, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1.5 bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300 text-sm rounded-lg border border-orange-200 dark:border-orange-800"
-                      >
+                      <Badge key={index} variant="orange" className="text-xs">
                         {type.name}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -281,27 +285,29 @@ export default async function ProjectDetailPage({
         <FadeIn>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
             {/* Project Details Card */}
-            <div className="bg-muted/30 rounded-xl p-6 border">
-              <h3 className="flex items-center gap-2 text-base font-semibold text-foreground mb-4">
-                <FileText className="w-4 h-4" />
-                Project Information
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Status</span>
-                  <span
-                    className={`text-sm font-medium ${
-                      project.is_released
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-yellow-600 dark:text-yellow-400"
-                    }`}
-                  >
-                    {project.is_released ? "Released" : "In Development"}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <FileText className="w-4 h-4" />
+                  Project Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2">
+                    <User className="w-3.5 h-3.5" />
+                    Status
                   </span>
+                  <Badge variant={project.is_released ? "success" : "warning"}>
+                    {project.is_released ? "Released" : "In Development"}
+                  </Badge>
                 </div>
                 <Separator />
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Created</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2">
+                    <Calendar className="w-3.5 h-3.5" />
+                    Created
+                  </span>
                   <span className="text-sm text-foreground">
                     {formatDate(project.createdAt)}
                   </span>
@@ -309,8 +315,9 @@ export default async function ProjectDetailPage({
                 {project.publishedAt && (
                   <>
                     <Separator />
-                    <div className="flex items-center justify-between py-2">
-                      <span className="text-sm text-muted-foreground">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground flex items-center gap-2">
+                        <GitBranch className="w-3.5 h-3.5" />
                         Published
                       </span>
                       <span className="text-sm text-foreground">
@@ -320,69 +327,93 @@ export default async function ProjectDetailPage({
                   </>
                 )}
                 <Separator />
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2">
+                    <Clock className="w-3.5 h-3.5" />
                     Last Updated
                   </span>
                   <span className="text-sm text-foreground">
                     {formatDate(project.updatedAt)}
                   </span>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Quick Access Card */}
-            <div className="bg-muted/30 rounded-xl p-6 border">
-              <h3 className="flex items-center gap-2 text-base font-semibold text-foreground mb-4">
-                <ExternalLink className="w-4 h-4" />
-                Quick Access
-              </h3>
-              <div className="space-y-3">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <ExternalLink className="w-4 h-4" />
+                  Quick Access
+                </CardTitle>
+                <CardDescription>
+                  Direct links to project resources
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
                 {project.url && (
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 rounded-lg border hover:bg-background transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Eye className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-foreground">
-                          Live Demo
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          View the live project
-                        </div>
-                      </div>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  </a>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                              <Eye className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-foreground">
+                                Live Demo
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                View the live project
+                              </div>
+                            </div>
+                          </div>
+                          <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>View the live project</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 )}
                 {project.source_code_url && (
-                  <a
-                    href={project.source_code_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 rounded-lg border hover:bg-background transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <Github className="w-5 h-5 text-foreground" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-foreground">
-                          Source Code
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          View on GitHub
-                        </div>
-                      </div>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  </a>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <a
+                          href={project.source_code_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                              <Github className="w-5 h-5 text-foreground" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-foreground">
+                                Source Code
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                View on GitHub
+                              </div>
+                            </div>
+                          </div>
+                          <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>View source code on GitHub</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 )}
                 {!project.url && !project.source_code_url && (
                   <div className="p-4 rounded-lg border border-dashed text-center">
@@ -391,8 +422,8 @@ export default async function ProjectDetailPage({
                     </div>
                   </div>
                 )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </FadeIn>
 
