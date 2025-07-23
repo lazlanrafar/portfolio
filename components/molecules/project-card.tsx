@@ -8,39 +8,41 @@ import { Icons } from "../atoms/icons";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group relative overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 h-full">
-      <Link href={`/projects/${project.documentId}`} className="block">
+    <article className="group relative overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-200 hover:border-primary/20 hover:shadow-sm h-full flex flex-col">
+      <Link
+        href={`/projects/${project.documentId}`}
+        className="block flex-shrink-0"
+      >
         <div className="relative overflow-hidden">
           {project?.thumbnail ? (
-            <div className="relative aspect-video overflow-hidden">
+            <div className="relative aspect-[16/10] overflow-hidden">
               <Image
                 src={project?.thumbnail?.formats?.large?.url || ""}
                 fill
                 quality={90}
                 alt={`${project?.name} thumbnail`}
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover object-center transition-opacity duration-200 group-hover:opacity-90"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           ) : (
-            <div className="aspect-video bg-muted flex items-center justify-center">
-              <Icons.image className="w-12 h-12 text-muted-foreground" />
+            <div className="aspect-[16/10] bg-muted/50 flex items-center justify-center">
+              <Icons.image className="w-8 h-8 text-muted-foreground/60" />
             </div>
           )}
 
-          {/* Floating Action Buttons */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Quick Action Buttons - Simplified */}
+          <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             {project?.source_code_url && (
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   window.open(project?.source_code_url || undefined, "_blank");
                 }}
-                className="cursor-pointer h-10 w-10 flex items-center justify-center bg-background/90 backdrop-blur-sm rounded-full border shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
-                title="View Source Code"
+                className="h-7 w-7 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-md border border-border/50 hover:bg-primary hover:text-primary-foreground transition-colors duration-150"
+                title="Source Code"
               >
-                <Icons.github className="w-4 h-4" />
+                <Icons.github className="w-3.5 h-3.5" />
               </button>
             )}
             {project?.url && (
@@ -49,82 +51,71 @@ export default function ProjectCard({ project }: { project: Project }) {
                   e.preventDefault();
                   window.open(project?.url || undefined, "_blank");
                 }}
-                className="cursor-pointer h-10 w-10 flex items-center justify-center bg-background/90 backdrop-blur-sm rounded-full border shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                className="h-7 w-7 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-md border border-border/50 hover:bg-primary hover:text-primary-foreground transition-colors duration-150"
                 title="Live Demo"
               >
-                <Icons.externalLink className="w-4 h-4" />
+                <Icons.externalLink className="w-3.5 h-3.5" />
               </button>
             )}
-          </div>
-
-          {/* Status Badge */}
-          <div className="absolute top-3 left-3">
-            <span className="px-2 py-1 text-xs font-medium bg-primary/90 text-primary-foreground rounded-full backdrop-blur-sm">
-              Project
-            </span>
           </div>
         </div>
       </Link>
 
-      <div className="p-3">
-        <div className="mb-4">
-          <h3 className="text-sm font-semibold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors duration-200">
+      <div className="p-4 flex flex-col flex-1">
+        <div className="flex-1 space-y-3">
+          {/* Project Title */}
+          <h3 className="font-medium text-foreground line-clamp-1 group-hover:text-primary transition-colors duration-150">
             {project?.name}
           </h3>
 
+          {/* Description - More prominent */}
           {project?.description && (
-            <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
+            <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
               {project.description}
             </p>
           )}
 
-          {project?.url && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Icons.link className="w-3 h-3" />
-              <span className="truncate hover:text-primary transition-colors duration-200">
-                {project.url.replace(/^https?:\/\//, "")}
-              </span>
+          {/* Technologies - Cleaner design */}
+          {project?.technologies && project.technologies.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {project.technologies.slice(0, 4).map((tech, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 text-xs font-medium bg-muted/50 text-muted-foreground rounded border border-border/30"
+                >
+                  {tech.name}
+                </span>
+              ))}
+              {project.technologies.length > 4 && (
+                <span className="px-2 py-1 text-xs text-muted-foreground/70">
+                  +{project.technologies.length - 4} more
+                </span>
+              )}
             </div>
           )}
         </div>
 
-        {/* Technologies/Skills Tags */}
-        {project?.skills && project.skills.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {project.skills.slice(0, 3).map((skill, index) => (
-              <span
-                key={index}
-                className="px-2 py-1 text-xs font-medium bg-secondary text-secondary-foreground rounded-md"
-              >
-                {skill}
-              </span>
-            ))}
-            {project.skills.length > 3 && (
-              <span className="px-2 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-md">
-                +{project.skills.length - 3}
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Footer with actions */}
-        {/* <div className="flex items-center justify-between pt-4 border-t border-border">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        {/* Minimalist Footer */}
+        <div className="flex items-center justify-between pt-3 mt-auto border-t border-border/30">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Icons.calendar className="w-3 h-3" />
             <span>
               {project?.created_at
                 ? new Date(project.created_at).getFullYear()
                 : "Recent"}
             </span>
+            {/* Project URL indicator */}
+            {project?.url && (
+              <>
+                <span className="w-1 h-1 bg-muted-foreground/40 rounded-full" />
+                <Icons.link className="w-3 h-3" />
+                <span className="text-muted-foreground/70">Live</span>
+              </>
+            )}
           </div>
 
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-primary font-medium">
-              View Details
-            </span>
-            <Icons.arrowRight className="w-3 h-3 text-primary group-hover:translate-x-1 transition-transform duration-200" />
-          </div>
-        </div> */}
+          <Icons.arrowRight className="w-3.5 h-3.5 text-muted-foreground/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-150" />
+        </div>
       </div>
     </article>
   );

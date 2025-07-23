@@ -81,7 +81,7 @@ export default async function ProjectDetailPage({
   };
 
   return (
-    <section className="overflow-y-auto relative h-full pb-10">
+    <section className="overflow-y-auto relative h-full">
       <div className="container mx-auto px-6 py-8 max-w-4xl">
         {/* Back Navigation */}
         <FadeIn>

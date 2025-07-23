@@ -38,7 +38,7 @@ export default async function ProjectsPage({
   } = response;
 
   return (
-    <section className="overflow-y-auto relative h-full pb-10">
+    <section className="overflow-y-auto relative h-full">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -52,7 +52,7 @@ export default async function ProjectsPage({
         {/* Projects Grid */}
         {projects.length > 0 ? (
           <>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
               {projects.map((project) => (
                 <FadeIn key={`Project-${project.id}-${pagination?.page || 1}`}>
                   <Suspense

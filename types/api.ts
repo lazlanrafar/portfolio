@@ -39,11 +39,21 @@ export interface Project {
   publishedAt: string;
   created_at: string;
 
+  categories: {
+    name: string;
+  }[];
+
+  types: {
+    name: string;
+  }[];
+
   technologies: {
     name: string;
   }[];
 
-  skills?: string[]; // For the skills array used in the component
+  platforms: {
+    name: string;
+  }[];
 
   thumbnail: {
     name: string;
