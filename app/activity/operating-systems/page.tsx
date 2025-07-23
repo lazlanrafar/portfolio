@@ -6,7 +6,7 @@ export default async function OperatingSystems() {
 
   return (
     <FadeIn>
-      <article>
+      <article className="p-5">
         <div className="space-y-2 mb-2.5 pb-2.5 border-b">
           <h1 className="text-xl font-semibold">Operating systems</h1>
         </div>

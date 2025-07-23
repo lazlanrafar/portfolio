@@ -13,7 +13,7 @@ export default async function ActivityActivityPage() {
 
   return (
     <FadeIn>
-      <article>
+      <article className="p-5">
         <div className="md:space-y-2 mb-2.5 pb-2.5 border-b">
           <h1 className="md:text-2xl text-xl font-semibold">Weekly Activity</h1>
         </div>

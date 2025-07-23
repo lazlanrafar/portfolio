@@ -49,8 +49,8 @@ export default function ActivityLayout({
           </AccordionItem>
         </Accordion>
       </aside>
-      <section className="md:col-span-9 lg:col-span-10 col-span-12 overflow-y-auto relative h-[84dvh] md:h-auto">
-        <div className="p-5">{children}</div>
+      <section className="md:col-span-9 lg:col-span-10 col-span-12 overflow-y-auto relative h-[84dvh] md:h-auto pb-8">
+        {children}
       </section>
     </section>
   );
