@@ -28,13 +28,13 @@ export default function ClearFiltersButton({
 
   return (
     <Button
-      variant="ghost"
+      variant="secondary"
       size="sm"
       onClick={clearAllFilters}
-      className="h-8 text-xs text-muted-foreground hover:text-foreground"
+      className="h-8 text-xs text-muted-foreground hover:text-foreground border border-dashed bg-transparent"
     >
       <Icons.x className="w-3.5 h-3.5 mr-1" />
-      Clear All Filters
+      Reset
     </Button>
   );
 }
