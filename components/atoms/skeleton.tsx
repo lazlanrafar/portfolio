@@ -55,3 +55,80 @@ export const AvatarSkeleton = ({
 
   return <Skeleton className={cn("rounded-full", sizeClasses[size])} />;
 };
+
+export const ButtonSkeleton = ({
+  variant = "default",
+  size = "default",
+}: {
+  variant?: "default" | "outline" | "ghost";
+  size?: "sm" | "default" | "lg";
+}) => {
+  const sizeClasses = {
+    sm: "h-8 px-3",
+    default: "h-9 px-4",
+    lg: "h-10 px-8",
+  };
+
+  return (
+    <Skeleton
+      className={cn(
+        "rounded-md",
+        sizeClasses[size],
+        variant === "outline" && "border",
+        variant === "ghost" && "bg-transparent"
+      )}
+    />
+  );
+};
+
+export const BadgeSkeleton = ({
+  variant = "default",
+}: {
+  variant?: "default" | "secondary" | "outline";
+}) => (
+  <Skeleton
+    className={cn(
+      "h-5 w-16 rounded-full",
+      variant === "outline" && "border bg-transparent"
+    )}
+  />
+);
+
+export const InputSkeleton = ({ className }: { className?: string }) => (
+  <Skeleton className={cn("h-9 w-full rounded-md", className)} />
+);
+
+export const TableSkeleton = ({
+  rows = 5,
+  columns = 4,
+}: {
+  rows?: number;
+  columns?: number;
+}) => (
+  <div className="space-y-3">
+    {/* Header */}
+    <div
+      className="grid gap-4"
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+    >
+      {Array.from({ length: columns }).map((_, i) => (
+        <Skeleton key={`header-${i}`} className="h-4 w-20" />
+      ))}
+    </div>
+    {/* Rows */}
+    {Array.from({ length: rows }).map((_, rowIndex) => (
+      <div
+        key={`row-${rowIndex}`}
+        className="grid gap-4"
+        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      >
+        {Array.from({ length: columns }).map((_, colIndex) => (
+          <Skeleton
+            key={`cell-${rowIndex}-${colIndex}`}
+            className="h-4 w-full"
+          />
+        ))}
+      </div>
+    ))}
+  </div>
+);
