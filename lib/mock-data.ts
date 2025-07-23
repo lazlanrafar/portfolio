@@ -15,6 +15,9 @@ export const mockProjects: PaginatedResponse<Project> = {
       updatedAt: "2024-01-01T00:00:00.000Z",
       publishedAt: "2024-01-01T00:00:00.000Z",
       created_at: "2024-01-01T00:00:00.000Z",
+      categories: [{ name: "Web Development" }],
+      types: [{ name: "Full Stack" }],
+      platforms: [{ name: "Web" }],
       technologies: [{ name: "Next.js" }, { name: "TypeScript" }],
       thumbnail: {
         name: "sample-thumbnail.jpg",
@@ -93,6 +96,9 @@ export const mockProjects: PaginatedResponse<Project> = {
       updatedAt: "2024-01-02T00:00:00.000Z",
       publishedAt: "2024-01-02T00:00:00.000Z",
       created_at: "2024-01-02T00:00:00.000Z",
+      categories: [{ name: "Frontend" }],
+      types: [{ name: "SPA" }],
+      platforms: [{ name: "Web" }, { name: "Mobile" }],
       technologies: [{ name: "React" }, { name: "Tailwind" }],
       thumbnail: {
         name: "sample-thumbnail-2.jpg",

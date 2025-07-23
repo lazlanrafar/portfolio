@@ -26,13 +26,11 @@ export default function NotFound() {
                 Go Home
               </Link>
             </Button>
-            <Button
-              size={"xs"}
-              variant="outline"
-              onClick={() => window.history.back()}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Go Back
+            <Button size={"xs"} variant="outline" asChild>
+              <Link href="/projects" className="flex items-center gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                View Projects
+              </Link>
             </Button>
           </div>
         </div>
