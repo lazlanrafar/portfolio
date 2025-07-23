@@ -1,0 +1,103 @@
+export const projects = [
+  {
+    thumbnail: "https://gzizpuccroyjhwkfyyxd.supabase.co/storage/v1/object/public/media/Estatix - Home Booking & Monthly Bill Payment.jpeg",
+    name: "Estatix - Home Booking & Monthly Bill Payment",
+    description:
+      "Estatix is an all-in-one application that simplifies the process of finding and booking your dream home while conveniently managing your monthly bills. With Estatix, you can effortlessly browse, book, and make payments for your preferred housing options, making it the perfect solution for individuals and families looking for their next place to call home.",
+    project_url: "",
+    source_code_url: "",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Distribusi SK dan Surat Tugas Politeknik Negeri Batam",
+    description:
+      "This Project optimizing the distribution process of SK and Surat Tugas at Politeknik Negeri Batam for improved efficiency and timely communication.",
+    project_url: "",
+    source_code_url: "",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: "https://gzizpuccroyjhwkfyyxd.supabase.co/storage/v1/object/public/media/wallpaperflare.com_wallpaper (1).jpg",
+    name: "Moonlight - Parralax Website",
+    description: "Moonlight is a parralax website that is created using Vue.js and Tailwind.",
+    project_url: "https://moonllight.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/moonllight",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Ocean Paradise - Backround Video Website",
+    description: "Ocean Paradise is a background video website that is created using Vue.js.",
+    project_url: "https://oceanparadise.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/ocean-paradise",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Airplane - Airplane Ticket App",
+    description: "Airplane is an airplane ticket app that is created using Flutter.",
+    project_url: "",
+    source_code_url: "https://github.com/lazlanrafar/airplane",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Resto - Restaurant App",
+    description: "Resto is a restaurant app that is created using HTML, CSS, and JavaScript.",
+    project_url: "https://resto-restaurant.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/resto-restaurant",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "StoreGG - Top Up Game Website",
+    description: "StoreGG is a top up game website that is created using Next.js and Bootstrap.",
+    project_url: "https://storegg-sand.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/storegg-fe",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Foodyar - Cooking Course Website",
+    description: "Foodyar is a cooking course website that is created using HTML, Bootstrap, and JavaScript.",
+    project_url: "https://foodyar-eight.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/foodyar",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: null,
+    name: "Hoobank - Master modern web development",
+    description: "Hoobank is a modern web development project that is created using React.js",
+    project_url: "https://hoobank-web.vercel.app",
+    source_code_url: "https://github.com/lazlanrafar/hoobank-web",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: "https://gzizpuccroyjhwkfyyxd.supabase.co/storage/v1/object/public/media/Jurnal Ilmu Administrasi Public - UNISRI.png",
+    name: "Jurnal Ilmu Administrasi Public - UNISRI",
+    description:
+      "This is my first project to make UI together with the team using figma, this is a website that contains personal scientific journals from UNISRI University.",
+    project_url: "",
+    source_code_url: "",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: "https://gzizpuccroyjhwkfyyxd.supabase.co/storage/v1/object/public/media/Lajupay - Tax payment app.png",
+    name: "Lajupay - Tax payment app",
+    description:
+      "Lajupay is your trusted companion for seamless tax payment. Say goodbye to the complexity of managing your taxes and hello to an efficient, user-friendly experience. Lajupay simplifies the process, allowing you to pay your taxes, file returns, and stay on top of your financial obligations with ease.",
+    project_url: "",
+    source_code_url: "",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+  {
+    thumbnail: "https://gzizpuccroyjhwkfyyxd.supabase.co/storage/v1/object/public/media/Silaju - Motor Vehicle Sales Report System.jpeg",
+    name: "Silaju - Motor Vehicle Sales Report System",
+    description:
+      "Silaju is your comprehensive solution for managing and simplifying motor vehicle sales reporting. Designed for both dealerships and regulatory authorities, Silaju streamlines the process of reporting vehicle sales, ensuring accuracy, transparency, and compliance with regulations.",
+    project_url: "",
+    source_code_url: "",
+    creator_email: "lazlanrafar@gmail.com",
+  },
+];

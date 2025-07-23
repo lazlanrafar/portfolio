@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_next/
+
+# Host
+Host: https://lazlanrafar.com
+
+# Sitemaps
+Sitemap: https://lazlanrafar.com/sitemap.xml
