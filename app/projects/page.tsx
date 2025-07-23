@@ -1,7 +1,6 @@
 import { FadeIn } from "@/components/atoms/fade-in";
 import ProjectCard from "@/components/molecules/project-card";
-import TechnologyFilter from "@/components/molecules/technology-filter";
-import GenericFilter from "@/components/molecules/generic-filter";
+import UnifiedFilter from "@/components/molecules/unified-filter";
 import ClearFiltersButton from "@/components/molecules/clear-filters-button";
 import { siteConfig } from "@/constants";
 import { $api } from "@/lib/api";
@@ -142,24 +141,16 @@ export default async function ProjectsPage({
         {/* Filter Section */}
         <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/40 mb-6 pb-4 -mx-6 px-6">
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <TechnologyFilter technologies={availableTechnologies} />
-            <GenericFilter
-              options={availableCategories}
-              filterKey="categories"
-              label="Categories"
-              icon="category"
-            />
-            <GenericFilter
-              options={availablePlatforms}
-              filterKey="platforms"
-              label="Platforms"
-              icon="platform"
-            />
-            <GenericFilter
-              options={availableTypes}
-              filterKey="types"
-              label="Types"
-              icon="type"
+            {/* Unified Filter */}
+            <UnifiedFilter
+              technologies={availableTechnologies}
+              categories={availableCategories}
+              platforms={availablePlatforms}
+              types={availableTypes}
+              selectedTechnologies={selectedTechnologies}
+              selectedCategories={selectedCategories}
+              selectedPlatforms={selectedPlatforms}
+              selectedTypes={selectedTypes}
             />
 
             {/* Reset All Filters Button */}
@@ -261,13 +252,13 @@ export default async function ProjectsPage({
             <div className="text-center">
               <h3 className="text-lg font-medium text-foreground mb-2">
                 {selectedTechnologies.length > 0
-                  ? "No projects found with selected technologies"
+                  ? "No projects found with selected filters"
                   : "No projects found"}
               </h3>
               <p className="text-muted-foreground">
                 {selectedTechnologies.length > 0
-                  ? "Try adjusting your technology filters or check back later for new projects."
-                  : "Check back later for new projects or try adjusting your search."}
+                  ? "Try adjusting your filters or check back later for new projects."
+                  : "Check back later for new projects."}
               </p>
             </div>
           </div>
