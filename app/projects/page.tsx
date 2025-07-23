@@ -26,7 +26,7 @@ export default async function ProjectsPage({
 }: ProjectsPageProps) {
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams?.page) || 1;
-  const pageSize = Number(resolvedSearchParams?.pageSize) || 9;
+  const pageSize = Number(resolvedSearchParams?.pageSize) || 8;
 
   const response = await $api<PaginatedResponse<Project>>(
     `/projects?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc`

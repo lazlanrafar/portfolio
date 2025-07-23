@@ -15,7 +15,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 
 import { AppLayout } from "@/layouts/app.layout";
 
@@ -235,7 +234,6 @@ export default function RootLayout({
         {process.env.NODE_ENV === "development" && <ResponsiveIndicator />}
 
         {/* Background effects */}
-        {/* <AnimatedGridPattern className="opacity-20 fixed inset-0 pointer-events-none" /> */}
         <div className="grain-noise pointer-events-none fixed inset-0 opacity-30" />
       </body>
     </html>

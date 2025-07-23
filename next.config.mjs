@@ -22,7 +22,7 @@ const nextConfig = {
 
   // Note: Turbopack and MDX have compatibility issues
   // Use regular webpack for development when using MDX
-  turbopack: {},
+  // turbopack: {},
 
   // Image optimization
   images: {

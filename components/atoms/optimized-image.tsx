@@ -38,19 +38,13 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     },
     ref
   ) => {
-    // Generate blur data URL for better loading experience
-    const generateBlurDataURL = (w: number, h: number) => {
-      const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.fillStyle = "#f3f4f6";
-        ctx.fillRect(0, 0, w, h);
-      }
-      return canvas.toDataURL();
-    };
+    // Using a simple color placeholder instead of runtime canvas generation
+    // to avoid 'document is not defined' error during SSR
+    const defaultBlurDataURL =
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmM2Y0ZjYiLz48L3N2Zz4=";
 
+    // Only include loading if priority is false
+    // to avoid conflicting properties error
     const imageProps = {
       src,
       alt,
@@ -60,13 +54,11 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
         className
       ),
       priority,
-      placeholder,
-      blurDataURL:
-        blurDataURL ||
-        (width && height ? generateBlurDataURL(width, height) : undefined),
+      placeholder: placeholder || "blur",
+      blurDataURL: blurDataURL || defaultBlurDataURL,
       sizes,
       quality,
-      loading,
+      loading: priority ? undefined : loading,
       style,
       ...props,
     };

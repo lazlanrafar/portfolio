@@ -2,18 +2,14 @@
 
 import { Project } from "@/types/api";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { Icons } from "../atoms/icons";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="group relative overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 h-full">
-      <a
-        href={project?.url || "#"}
-        target={project?.url ? "_blank" : "_self"}
-        rel="noopener noreferrer"
-        className="block"
-      >
+      <Link href={`/projects/${project.documentId}`} className="block">
         <div className="relative overflow-hidden">
           {project?.thumbnail ? (
             <div className="relative aspect-video overflow-hidden">
@@ -68,7 +64,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </span>
           </div>
         </div>
-      </a>
+      </Link>
 
       <div className="p-6">
         <div className="mb-4">
@@ -123,11 +119,9 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
 
           <div className="flex items-center gap-1">
-            {project?.url && (
-              <span className="text-xs text-primary font-medium">
-                View Project
-              </span>
-            )}
+            <span className="text-xs text-primary font-medium">
+              View Details
+            </span>
             <Icons.arrowRight className="w-3 h-3 text-primary group-hover:translate-x-1 transition-transform duration-200" />
           </div>
         </div>
