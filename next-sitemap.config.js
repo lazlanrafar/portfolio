@@ -8,7 +8,7 @@ module.exports = {
 
   // Additional paths to include
   additionalPaths: async (config) => [
-    await config.transform(config, "/about/personal.ts"),
+    await config.transform(config, "/about/personal"),
     await config.transform(config, "/activity/languages"),
     await config.transform(config, "/activity/code-editor"),
     await config.transform(config, "/activity/operating-systems"),
@@ -16,7 +16,21 @@ module.exports = {
   ],
 
   // Exclude paths
-  exclude: ["/api/*", "/admin/*", "/private/*", "/_next/*", "/404", "/500"],
+  exclude: [
+    "/api/*",
+    "/admin/*",
+    "/private/*",
+    "/_next/*",
+    "/404",
+    "/500",
+    "/*.ts",
+    "/*.tsx",
+    "/*.js",
+    "/*.json",
+    "/*.woff*",
+    "/manifest.json",
+    "/robots.txt",
+  ],
 
   // Custom transformation for specific routes
   transform: async (config, path) => {
@@ -52,7 +66,17 @@ module.exports = {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/admin/", "/private/", "/_next/"],
+        disallow: [
+          "/api/",
+          "/admin/",
+          "/private/",
+          "/_next/",
+          "/*.ts$",
+          "/*.tsx$",
+          "/*.js$",
+          "/*.woff*$",
+          "/*.json$",
+        ],
       },
     ],
     additionalSitemaps: ["https://lazlanrafar.com/sitemap.xml"],

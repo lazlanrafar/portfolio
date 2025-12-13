@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Activity",
   description:
     "Tech stack, weekly activity, code editor, and operating systems. All the things I use daily.",
+  alternates: {
+    canonical: `${siteConfig.url}/activity`,
+  },
 };
 
 export default function ActivityLayout({

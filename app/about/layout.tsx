@@ -14,6 +14,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Me",
   description: siteConfig.description,
+  alternates: {
+    canonical: `${siteConfig.url}/about`,
+  },
 };
 
 export default function AboutLayout({
