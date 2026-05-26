@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { GoogleAnalytics } from "@/components/atoms/google-analytics";
 import { siteConfig } from "@/lib/data";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -76,6 +77,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
       <body className="min-h-screen flex flex-col">
         <Providers>{children}</Providers>
+        <GoogleAnalytics />
       </body>
     </html>
   );
