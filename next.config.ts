@@ -3,7 +3,16 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // add images.microcms-assets.io
   images: {
-    domains: ["images.microcms-assets.io", "github.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+      },
+    ],
   },
 };
 
