@@ -2,13 +2,14 @@ export const siteConfig = {
   name: "Azlan Rafar",
   url: "https://lazlanrafar.com",
   author: {
-    name: "L Azlan Rafar",
+    name: "L. Azlan Rafar",
     email: "lazlanrafar@gmail.com",
+    phone: "+6285161316667",
     location: "Bali, Indonesia",
-    role: "Full-Stack Software Developer",
-    bio: "A walking merge conflict turned software engineer. I build production-grade web applications with a focus on clean code, great UX, and scalable architecture.",
+    role: "Software Engineer",
+    bio: "Software Engineer with 4+ years of experience building and shipping production-grade web and mobile applications in startup and consulting environments.",
     longBio:
-      "I'm a full-stack developer based in Bali, Indonesia, with over 4 years of hands-on experience building production applications for clients across various industries. I specialize in React, Vue.js, Node.js, and cloud infrastructure — and I have a strong preference for dark mode, late-night debugging sessions, and a good cup of coffee.",
+      "Software Engineer with 4+ years of experience building and shipping production-grade web and mobile applications in startup and consulting environments. Proven track record of leading small development teams, delivering real-estate, e-commerce, and SaaS platforms from architecture to deployment. Skilled across the full stack — from database design and REST API architecture to responsive front-end UI and cloud infrastructure on AWS.",
     avatar: "/avatar.jpg",
   },
   social: {
@@ -27,161 +28,100 @@ export const navLinks = [
 
 export type NavLink = (typeof navLinks)[number];
 
-export interface Project {
-  slug: string;
-  title: string;
-  description: string;
-  tech: string[];
-  year: number;
-  url?: string;
-  featured?: boolean;
-}
-
-export const projects: Project[] = [
-  {
-    slug: "aliyah-rizq",
-    title: "Aliyah Rizq",
-    description:
-      "Designed and developed a responsive corporate website for Aliyah Rizq Group, a multinational livestock and social enterprise company.",
-    tech: ["WordPress", "WooCommerce"],
-    year: 2026,
-    url: "https://aliyahrizq.id",
-    featured: true,
-  },
-  {
-    slug: "bonvent-motorbikes",
-    title: "Bonvent Motorbikes",
-    description:
-      "E-commerce platform for custom motorcycle accessories with Shopify theme customization, SEO optimization, and multi-currency support.",
-    tech: ["Shopify", "Liquid", "JavaScript"],
-    year: 2025,
-    url: "https://bonventmotorbikes.com",
-    featured: true,
-  },
-  {
-    slug: "natalie-lejeune-osteopathy",
-    title: "Natalie Lejeune Osteopathy",
-    description:
-      "Integrated system to sell and manage online courses, memberships, and live event registrations for osteopathy education.",
-    tech: ["Next.js", "TypeScript", "Vue.js"],
-    year: 2025,
-    url: "https://www.natalielejeuneosteopathy.com",
-    featured: true,
-  },
-  {
-    slug: "treelogy",
-    title: "Treelogy",
-    description:
-      "Sustainable e-commerce platform for Moringa-based products with product catalog, inventory tracking, and promotional pricing.",
-    tech: ["Next.js", "TypeScript", "AWS"],
-    year: 2025,
-    url: "https://treelogy.com",
-  },
-  {
-    slug: "bali-smart-investment",
-    title: "Bali Smart Investment",
-    description:
-      "Real estate platform with custom CMS for managing property listings, inquiries, and media content with lead capture integration.",
-    tech: ["Vue.js", "Express.js", "Next.js"],
-    year: 2025,
-    url: "https://balismartinvestment.com",
-  },
-  {
-    slug: "pertama-property",
-    title: "Pertama Property",
-    description:
-      "Centralized CMS handling maintenance tracking, purchasing workflows, and facility booking for property management.",
-    tech: ["Next.js", "Vue.js", "Express.js"],
-    year: 2024,
-    url: "https://pertamaproperty.com",
-  },
-  {
-    slug: "it-inventory-camak",
-    title: "IT Inventory Camak",
-    description:
-      "Comprehensive web application to efficiently track, manage, and organize IT assets across an organization.",
-    tech: ["Vue.js", "Express.js", "Bootstrap"],
-    year: 2024,
-  },
-  {
-    slug: "estatix",
-    title: "Estatix",
-    description:
-      "All-in-one application that simplifies finding and booking your dream home while managing monthly bills.",
-    tech: ["Vue.js", "Express.js", "Bootstrap"],
-    year: 2024,
-  },
-  {
-    slug: "distribusi-sk",
-    title: "Distribusi SK & Surat Tugas",
-    description:
-      "System optimizing the distribution process of SK and Surat Tugas at Politeknik Negeri Batam.",
-    tech: ["Vue.js", "Express.js", "TypeScript"],
-    year: 2024,
-    url: "https://sk.polibatam.ac.id",
-  },
-  {
-    slug: "airplane",
-    title: "Airplane",
-    description:
-      "Airplane ticket booking application with an intuitive mobile interface for browsing routes and managing bookings.",
-    tech: ["Flutter"],
-    year: 2024,
-  },
-  {
-    slug: "ilog",
-    title: "ILOG",
-    description:
-      "Parcel courier application that revolutionizes the courier industry by simplifying the sending and tracking of packages.",
-    tech: ["Vue.js", "Express.js", "Bootstrap"],
-    year: 2024,
-    url: "https://ilogexpresstrack.id",
-  },
-  {
-    slug: "foodyar",
-    title: "Foodyar",
-    description:
-      "Cooking course website with a clean interface for browsing recipes and course materials.",
-    tech: ["HTML", "Bootstrap", "JavaScript"],
-    year: 2024,
-    url: "https://foodyar-eight.vercel.app",
-  },
-];
-
 export const skillCategories = [
   {
     name: "Frontend",
-    skills: ["React", "Vue.js", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "HTML/CSS"],
+    skills: ["Vue.js", "React.js", "Next.js", "TypeScript", "JavaScript", "TailwindCSS", "Bootstrap"],
   },
   {
     name: "Backend",
-    skills: ["Node.js", "Express.js"],
+    skills: ["Node.js", "Express.js", "Laravel", "REST API", "JWT"],
   },
   {
     name: "Database",
-    skills: ["PostgreSQL", "MySQL", "Supabase"],
-  },
-  {
-    name: "DevOps",
-    skills: ["Docker", "CI/CD", "AWS", "Linux"],
+    skills: ["PostgreSQL", "MySQL"],
   },
   {
     name: "Mobile",
-    skills: ["Flutter"],
+    skills: ["React Native", "Flutter", "Dart"],
   },
   {
-    name: "CMS",
-    skills: ["WordPress", "WooCommerce", "Shopify"],
+    name: "DevOps & Cloud",
+    skills: ["AWS", "Docker", "Linux Server", "Firebase", "CI/CD"],
   },
 ];
 
 export const experience = [
   {
-    period: "2022 — Present",
-    role: "Freelance Full-Stack Developer",
-    company: "Self-Employed",
+    period: "Dec 2023 — Present",
+    role: "Software Engineer",
+    company: "B ONE Consulting",
     description:
-      "Building production-grade web applications for clients across e-commerce, real estate, education, and logistics. Delivered 12+ projects spanning Next.js, Vue.js, Node.js, and cloud infrastructure.",
+      "Build and maintain production web applications for clients across real estate, e-commerce, and logistics. Delivered Pertama Property Management System, Bali Smart Investment, Treelogy, and Natalie Lejeune Osteopathy platform.",
     country: "🇮🇩",
+  },
+  {
+    period: "Jan 2023 — Sep 2023",
+    role: "Project Manager",
+    company: "Nusantara Skuad Teknologi",
+    description:
+      "Led full project delivery lifecycle for a major software product, managing a team of 5 engineers. Introduced structured sprint planning and improved stakeholder communication practices.",
+    country: "🇮🇩",
+  },
+  {
+    period: "Dec 2021 — Jan 2023",
+    role: "Full Stack Developer",
+    company: "PT. Mitra Kuadran Indonesia",
+    description:
+      "Designed and maintained web and mobile applications using Vue.js, React.js, and React Native. Built the IT Inventory Management System with real-time dashboards, asset tracking, and role-based access control.",
+    country: "🇮🇩",
+  },
+];
+
+export const education = [
+  {
+    institution: "Politeknik Negeri Batam",
+    area: "Informatics Engineering",
+    degree: "Associate Degree (D3)",
+    period: "2021 — 2025",
+    gpa: "3.5",
+    url: "https://www.polibatam.ac.id/",
+    country: "🇮🇩",
+  },
+];
+
+export const processItems = [
+  {
+    name: "Discovery",
+    description:
+      "I begin by understanding your goals and technical requirements to create a clear roadmap for your product.",
+  },
+  {
+    name: "Design",
+    description:
+      "I craft intuitive, user-friendly interfaces that align with your brand and optimize the user experience.",
+  },
+  {
+    name: "Development",
+    description:
+      "Using modern technologies like Next.js and Laravel, I bring your design to life with responsive and performant code.",
+  },
+  {
+    name: "Deploy",
+    description:
+      "I thoroughly test the site for functionality and performance, then deploy it to AWS or a hosting of your choice.",
+  },
+];
+
+export const awards = [
+  {
+    title: "3rd Place — Web & Mobile Application",
+    awarder: "Workshop PBL Expo, Politeknik Negeri Batam",
+    year: "2023",
+  },
+  {
+    title: "1st Place — Vocational Students' Competence Competition",
+    awarder: "National Vocational Competence Competition",
+    year: "2019",
   },
 ];

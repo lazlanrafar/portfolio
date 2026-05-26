@@ -3,6 +3,8 @@ import { PageLayout } from "@/components/templates/page-layout";
 import { Hero } from "@/components/organisms/hero";
 import { FeaturedProjects } from "@/components/organisms/featured-projects";
 import { Skills } from "@/components/organisms/skills";
+import { ProcessSection } from "@/components/organisms/process-section";
+import { CtaSection } from "@/components/organisms/cta-section";
 import { siteConfig } from "@/lib/data";
 import type { Metadata } from "next";
 
@@ -22,6 +24,8 @@ export default function HomePage() {
         <Hero />
         <FeaturedProjects />
         <Skills />
+        <ProcessSection />
+        <CtaSection />
       </SectionWrapper>
     </PageLayout>
   );

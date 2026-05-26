@@ -2,12 +2,12 @@ import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { WorkCard } from "@/components/molecules/work-card";
 import { Skills } from "@/components/organisms/skills";
-import { siteConfig, experience } from "@/lib/data";
+import { siteConfig, experience, education, awards } from "@/lib/data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `Learn more about ${siteConfig.author.name} — a full-stack software developer from Bali, Indonesia.`,
+  description: `Learn more about ${siteConfig.author.name} — a Full-Stack Software Engineer from Bali, Indonesia.`,
 };
 
 export default function AboutPage() {
@@ -44,6 +44,44 @@ export default function AboutPage() {
                 company={item.company}
                 period={item.period}
                 country={item.country}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full space-y-4">
+          <div className="flex h-8 w-full items-center">
+            <h2 className="text-foreground text-sm font-bold uppercase leading-none">
+              Education
+            </h2>
+          </div>
+          <div className="flex w-full flex-col">
+            {education.map((item, i) => (
+              <WorkCard
+                key={i}
+                role={item.degree}
+                company={item.institution}
+                period={item.period}
+                country={item.country}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full space-y-4">
+          <div className="flex h-8 w-full items-center">
+            <h2 className="text-foreground text-sm font-bold uppercase leading-none">
+              Awards
+            </h2>
+          </div>
+          <div className="flex w-full flex-col">
+            {awards.map((item, i) => (
+              <WorkCard
+                key={i}
+                role={item.title}
+                company={item.awarder}
+                period={item.year}
+                country="🏆"
               />
             ))}
           </div>

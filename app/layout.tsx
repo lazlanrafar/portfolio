@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Full-stack software developer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure.",
+    "Software developer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure.",
   keywords: [
     "software developer",
     "full-stack developer",
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     title: `${siteConfig.author.name} — ${siteConfig.author.role}`,
     description:
-      "Full-stack software developer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure.",
+      "Software developer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure.",
     siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.author.name} — ${siteConfig.author.role}`,
     description:
-      "Full-stack software developer from Bali, Indonesia.",
+      "Software developer from Bali, Indonesia.",
     creator: "@lazlanrafar",
   },
   robots: {
