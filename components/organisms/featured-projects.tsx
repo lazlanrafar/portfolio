@@ -13,7 +13,7 @@ export async function FeaturedProjects() {
         </h2>
         <Link
           href="/projects"
-          scroll={false}
+         
           aria-label="All projects"
           className="text-muted-foreground anim hover:text-foreground text-xs font-medium"
         >

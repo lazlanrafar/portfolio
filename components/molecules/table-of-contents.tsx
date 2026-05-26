@@ -1,19 +1,18 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/microcms";
 
-interface TableOfContentsProps {
-  toc: TocItem[];
-}
-
-export function TableOfContents({ toc }: TableOfContentsProps) {
+export function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsMounted(true);
+    const mq = window.matchMedia("(min-width: 768px)");
     setIsDesktop(mq.matches);
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", onChange);
@@ -45,38 +44,49 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3;
+    const y =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      window.innerHeight / 3;
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  if (!isDesktop || toc.length === 0) return null;
-
   return (
-    <aside className="sticky top-24 hidden h-fit w-44 shrink-0 lg:block">
-      <h3 className="text-foreground mb-3 text-xs font-semibold uppercase tracking-widest">
-        On this page
-      </h3>
-      <nav>
-        <ul className="space-y-2">
-          {toc.map((item) => (
-            <li key={item.id}>
-              <button
-                onClick={() => scrollTo(item.id)}
-                className={cn(
-                  "anim w-full cursor-pointer text-left text-xs font-medium",
-                  item.depth === 3 && "pl-3",
-                  item.depth === 4 && "pl-6",
-                  activeId === item.id
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {item.text}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </aside>
+    <AnimatePresence>
+      {isMounted && isDesktop && toc.length > 0 && (
+        <motion.aside
+          key="toc"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="sticky top-16 left-16 h-fit w-36 shrink-0"
+        >
+          <h3 className="mb-3 text-sm font-semibold tracking-wide">
+            On this page
+          </h3>
+          <nav>
+            <ul className="space-y-2">
+              {toc.map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => scrollTo(item.id)}
+                    className={cn(
+                      "hover:text-foreground w-fit cursor-pointer text-left text-xs font-medium transition-colors duration-300 lg:text-sm lg:text-nowrap",
+                      item.depth === 3 && "pl-3",
+                      item.depth === 4 && "pl-6",
+                      activeId === item.id
+                        ? "text-foreground"
+                        : "text-muted-foreground"
+                    )}
+                  >
+                    {item.text}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   );
 }

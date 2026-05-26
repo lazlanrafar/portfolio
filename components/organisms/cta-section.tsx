@@ -82,7 +82,7 @@ export function CtaSection() {
           <Link
             key={name}
             href={href}
-            scroll={false}
+           
             target={target}
             rel={rel}
             aria-label={name}

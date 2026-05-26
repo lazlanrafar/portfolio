@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Azlan Rafar",
   url: "https://lazlanrafar.com",
   author: {
-    name: "L. Azlan Rafar",
+    name: "L Azlan Rafar",
     email: "lazlanrafar@gmail.com",
     phone: "+6285161316667",
     location: "Bali, Indonesia",

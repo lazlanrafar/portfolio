@@ -68,7 +68,7 @@ export function Footer() {
                   <Link
                     key={href}
                     href={href}
-                    scroll={false}
+                   
                     className="text-foreground/60 anim hover:text-foreground"
                   >
                     {label}

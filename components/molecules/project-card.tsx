@@ -14,7 +14,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${id}`}
-      scroll={false}
+     
       aria-label={`Read more about ${title}`}
       className={cn("group/card w-full space-y-1.5", className)}
     >

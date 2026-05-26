@@ -28,7 +28,7 @@ export function NavDock() {
   const activeIndex = navLinks.findIndex((link) => link.href === pathname);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-8 z-50 flex justify-center md:hidden">
+    <div className="pointer-events-none fixed inset-x-0 bottom-8 z-50 flex justify-center">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ export function NavDock() {
               <Link
                 key={href}
                 href={href}
-                scroll={false}
+               
                 className={cn(
                   "group/dock relative size-10 p-3 transition-colors duration-300",
                   isActive ? "text-foreground" : "text-muted-foreground"

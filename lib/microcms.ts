@@ -60,6 +60,16 @@ export interface TocItem {
   text: string;
 }
 
+function decodeEntities(str: string): string {
+  return str
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
 export function parseToc(html: string): TocItem[] {
   const regex = /<h([2-4])[^>]*id="([^"]+)"[^>]*>(.*?)<\/h[2-4]>/gi;
   const items: TocItem[] = [];
@@ -68,7 +78,7 @@ export function parseToc(html: string): TocItem[] {
     items.push({
       depth: parseInt(match[1]),
       id: match[2],
-      text: match[3].replace(/<[^>]+>/g, "").trim(),
+      text: decodeEntities(match[3].replace(/<[^>]+>/g, "").trim()),
     });
   }
   return items;
