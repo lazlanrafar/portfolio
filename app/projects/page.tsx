@@ -13,10 +13,6 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
-  const skills = Array.from(
-    new Set(projects.flatMap((p) => p.skills))
-  ).sort();
-
   return (
     <PageLayout>
       <SectionWrapper
@@ -38,7 +34,7 @@ export default async function ProjectsPage() {
           </p>
         </div>
 
-        <ProjectGrid projects={projects} skills={skills} />
+        <ProjectGrid projects={projects} />
       </SectionWrapper>
     </PageLayout>
   );
