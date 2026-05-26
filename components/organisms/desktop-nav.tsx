@@ -13,7 +13,10 @@ export function DesktopNav() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 hidden bg-background/80 backdrop-blur-md md:flex">

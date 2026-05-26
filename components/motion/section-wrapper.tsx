@@ -30,8 +30,8 @@ export function SectionWrapper({
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) {
-      setIsInView(true);
-      return;
+      const timer = setTimeout(() => setIsInView(true), 0);
+      return () => clearTimeout(timer);
     }
 
     const currentSection = sectionRef.current;
@@ -70,7 +70,7 @@ export function SectionWrapper({
               !disableAnimation &&
                 (isInView
                   ? "md:translate-y-0 md:opacity-100 md:blur-none"
-                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-[4px]")
+                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-xs")
             )}
           >
             {child}

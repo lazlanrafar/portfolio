@@ -11,12 +11,19 @@ export function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const mq = window.matchMedia("(min-width: 768px)");
-    setIsDesktop(mq.matches);
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+      setIsDesktop(mq.matches);
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      mq.removeEventListener("change", onChange);
+    };
   }, []);
 
   useEffect(() => {

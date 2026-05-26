@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User, FolderOpen, Mail, Sun, Moon } from "lucide-react";
+import { Home, User, FolderOpen, Mail, BookOpen, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   "/": Home,
   "/about": User,
   "/projects": FolderOpen,
+  "/blog": BookOpen,
   "/contact": Mail,
 };
 
@@ -23,7 +24,10 @@ export function NavDock() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const activeIndex = navLinks.findIndex((link) => link.href === pathname);
 
