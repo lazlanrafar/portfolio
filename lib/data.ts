@@ -113,6 +113,111 @@ export const processItems = [
   },
 ];
 
+export const techItems = [
+  // Languages
+  { id: "typescript", name: "TypeScript" },
+  { id: "javascript", name: "JavaScript" },
+  { id: "dart", name: "Dart" },
+  // Frontend
+  { id: "react", name: "React" },
+  { id: "next", name: "Next.js" },
+  { id: "vue", name: "Vue.js" },
+  { id: "tailwindcss", name: "Tailwind" },
+  { id: "bootstrap", name: "Bootstrap" },
+  // Backend
+  { id: "node", name: "Node.js" },
+  { id: "express", name: "Express" },
+  { id: "laravel", name: "Laravel" },
+  // Database
+  { id: "postgresql", name: "PostgreSQL" },
+  { id: "mysql", name: "MySQL" },
+  // Mobile
+  { id: "react-native", name: "React Native" },
+  { id: "flutter", name: "Flutter" },
+  // DevOps & Cloud
+  { id: "aws", name: "AWS" },
+  { id: "docker", name: "Docker" },
+  { id: "firebase", name: "Firebase" },
+  // Tools
+  { id: "figma", name: "Figma" },
+  { id: "github", name: "GitHub" },
+  { id: "postman", name: "Postman" },
+  { id: "code", name: "VS Code" },
+];
+
+export const workstationItems = [
+  { category: "OS", items: ["macOS", "Ubuntu"] },
+  { category: "Device", items: ["MacBook Pro", "iPhone"] },
+  { category: "Shell", items: ["Zsh", "Bash"] },
+  { category: "Browser", items: ["Arc", "Chrome"] },
+  { category: "Development", items: ["VS Code", "Postman"] },
+  { category: "Design", items: ["Figma"] },
+  { category: "Productivity", items: ["Notion", "Obsidian"] },
+];
+
+export const inspirationItems = [
+  {
+    category: "Engineers",
+    items: [
+      { name: "Lee Robinson", href: "https://leerob.io" },
+      { name: "Theo Browne", href: "https://t3.gg" },
+      { name: "Josh W. Comeau", href: "https://joshwcomeau.com" },
+      { name: "Matt Pocock", href: "https://mattpocock.com" },
+    ],
+  },
+  {
+    category: "Designers",
+    items: [
+      { name: "Adam Argyle", href: "https://nerdy.dev" },
+      { name: "Rauno Freiberg", href: "https://rauno.me" },
+    ],
+  },
+  {
+    category: "Creators",
+    items: [
+      { name: "Web Programming Unpas", href: "https://youtube.com/@sandhikagalihWPU" },
+      { name: "Fireship", href: "https://youtube.com/@Fireship" },
+      { name: "Traversy Media", href: "https://youtube.com/@TraversyMedia" },
+    ],
+  },
+  {
+    category: "Libraries",
+    items: [
+      { name: "Shadcn UI", href: "https://ui.shadcn.com" },
+      { name: "TailwindCSS", href: "https://tailwindcss.com" },
+      { name: "Lucide", href: "https://lucide.dev" },
+    ],
+  },
+];
+
+export const bookmarkItems = [
+  {
+    title: "ray.so",
+    href: "https://ray.so",
+    description: "Create beautiful images of your code.",
+  },
+  {
+    title: "transform.tools",
+    href: "https://transform.tools",
+    description: "A collection of code transformers.",
+  },
+  {
+    title: "Excalidraw",
+    href: "https://excalidraw.com",
+    description: "Virtual whiteboard for sketching hand-drawn diagrams.",
+  },
+  {
+    title: "Bundlephobia",
+    href: "https://bundlephobia.com",
+    description: "Find the cost of adding an npm package to your bundle.",
+  },
+  {
+    title: "Coolors",
+    href: "https://coolors.co",
+    description: "Fast color palette generator for designers.",
+  },
+];
+
 export const awards = [
   {
     title: "3rd Place — Web & Mobile Application",
