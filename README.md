@@ -8,7 +8,7 @@ Personal portfolio of **L Azlan Rafar** — Software Engineer from Bali, Indones
 - **Tailwind CSS v4** — utility-first styling
 - **TypeScript**
 - **Framer Motion** — animations
-- **microCMS** — headless CMS for project content
+- **KadoCMS** — headless CMS for project content
 - **next-themes** — dark / light mode
 
 ## Getting Started
@@ -19,7 +19,7 @@ bun install
 
 # Copy environment variables
 cp .env.example .env
-# Fill in MICROCMS_API_KEY, MICROCMS_BASE_URL, and NEXT_PUBLIC_GA_ID
+# Fill in KADOCMS_URL, KADOCMS_API_KEY, and NEXT_PUBLIC_GA_ID
 
 # Start dev server
 bun dev
@@ -31,8 +31,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Description |
 |----------|-------------|
-| `MICROCMS_API_KEY` | microCMS API key |
-| `MICROCMS_BASE_URL` | microCMS API base URL |
+| `KADOCMS_URL` | KadoCMS project address, e.g. `https://lazlanrafar.kado.lazlanrafar.com` |
+| `KADOCMS_API_KEY` | KadoCMS Delivery API key (`djk_...`, read access) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics measurement ID |
 
 ## Project Structure
@@ -47,7 +47,7 @@ components/
   motion/             # Animation wrappers
 lib/
   data.ts             # All static personal data
-  microcms.ts         # microCMS API client
+  kadocms.ts          # KadoCMS API client (rich text to HTML, media URLs)
 public/icons/tech/    # Tech stack SVG icons
 ```
 

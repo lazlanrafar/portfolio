@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, BadgeCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink, BadgeCheck, Code } from "lucide-react";
 import { notFound } from "next/navigation";
 import { PageLayout } from "@/components/templates/page-layout";
 import { TableOfContents } from "@/components/molecules/table-of-contents";
-import { getProject, getProjects, parseToc } from "@/lib/microcms";
+import { getProject, getProjects, parseToc } from "@/lib/kadocms";
 import { siteConfig } from "@/lib/data";
 import type { Metadata } from "next";
 
@@ -21,12 +21,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
     const project = await getProject(id);
+    const description =
+      project.seo?.description ?? project.description.replace(/<[^>]+>/g, "").slice(0, 160);
+    const ogImage = project.seo?.image ?? project.thumbnail;
     return {
-      title: project.title,
-      description: project.description.replace(/<[^>]+>/g, "").slice(0, 160),
+      title: project.seo?.title ?? project.title,
+      description,
       openGraph: {
-        title: project.title,
-        images: project.thumbnail ? [project.thumbnail.url] : [],
+        title: project.seo?.title ?? project.title,
+        description,
+        images: ogImage ? [ogImage.url] : [],
       },
     };
   } catch {
@@ -75,17 +79,26 @@ export default async function ProjectDetailPage({ params }: Props) {
               <ArrowLeft className="size-4" />
               <p className="text-sm font-medium">Go back</p>
             </Link>
-            {project.project_url && (
-              <a
-                href={project.project_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit live project"
-                className="anim text-muted-foreground hover:text-foreground flex items-center gap-x-2"
-              >
-                <ExternalLink className="size-4" />
-                <p className="text-sm font-medium">Live site</p>
-              </a>
+            {project.links.length > 0 && (
+              <div className="flex items-center gap-x-4">
+                {project.links.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${link.label} (opens in a new tab)`}
+                    className="anim text-muted-foreground hover:text-foreground flex items-center gap-x-2"
+                  >
+                    {/github\.com/.test(link.url) ? (
+                      <Code className="size-4" />
+                    ) : (
+                      <ExternalLink className="size-4" />
+                    )}
+                    <p className="text-sm font-medium">{link.label}</p>
+                  </a>
+                ))}
+              </div>
             )}
           </div>
 
@@ -107,7 +120,9 @@ export default async function ProjectDetailPage({ params }: Props) {
                   fill
                   sizes="(min-width: 1024px) 512px, 90vw"
                   className="object-cover"
-                  priority
+                  preload
+                  placeholder={project.thumbnail.blurDataURL ? "blur" : "empty"}
+                  blurDataURL={project.thumbnail.blurDataURL}
                 />
               </div>
             )}
@@ -144,6 +159,27 @@ export default async function ProjectDetailPage({ params }: Props) {
                 prose-code:text-foreground prose-code:bg-muted prose-code:px-1"
               dangerouslySetInnerHTML={{ __html: project.description }}
             />
+
+            {project.gallery.length > 1 && (
+              <div className="mt-8 space-y-4">
+                {project.gallery.slice(1).map((shot) => (
+                  <figure key={shot.image.url} className="space-y-2">
+                    <div className="relative aspect-video w-full overflow-hidden">
+                      <Image
+                        src={shot.image.url}
+                        alt={shot.caption ?? `${project.title} screenshot`}
+                        fill
+                        sizes="(min-width: 1024px) 512px, 90vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    {shot.caption && (
+                      <figcaption className="text-muted-foreground text-xs">{shot.caption}</figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </article>

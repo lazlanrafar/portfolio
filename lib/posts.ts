@@ -1,8 +1,9 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-
-const postsDirectory = path.join(process.cwd(), "content/posts");
+/**
+ * Blog posts from KadoCMS (content type `post`). The body is stored as rich text and turned
+ * back into MDX here, so the post page keeps its MDX pipeline (components, code highlighting,
+ * heading anchors) and the table of contents keeps reading Markdown headings.
+ */
+import { blurFor, fetchKado, mediaUrl, type RichNode } from "@/lib/kadocms";
 
 export type TocItem = {
   depth: number;
@@ -18,16 +19,23 @@ export type Post = {
   tags: string[];
   published: boolean;
   image: string;
+  /** A tiny blurred copy of the cover as a data URL. */
+  imageBlur?: string;
   toc: TocItem[];
+  /** The body as MDX. */
+  content: string;
+  seo?: { title?: string; description?: string; image?: string };
 };
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+interface PostEntry {
+  slug: string;
+  title: string;
+  description?: string | null;
+  date: string;
+  tags?: string[] | null;
+  cover?: string | null;
+  body?: RichNode | null;
+  seo?: { meta_title?: string; meta_description?: string; share_image?: string | null } | null;
 }
 
 function buildTree(flat: { depth: number; value: string }[]): TocItem[] {
@@ -65,42 +73,143 @@ function extractToc(content: string): TocItem[] {
   let match;
 
   while ((match = headingRegex.exec(cleaned)) !== null) {
-    flat.push({ depth: match[1].length, value: match[2].trim() });
+    // The TOC shows the words, not the Markdown escapes the serializer added.
+    flat.push({ depth: match[1].length, value: match[2].replace(/\\(.)/g, "$1").trim() });
   }
 
   return buildTree(flat);
 }
 
-export function getAllPosts(): Post[] {
-  if (!fs.existsSync(postsDirectory)) return [];
+// ---- Rich text to MDX ----
 
-  const files = fs.readdirSync(postsDirectory);
+/** Characters Markdown or MDX would read as syntax inside plain text. */
+const escapeText = (s: string) => s.replace(/([\\`*_[\]<>{}|~])/g, "\\$1");
 
-  return files
-    .filter((f) => f.endsWith(".mdx"))
-    .map((filename) => {
-      const slug = filename.replace(/\.mdx$/, "");
-      const fullPath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContents);
-
-      return {
-        slug,
-        title: data.title ?? "",
-        description: data.description ?? "",
-        date: data.date ?? "",
-        tags: data.tags ?? [],
-        published: data.published ?? true,
-        image: data.image ?? "",
-        toc: extractToc(content),
-      };
-    })
-    .filter((post) => post.published)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+function codeSpan(text: string): string {
+  const longest = Math.max(0, ...(text.match(/`+/g) ?? []).map((r) => r.length));
+  const fence = "`".repeat(longest + 1);
+  const pad = text.startsWith("`") || text.endsWith("`") ? " " : "";
+  return `${fence}${pad}${text}${pad}${fence}`;
 }
 
-export function getPost(slug: string): Post | undefined {
-  return getAllPosts().find((p) => p.slug === slug);
+function inline(nodes: RichNode[] = []): string {
+  return nodes
+    .map((n) => {
+      if (n.type === "hardBreak") return "  \n";
+      if (n.type !== "text") return inline(n.content);
+      const marks = n.marks ?? [];
+      if (marks.some((m) => m.type === "code")) {
+        const code = codeSpan(n.text ?? "");
+        const link = marks.find((m) => m.type === "link");
+        return link ? `[${code}](${String(link.attrs?.href ?? "")})` : code;
+      }
+      let out = escapeText(n.text ?? "");
+      for (const m of marks) {
+        if (m.type === "bold") out = `**${out}**`;
+        else if (m.type === "italic") out = `_${out}_`;
+        else if (m.type === "strike") out = `~~${out}~~`;
+        else if (m.type === "link") out = `[${out}](${String(m.attrs?.href ?? "")})`;
+      }
+      return out;
+    })
+    .join("");
+}
+
+const indent = (text: string, prefix: string) =>
+  text
+    .split("\n")
+    .map((line, i) => (i === 0 || !line ? line : prefix + line))
+    .join("\n");
+
+function blocks(nodes: RichNode[] = []): string {
+  return nodes.map(block).filter(Boolean).join("\n\n");
+}
+
+function block(n: RichNode): string {
+  switch (n.type) {
+    case "paragraph":
+      return inline(n.content);
+    case "heading":
+      return `${"#".repeat(Math.min(6, Math.max(1, Number(n.attrs?.level) || 2)))} ${inline(n.content)}`;
+    case "blockquote":
+      return blocks(n.content)
+        .split("\n")
+        .map((line) => (line ? `> ${line}` : ">"))
+        .join("\n");
+    case "codeBlock": {
+      const text = (n.content ?? []).map((c) => c.text ?? "").join("");
+      const fence = "`".repeat(Math.max(3, ...(text.match(/`+/g) ?? []).map((r) => r.length + 1)));
+      return `${fence}${n.attrs?.language ? String(n.attrs.language) : ""}\n${text}\n${fence}`;
+    }
+    case "bulletList":
+      return (n.content ?? []).map((li) => `- ${indent(blocks(li.content), "  ")}`).join("\n");
+    case "orderedList": {
+      const start = Number(n.attrs?.start) || 1;
+      return (n.content ?? [])
+        .map((li, i) => `${start + i}. ${indent(blocks(li.content), "   ")}`)
+        .join("\n");
+    }
+    case "horizontalRule":
+      return "---";
+    case "youtube": {
+      const src = String(n.attrs?.src ?? "");
+      return src.startsWith("https://www.youtube")
+        ? `<iframe allowFullScreen style={{ aspectRatio: "16 / 9", width: "100%", border: 0 }} src="${src}" loading="lazy" />`
+        : "";
+    }
+    case "image": {
+      const src = String(n.attrs?.src ?? "");
+      return src ? `![${escapeText(String(n.attrs?.alt ?? ""))}](${src})` : "";
+    }
+    default:
+      return blocks(n.content);
+  }
+}
+
+export function richTextToMdx(doc?: RichNode | null): string {
+  return doc ? blocks(doc.content) + "\n" : "";
+}
+
+// ---- Posts ----
+
+async function toPost(e: PostEntry): Promise<Post> {
+  const content = richTextToMdx(e.body);
+  return {
+    slug: e.slug,
+    title: e.title,
+    description: e.description ?? "",
+    date: e.date,
+    tags: e.tags ?? [],
+    published: true,
+    image: e.cover ? mediaUrl(e.cover) : "",
+    imageBlur: e.cover ? await blurFor(e.cover) : undefined,
+    toc: extractToc(content),
+    content,
+    seo: e.seo
+      ? {
+          title: e.seo.meta_title || undefined,
+          description: e.seo.meta_description || undefined,
+          image: e.seo.share_image ? mediaUrl(e.seo.share_image) : undefined,
+        }
+      : undefined,
+  };
+}
+
+/** Published posts, newest first by their date. */
+export async function getAllPosts(): Promise<Post[]> {
+  const data = await fetchKado<{ data: PostEntry[] }>("content/post", {
+    page_size: "100",
+    sort: "date:desc",
+  });
+  return Promise.all(data.data.map(toPost));
+}
+
+export async function getPost(slug: string): Promise<Post | undefined> {
+  const data = await fetchKado<{ data: PostEntry[] }>("content/post", {
+    "filters[slug]": slug,
+    page_size: "1",
+  });
+  return data.data[0] ? toPost(data.data[0]) : undefined;
 }
 
 export function formatPostDate(dateStr: string): string {

@@ -4,13 +4,10 @@ import { ArrowLeft, Share2, BadgeCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import fs from "fs";
-import path from "path";
 
 import { PageLayout } from "@/components/templates/page-layout";
 import { PostToc } from "@/components/molecules/post-toc";
@@ -23,7 +20,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -31,35 +28,35 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
 
   if (!post) return { title: "Post Not Found" };
 
+  const title = post.seo?.title ?? post.title;
+  const description = post.seo?.description ?? post.description;
+  const image = post.seo?.image ?? post.image;
   return {
-    title: post.title,
-    description: post.description,
+    title,
+    description,
     openGraph: {
-      title: post.title,
-      description: post.description,
+      title,
+      description,
       type: "article",
-      images: post.image ? [{ url: post.image }] : [],
+      images: image ? [{ url: image }] : [],
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.description,
+      title,
+      description,
     },
   };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
 
   if (!post) notFound();
-
-  const filePath = path.join(process.cwd(), "content/posts", `${slug}.mdx`);
-  const source = fs.readFileSync(filePath, "utf8");
 
   const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${siteConfig.url}/blog/${slug}`)}`;
 
@@ -96,15 +93,20 @@ export default async function BlogPostPage({ params }: Props) {
               </p>
             </div>
 
-            <div className="relative mb-4 aspect-video h-auto w-full overflow-hidden sm:mb-6">
-              <Image
-                src={post.image}
-                alt={`${post.title} cover image`}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            {post.image && (
+              <div className="relative mb-4 aspect-video h-auto w-full overflow-hidden sm:mb-6">
+                <Image
+                  src={post.image}
+                  alt={`${post.title} cover image`}
+                  fill
+                  sizes="(min-width: 1024px) 512px, 90vw"
+                  className="object-cover"
+                  preload
+                  placeholder={post.imageBlur ? "blur" : "empty"}
+                  blurDataURL={post.imageBlur}
+                />
+              </div>
+            )}
 
             <div className="mb-4 flex items-center gap-3">
               <div className="relative">
@@ -132,11 +134,11 @@ export default async function BlogPostPage({ params }: Props) {
 
             <div className="mdx">
               <MDXRemote
-                source={source}
+                source={post.content}
                 components={mdxComponents}
                 options={{
                   mdxOptions: {
-                    remarkPlugins: [remarkFrontmatter, remarkGfm],
+                    remarkPlugins: [remarkGfm],
                     rehypePlugins: [
                       rehypeSlug,
                       [

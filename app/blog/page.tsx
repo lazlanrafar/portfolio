@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <PageLayout>
@@ -31,16 +31,23 @@ export default function BlogPage() {
           <p className="text-muted-foreground text-sm">No posts yet.</p>
         ) : (
           <ul className="space-y-8">
-            {posts.map((post) => (
+            {posts.map((post, i) => (
               <li key={post.slug}>
                 <Link href={`/blog/${post.slug}`} className="group block space-y-3">
                   <div className="relative aspect-video w-full overflow-hidden">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    {post.image && (
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(min-width: 640px) 512px, 100vw"
+                        loading={i === 0 ? "eager" : "lazy"}
+                        fetchPriority={i === 0 ? "high" : "auto"}
+                        placeholder={post.imageBlur ? "blur" : "empty"}
+                        blurDataURL={post.imageBlur}
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
                   <div className="space-y-1">
                     <div className="flex flex-wrap gap-2">

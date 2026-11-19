@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import type { Project } from "@/lib/microcms";
+import type { Project } from "@/lib/kadocms";
 
 interface ProjectCardProps {
   project: Project;
   className?: string;
+  /** Above the fold: load it first instead of lazily. */
+  priority?: boolean;
 }
 
-export function ProjectCard({ project, className }: ProjectCardProps) {
+export function ProjectCard({ project, className, priority = false }: ProjectCardProps) {
   const { id, title, thumbnail, skills } = project;
 
   return (
@@ -25,6 +27,11 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
             alt={`Thumbnail for ${title}`}
             width={800}
             height={450}
+            sizes="(min-width: 640px) 50vw, 100vw"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
+            placeholder={thumbnail.blurDataURL ? "blur" : "empty"}
+            blurDataURL={thumbnail.blurDataURL}
             className="anim aspect-video w-full object-cover grayscale group-hover/card:scale-105 group-hover/card:grayscale-0"
           />
         ) : (

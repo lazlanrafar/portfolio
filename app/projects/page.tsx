@@ -1,7 +1,7 @@
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { ProjectGrid } from "@/components/organisms/project-grid";
-import { getProjects } from "@/lib/microcms";
+import { getProjects } from "@/lib/kadocms";
 import { siteConfig } from "@/lib/data";
 import type { Metadata } from "next";
 

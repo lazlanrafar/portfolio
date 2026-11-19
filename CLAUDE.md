@@ -18,13 +18,13 @@ bun lint         # ESLint
 - **Tailwind CSS v4** — uses `@import "tailwindcss"` (not a `tailwind.config.js`), `@custom-variant`, `@utility`, and `@theme inline` in `globals.css`; no `tailwind.config` file exists
 - **framer-motion** for animations (`framer-motion`, not `motion/react`)
 - **next-themes** for dark mode (`defaultTheme="light"`, `enableColorScheme={false}`)
-- **microCMS** as headless CMS for projects (server-side fetch only, API key in `.env`)
+- **KadoCMS** as headless CMS for projects (server-side fetch only; `KADOCMS_URL` and `KADOCMS_API_KEY` in `.env.local`)
 
 ## Architecture
 
 ### Data flow
 
-All static personal data (bio, experience, skills, process steps, workstation, inspiration, bookmarks, tech items) lives in `lib/data.ts`. Project data is fetched from microCMS via `lib/microcms.ts` — `getProjects()` / `getProject(id)` with `revalidate: 3600`.
+All static personal data (bio, experience, skills, process steps, workstation, inspiration, bookmarks, tech items) lives in `lib/data.ts`. Project data is fetched from KadoCMS (Delivery API, content type `project`) via `lib/kadocms.ts` — `getProjects()` / `getProject(slug)` with `revalidate: 3600`. Rich text arrives as a document tree and is rendered to HTML there (headings get ids for the table of contents); media arrive as ids and become KadoCMS image URLs (`?w=…&format=webp`). Old microCMS project ids redirect to slugs (`lib/legacy-project-ids.json`, `next.config.mjs`). Blog posts come from KadoCMS too (content type `post`) via `lib/posts.ts` — `getAllPosts()` / `getPost(slug)`; the rich-text body is turned back into MDX there, so `app/blog/[slug]` keeps its MDX pipeline (`mdx-components.tsx`, rehype-pretty-code, heading anchors) and the TOC reads Markdown headings. YouTube embeds come back as `<iframe>`; other embeds (Spotify) are links, since KadoCMS rich text only embeds YouTube.
 
 ### Component hierarchy (atomic design)
 
@@ -63,4 +63,4 @@ SVG icons live in `public/icons/tech/`. Some have `{name}-dark.svg` / `{name}-li
 - **No rounded corners anywhere** — never use `rounded-*` Tailwind classes
 - **No `scroll={false}`** on `<Link>` components used for page navigation (breaks scroll-to-top)
 - All personal data changes go in `lib/data.ts`; do not hardcode content in components
-- `lib/microcms.ts` exports `parseToc(html)` which decodes HTML entities and extracts `h2–h4` headings with IDs from microCMS rich-text HTML
+- `lib/kadocms.ts` exports `parseToc(html)` which decodes HTML entities and extracts `h2–h4` headings with ids from the rich-text HTML it renders

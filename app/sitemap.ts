@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/data";
-import { getProjects } from "@/lib/microcms";
+import { getProjects } from "@/lib/kadocms";
 import { getAllPosts } from "@/lib/posts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await getProjects();
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   const projectUrls: MetadataRoute.Sitemap = projects.map((p) => ({
     url: `${siteConfig.url}/projects/${p.id}`,

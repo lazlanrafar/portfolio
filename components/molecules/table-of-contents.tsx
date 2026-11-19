@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import type { TocItem } from "@/lib/microcms";
+import type { TocItem } from "@/lib/kadocms";
 
 export function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
