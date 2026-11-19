@@ -36,7 +36,7 @@ export default async function AboutPage() {
     <PageLayout>
       <SectionWrapper
         id="about"
-        className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 lg:gap-y-24"
+        className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"
       >
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">

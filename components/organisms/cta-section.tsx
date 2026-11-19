@@ -71,7 +71,7 @@ export async function CtaSection() {
         </h2>
       </div>
 
-      <div className="grid w-full max-w-lg grid-cols-4 gap-2">
+      <div className="grid w-full grid-cols-4 gap-2">
         {socialLinks.map(({ name, href, icon: Icon, target, rel }) => (
           <Link
             key={name}

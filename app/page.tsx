@@ -19,7 +19,7 @@ export default async function HomePage() {
     <PageLayout>
       <SectionWrapper
         id="home"
-        className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 lg:gap-y-24"
+        className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"
       >
         <Hero />
         <FeaturedProjects />

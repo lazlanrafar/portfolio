@@ -64,10 +64,10 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <PageLayout>
-      <article className="relative flex h-auto w-full grow px-4">
+      <article className="relative flex h-auto w-full grow px-4 md:px-8 lg:px-16">
         <PostToc toc={post.toc} />
 
-        <div className="mx-auto w-full max-w-lg space-y-10 md:max-w-md md:space-y-12 lg:max-w-lg lg:space-y-16">
+        <div className="mx-auto w-full max-w-2xl space-y-10 md:space-y-12 lg:space-y-16">
           <div className="flex w-full items-center justify-between">
             <Link
               href="/blog"
@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: Props) {
                   src={post.image}
                   alt={`${post.title} cover image`}
                   fill
-                  sizes="(min-width: 1024px) 512px, 90vw"
+                  sizes="(min-width: 1024px) 672px, 90vw"
                   className="object-cover"
                   preload
                   placeholder={post.imageBlur ? "blur" : "empty"}

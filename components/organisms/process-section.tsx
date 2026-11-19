@@ -46,7 +46,7 @@ export function ProcessSection({
 }) {
   return (
     <div className="w-full space-y-4">
-      <div className="w-full max-w-lg space-y-1">
+      <div className="w-full space-y-1">
         <div className="flex h-8 w-full items-center">
           <h2 className="text-foreground text-sm font-bold uppercase leading-none">
             My Process
@@ -60,7 +60,7 @@ export function ProcessSection({
         </p>
       </div>
 
-      <div className="flex w-full max-w-lg flex-col">
+      <div className="flex w-full flex-col">
         {items.map((item, index) => (
           <ProcessStep
             key={index}

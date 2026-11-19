@@ -34,7 +34,7 @@ export function Footer({
       <div
         ref={ref}
         className={cn(
-          "mx-auto flex w-full max-w-3xl flex-col items-center gap-y-12 pb-20 transition-all duration-500 ease-in-out md:pb-8",
+          "mx-auto flex w-full max-w-2xl flex-col items-center gap-y-12 pb-20 transition-all duration-500 ease-in-out md:pb-8",
           isInView
             ? "scale-100 opacity-100 blur-none"
             : "scale-95 opacity-0 blur-md"

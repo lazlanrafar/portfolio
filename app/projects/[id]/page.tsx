@@ -66,10 +66,10 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <PageLayout>
-      <article className="relative flex h-auto w-full grow px-4">
+      <article className="relative flex h-auto w-full grow px-4 md:px-8 lg:px-16">
         <TableOfContents toc={toc} />
 
-        <div className="mx-auto w-full max-w-lg space-y-10 md:max-w-md md:space-y-12 lg:max-w-lg lg:space-y-16">
+        <div className="mx-auto w-full max-w-2xl space-y-10 md:space-y-12 lg:space-y-16">
           <div className="flex w-full items-center justify-between">
             <Link
               href="/projects"
@@ -119,7 +119,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   src={project.thumbnail.url}
                   alt={`${project.title} thumbnail`}
                   fill
-                  sizes="(min-width: 1024px) 512px, 90vw"
+                  sizes="(min-width: 1024px) 672px, 90vw"
                   className="object-cover"
                   preload
                   placeholder={project.thumbnail.blurDataURL ? "blur" : "empty"}
@@ -170,7 +170,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                         src={shot.image.url}
                         alt={shot.caption ?? `${project.title} screenshot`}
                         fill
-                        sizes="(min-width: 1024px) 512px, 90vw"
+                        sizes="(min-width: 1024px) 672px, 90vw"
                         className="object-cover"
                       />
                     </div>

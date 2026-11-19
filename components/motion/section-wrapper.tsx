@@ -12,7 +12,7 @@ interface SectionWrapperProps {
 }
 
 const DEFAULT_SECTION_CLASS = "flex h-auto w-full grow flex-col";
-const DEFAULT_ITEM_CLASS = "flex w-full max-w-lg flex-col items-center";
+const DEFAULT_ITEM_CLASS = "flex w-full max-w-2xl flex-col items-center";
 
 export function SectionWrapper({
   id,
