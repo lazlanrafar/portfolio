@@ -2,6 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Share2, BadgeCheck } from "lucide-react";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/atoms/json-ld";
+import {
+  absoluteUrl,
+  breadcrumbLd,
+  graph,
+  pageMetadata,
+  personRef,
+  shareImage,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
@@ -33,24 +42,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) return { title: "Post Not Found" };
 
-  const title = post.seo?.title ?? post.title;
-  const description = post.seo?.description ?? post.description;
   const image = post.seo?.image ?? post.image;
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      images: image ? [{ url: image }] : [],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-  };
+  return pageMetadata({
+    title: post.seo?.title ?? post.title,
+    description: post.seo?.description ?? post.description,
+    path: `/blog/${post.slug}`,
+    image: image ? shareImage(image) : undefined,
+    article: { publishedTime: post.date, authors: [absoluteUrl("/about")] },
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -64,6 +63,27 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          {
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.description,
+            url: absoluteUrl(`/blog/${post.slug}`),
+            mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+            ...(post.image && { image: shareImage(post.image) }),
+            datePublished: post.date,
+            author: personRef(author),
+            publisher: personRef(author),
+            inLanguage: "en",
+          },
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        )}
+      />
       <article className="relative flex h-auto w-full grow px-4 md:px-8 lg:px-16">
         <PostToc toc={post.toc} />
 
@@ -127,7 +147,9 @@ export default async function BlogPostPage({ params }: Props) {
                 />
               </div>
               <div className="flex flex-col">
-                <p className="text-foreground text-sm font-semibold">{author.name}</p>
+                <p className="text-foreground text-sm font-semibold">
+                  {author.name}
+                </p>
                 <p className="text-muted-foreground text-xs font-medium">
                   {author.role}
                 </p>
@@ -148,7 +170,9 @@ export default async function BlogPostPage({ params }: Props) {
                         {
                           theme: { dark: "github-dark", light: "github-light" },
                           keepBackground: false,
-                          onVisitLine(node: { children: { type: string; value: string }[] }) {
+                          onVisitLine(node: {
+                            children: { type: string; value: string }[];
+                          }) {
                             if (node.children.length === 0) {
                               node.children.push({ type: "text", value: " " });
                             }

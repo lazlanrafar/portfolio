@@ -6,6 +6,15 @@ import { PageLayout } from "@/components/templates/page-layout";
 import { TableOfContents } from "@/components/molecules/table-of-contents";
 import { getProject, getProjects, parseToc } from "@/lib/kadocms";
 import { getProfile } from "@/lib/profile";
+import { JsonLd } from "@/components/atoms/json-ld";
+import {
+  absoluteUrl,
+  breadcrumbLd,
+  graph,
+  pageMetadata,
+  personRef,
+  shareImage,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 
 interface Props {
@@ -22,17 +31,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const project = await getProject(id);
     const description =
-      project.seo?.description ?? project.description.replace(/<[^>]+>/g, "").slice(0, 160);
+      project.seo?.description ??
+      project.description.replace(/<[^>]+>/g, "").slice(0, 160);
     const ogImage = project.seo?.image ?? project.thumbnail;
-    return {
+    return pageMetadata({
       title: project.seo?.title ?? project.title,
       description,
-      openGraph: {
-        title: project.seo?.title ?? project.title,
-        description,
-        images: ogImage ? [ogImage.url] : [],
-      },
-    };
+      path: `/projects/${project.id}`,
+      image: ogImage && shareImage(ogImage.url),
+    });
   } catch {
     return { title: "Project Not Found" };
   }
@@ -66,6 +73,35 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          {
+            "@type": "CreativeWork",
+            name: project.title,
+            description:
+              project.seo?.description ??
+              project.description
+                .replace(/<[^>]+>/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+                .slice(0, 300),
+            url: absoluteUrl(`/projects/${project.id}`),
+            ...(project.thumbnail && {
+              image: shareImage(project.thumbnail.url),
+            }),
+            ...(startYear && { dateCreated: String(startYear) }),
+            creator: personRef(author),
+            ...(project.links.length > 0 && {
+              sameAs: project.links.map((l) => l.url),
+            }),
+          },
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path: `/projects/${project.id}` },
+          ]),
+        )}
+      />
       <article className="relative flex h-auto w-full grow px-4 md:px-8 lg:px-16">
         <TableOfContents toc={toc} />
 
@@ -73,7 +109,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="flex w-full items-center justify-between">
             <Link
               href="/projects"
-             
+
               aria-label="Go back to projects"
               className="anim text-muted-foreground hover:text-foreground flex items-center gap-x-2"
             >
@@ -175,7 +211,9 @@ export default async function ProjectDetailPage({ params }: Props) {
                       />
                     </div>
                     {shot.caption && (
-                      <figcaption className="text-muted-foreground text-xs">{shot.caption}</figcaption>
+                      <figcaption className="text-muted-foreground text-xs">
+                        {shot.caption}
+                      </figcaption>
                     )}
                   </figure>
                 ))}

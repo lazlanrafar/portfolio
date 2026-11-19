@@ -2,6 +2,8 @@
 export const siteConfig = {
   name: "Azlan Rafar",
   url: "https://lazlanrafar.com",
+  description:
+    "Software Engineer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure on AWS.",
 };
 
 export const navLinks = [

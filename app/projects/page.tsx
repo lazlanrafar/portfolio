@@ -4,14 +4,17 @@ import { FilterableList } from "@/components/organisms/filterable-list";
 import { ProjectCard } from "@/components/molecules/project-card";
 import { getProjects } from "@/lib/kadocms";
 import { getProfile } from "@/lib/profile";
+import { JsonLd } from "@/components/atoms/json-ld";
+import { breadcrumbLd, collectionLd, graph, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { name } = await getProfile();
-  return {
+  return pageMetadata({
     title: "Projects",
     description: `A collection of projects built by ${name} — web applications across e-commerce, real estate, education, and logistics.`,
-  };
+    path: "/projects",
+  });
 }
 
 export default async function ProjectsPage() {
@@ -19,6 +22,20 @@ export default async function ProjectsPage() {
 
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          collectionLd(
+            "Projects",
+            "/projects",
+            "Web and mobile applications built for clients and personal use.",
+            projects.map((p) => ({ name: p.title, path: `/projects/${p.id}` })),
+          ),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+          ]),
+        )}
+      />
       <SectionWrapper
         id="projects"
         className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"

@@ -18,11 +18,20 @@ const nextConfig = {
   },
   // Project pages moved from microCMS ids to KadoCMS slugs; old links keep working.
   async redirects() {
-    return Object.entries(legacyProjectIds).map(([id, slug]) => ({
-      source: `/projects/${id}`,
-      destination: `/projects/${slug}`,
-      permanent: true,
-    }));
+    return [
+      // One host: www would otherwise serve a duplicate of every page.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.lazlanrafar.com" }],
+        destination: "https://lazlanrafar.com/:path*",
+        permanent: true,
+      },
+      ...Object.entries(legacyProjectIds).map(([id, slug]) => ({
+        source: `/projects/${id}`,
+        destination: `/projects/${slug}`,
+        permanent: true,
+      })),
+    ];
   },
 };
 

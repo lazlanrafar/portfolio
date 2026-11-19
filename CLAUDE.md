@@ -62,5 +62,6 @@ SVG icons live in `public/icons/tech/`. Some have `{name}-dark.svg` / `{name}-li
 
 - **No rounded corners anywhere** — never use `rounded-*` Tailwind classes
 - **No `scroll={false}`** on `<Link>` components used for page navigation (breaks scroll-to-top)
+- SEO: every page builds its metadata with `pageMetadata()` from `lib/seo.ts` (own canonical path, Open Graph, Twitter card; share images as JPEG via `shareImage()`) and renders schema.org data with `<JsonLd>` (`components/atoms/json-ld.tsx`). Never set `alternates.canonical` in the root layout: it would point every page at the home page. JSON-LD states only what the page shows. `/llms.txt` (`app/llms.txt/route.ts`) and the sitemap are built from KadoCMS content
 - Personal data is edited in KadoCMS (the `profile` entry), not in code; do not hardcode content in components. Tech icon names must match a file in `public/icons/tech`
 - `lib/kadocms.ts` exports `parseToc(html)` which decodes HTML entities and extracts `h2–h4` headings with ids from the rich-text HTML it renders

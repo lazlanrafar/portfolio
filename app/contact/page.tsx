@@ -1,11 +1,23 @@
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { getProfile } from "@/lib/profile";
+import { JsonLd } from "@/components/atoms/json-ld";
+import {
+  absoluteUrl,
+  breadcrumbLd,
+  graph,
+  pageMetadata,
+  personLd,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { name } = await getProfile();
-  return { title: "Contact", description: `Get in touch with ${name}.` };
+  return pageMetadata({
+    title: "Contact",
+    description: `Get in touch with ${name}.`,
+    path: "/contact",
+  });
 }
 
 /** "github.com/lazlanrafar", "@lazlanrafar" for Instagram. */
@@ -17,7 +29,8 @@ function displayUrl(url: string): string {
 }
 
 export default async function ContactPage() {
-  const { email, location, socials } = await getProfile();
+  const profile = await getProfile();
+  const { email, location, socials } = profile;
   const contactLinks = [
     { label: "Email", value: email, href: `mailto:${email}`, external: false },
     ...socials.map(({ label, url }) => ({
@@ -29,6 +42,19 @@ export default async function ContactPage() {
   ];
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          {
+            "@type": "ContactPage",
+            url: absoluteUrl("/contact"),
+            mainEntity: personLd(profile),
+          },
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        )}
+      />
       <SectionWrapper
         id="contact"
         className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"
@@ -43,10 +69,8 @@ export default async function ContactPage() {
             <p>
               I&apos;m always open to new opportunities and collaborations.
               Based in{" "}
-              <span className="text-foreground font-medium">
-                {location}
-              </span>
-              , available worldwide.
+              <span className="text-foreground font-medium">{location}</span>,
+              available worldwide.
             </p>
           </div>
         </div>

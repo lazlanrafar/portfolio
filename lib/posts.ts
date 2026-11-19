@@ -25,6 +25,7 @@ export type Post = {
   /** The body as MDX. */
   content: string;
   seo?: { title?: string; description?: string; image?: string };
+  updatedAt: string;
 };
 
 interface PostEntry {
@@ -36,6 +37,7 @@ interface PostEntry {
   cover?: string | null;
   body?: RichNode | null;
   seo?: { meta_title?: string; meta_description?: string; share_image?: string | null } | null;
+  updated_at: string;
 }
 
 function buildTree(flat: { depth: number; value: string }[]): TocItem[] {
@@ -192,6 +194,7 @@ async function toPost(e: PostEntry): Promise<Post> {
           image: e.seo.share_image ? mediaUrl(e.seo.share_image) : undefined,
         }
       : undefined,
+    updatedAt: e.updated_at,
   };
 }
 

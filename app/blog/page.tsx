@@ -1,26 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
+import { JsonLd } from "@/components/atoms/json-ld";
+import { breadcrumbLd, collectionLd, graph, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { PageLayout } from "@/components/templates/page-layout";
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { getAllPosts, formatPostDate } from "@/lib/posts";
-import { siteConfig } from "@/lib/data";
 import { FilterableList } from "@/components/organisms/filterable-list";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Blog",
   description: "Thoughts on code, design, and software engineering.",
-  openGraph: {
-    title: `Blog | ${siteConfig.name}`,
-    description: "Thoughts on code, design, and software engineering.",
-  },
-};
+  path: "/blog",
+});
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
 
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          collectionLd(
+            "Blog",
+            "/blog",
+            "Thoughts on code, design, and software engineering.",
+            posts.map((p) => ({ name: p.title, path: `/blog/${p.slug}` })),
+          ),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+          ]),
+        )}
+      />
       <SectionWrapper
         id="blog"
         className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"

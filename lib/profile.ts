@@ -42,6 +42,7 @@ interface ProfileEntry {
   inspiration?: Item<{ name: string; url: string; category: string }>[] | null;
   bookmarks?: Item<{ title: string; url: string; description?: string | null }>[] | null;
   seo?: { meta_title?: string; meta_description?: string; share_image?: string | null } | null;
+  updated_at: string;
 }
 
 export interface SocialLink {
@@ -78,6 +79,7 @@ export interface Profile {
   inspirationItems: { category: string; items: { name: string; href: string }[] }[];
   bookmarkItems: { title: string; href: string; description: string }[];
   seo?: { title?: string; description?: string; image?: string };
+  updatedAt: string;
 }
 
 /** Category names as the site shows them. */
@@ -167,6 +169,7 @@ function toProfile(e: ProfileEntry): Profile {
           image: e.seo.share_image ? mediaUrl(e.seo.share_image) : undefined,
         }
       : undefined,
+    updatedAt: e.updated_at,
   };
 }
 

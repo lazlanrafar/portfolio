@@ -7,21 +7,31 @@ import { TechIcon } from "@/components/atoms/tech-icon";
 import { getProfile } from "@/lib/profile";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { JsonLd } from "@/components/atoms/json-ld";
+import {
+  absoluteUrl,
+  breadcrumbLd,
+  graph,
+  pageMetadata,
+  personLd,
+  shareImage,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const profile = await getProfile();
-  const description =
-    profile.seo?.description ??
-    `Learn more about ${profile.name} — a Full-Stack Software Engineer from ${profile.location}.`;
-  return {
+  return pageMetadata({
     title: profile.seo?.title ?? "About",
-    description,
-    openGraph: profile.seo?.image ? { images: [profile.seo.image] } : undefined,
-  };
+    description:
+      profile.seo?.description ??
+      `Learn more about ${profile.name} — a Full-Stack Software Engineer from ${profile.location}.`,
+    path: "/about",
+    image: profile.seo?.image && shareImage(profile.seo.image),
+  });
 }
 
 export default async function AboutPage() {
+  const profile = await getProfile();
   const {
     longBio,
     experience,
@@ -31,9 +41,23 @@ export default async function AboutPage() {
     workstationItems,
     inspirationItems,
     bookmarkItems,
-  } = await getProfile();
+  } = profile;
   return (
     <PageLayout>
+      <JsonLd
+        data={graph(
+          {
+            "@type": "ProfilePage",
+            url: absoluteUrl("/about"),
+            dateModified: profile.updatedAt,
+            mainEntity: personLd(profile),
+          },
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        )}
+      />
       <SectionWrapper
         id="about"
         className="flex flex-col items-center gap-y-16 px-4 md:gap-y-20 md:px-8 lg:gap-y-24 lg:px-16"
