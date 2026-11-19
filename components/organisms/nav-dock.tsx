@@ -34,8 +34,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const ITEM_SIZE = 40;
 
+// Above the dock: it sits at the bottom of the screen, so a tooltip below would be cut off.
+// nowrap keeps labels like プロフィール on one line.
 const TOOLTIP =
-  "pointer-events-none absolute left-1/2 top-full mt-2 hidden -translate-x-1/2 scale-75 border border-border bg-popover px-1.5 py-1 text-[10px] font-medium leading-none text-popover-foreground opacity-0 transition-all duration-200 group-hover/dock:scale-100 group-hover/dock:opacity-100 md:block";
+  "pointer-events-none absolute left-1/2 bottom-full mb-3 hidden -translate-x-1/2 scale-75 whitespace-nowrap border border-border bg-popover px-1.5 py-1 text-[10px] font-medium leading-none text-popover-foreground opacity-0 transition-all duration-200 group-hover/dock:scale-100 group-hover/dock:opacity-100 md:block";
 
 interface NavDockProps {
   /** Menu links (unprefixed paths) with labels in the page's language. */
