@@ -5,16 +5,16 @@ import { FeaturedProjects } from "@/components/organisms/featured-projects";
 import { Skills } from "@/components/organisms/skills";
 import { ProcessSection } from "@/components/organisms/process-section";
 import { CtaSection } from "@/components/organisms/cta-section";
-import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: `${siteConfig.author.name} — ${siteConfig.author.role}`,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { name, role } = await getProfile();
+  return { title: { absolute: `${name} — ${role}` } };
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { processItems } = await getProfile();
   return (
     <PageLayout>
       <SectionWrapper
@@ -24,7 +24,7 @@ export default function HomePage() {
         <Hero />
         <FeaturedProjects />
         <Skills />
-        <ProcessSection />
+        <ProcessSection items={processItems} />
         <CtaSection />
       </SectionWrapper>
     </PageLayout>

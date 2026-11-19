@@ -2,13 +2,16 @@ import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { ProjectGrid } from "@/components/organisms/project-grid";
 import { getProjects } from "@/lib/kadocms";
-import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: `A collection of projects built by ${siteConfig.author.name} — web applications across e-commerce, real estate, education, and logistics.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { name } = await getProfile();
+  return {
+    title: "Projects",
+    description: `A collection of projects built by ${name} — web applications across e-commerce, real estate, education, and logistics.`,
+  };
+}
 
 export default async function ProjectsPage() {
   const projects = await getProjects();

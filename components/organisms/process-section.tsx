@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { processItems } from "@/lib/data";
 
 function ProcessStep({
   name,
@@ -40,7 +39,11 @@ function ProcessStep({
   );
 }
 
-export function ProcessSection() {
+export function ProcessSection({
+  items,
+}: {
+  items: { name: string; description: string }[];
+}) {
   return (
     <div className="w-full space-y-4">
       <div className="w-full max-w-lg space-y-1">
@@ -58,12 +61,12 @@ export function ProcessSection() {
       </div>
 
       <div className="flex w-full max-w-lg flex-col">
-        {processItems.map((item, index) => (
+        {items.map((item, index) => (
           <ProcessStep
             key={index}
             {...item}
             index={index}
-            isLast={index === processItems.length - 1}
+            isLast={index === items.length - 1}
           />
         ))}
       </div>

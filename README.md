@@ -46,7 +46,8 @@ components/
   templates/          # Layout wrappers
   motion/             # Animation wrappers
 lib/
-  data.ts             # All static personal data
+  data.ts             # Site name, URL and nav links
+  profile.ts          # Owner profile from KadoCMS (bio, skills, experience, About lists)
   kadocms.ts          # KadoCMS API client (rich text to HTML, media URLs)
 public/icons/tech/    # Tech stack SVG icons
 ```

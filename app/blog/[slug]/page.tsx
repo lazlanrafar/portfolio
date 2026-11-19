@@ -13,6 +13,7 @@ import { PageLayout } from "@/components/templates/page-layout";
 import { PostToc } from "@/components/molecules/post-toc";
 import { getAllPosts, getPost, formatPostDate } from "@/lib/posts";
 import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import { mdxComponents } from "@/mdx-components";
 
 interface Props {
@@ -57,6 +58,7 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPost(slug);
 
   if (!post) notFound();
+  const author = await getProfile();
 
   const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${siteConfig.url}/blog/${slug}`)}`;
 
@@ -113,7 +115,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="size-11 overflow-hidden">
                   <Image
                     src="https://github.com/lazlanrafar.png"
-                    alt={siteConfig.author.name}
+                    alt={author.name}
                     width={44}
                     height={44}
                     className="object-cover"
@@ -125,9 +127,9 @@ export default async function BlogPostPage({ params }: Props) {
                 />
               </div>
               <div className="flex flex-col">
-                <p className="text-foreground text-sm font-semibold">{siteConfig.author.name}</p>
+                <p className="text-foreground text-sm font-semibold">{author.name}</p>
                 <p className="text-muted-foreground text-xs font-medium">
-                  {siteConfig.author.role}
+                  {author.role}
                 </p>
               </div>
             </div>

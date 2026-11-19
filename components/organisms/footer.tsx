@@ -3,10 +3,20 @@
 import { useInView } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { siteConfig, navLinks } from "@/lib/data";
+import { navLinks } from "@/lib/data";
+import type { SocialLink } from "@/lib/profile";
 import { cn } from "@/lib/utils";
 
-export function Footer() {
+export function Footer({
+  name,
+  email,
+  socials,
+}: {
+  name: string;
+  email: string;
+  socials: SocialLink[];
+}) {
+  const linkedin = socials.find((s) => s.label.toLowerCase() === "linkedin")?.url;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [copied, setCopied] = useState(false);
@@ -14,7 +24,7 @@ export function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(siteConfig.author.email);
+    await navigator.clipboard.writeText(email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -37,7 +47,7 @@ export function Footer() {
 
           <div className="flex flex-col items-center gap-y-3 md:items-start">
             <p className="text-foreground text-sm font-semibold">
-              {siteConfig.author.name}
+              {name}
             </p>
             <p className="text-foreground/60 max-w-48 text-center text-xs font-medium leading-relaxed text-balance md:text-left">
               Building production-grade web apps with clean code and great UX.
@@ -80,30 +90,17 @@ export function Footer() {
             <div className="flex flex-col gap-y-3">
               <h2 className="text-foreground text-sm font-semibold">Connect</h2>
               <div className="flex flex-col gap-y-1.5 text-sm font-medium">
-                <a
-                  href={siteConfig.social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground/60 anim hover:text-foreground"
-                >
-                  GitHub
-                </a>
-                <a
-                  href={siteConfig.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground/60 anim hover:text-foreground"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href={siteConfig.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground/60 anim hover:text-foreground"
-                >
-                  Instagram
-                </a>
+                {socials.map(({ label, url }) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground/60 anim hover:text-foreground"
+                  >
+                    {label}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -114,25 +111,27 @@ export function Footer() {
             </h2>
             <div className="flex flex-col gap-y-1.5 text-sm font-medium">
               <a
-                href={`mailto:${siteConfig.author.email}`}
+                href={`mailto:${email}`}
                 className="text-foreground/60 anim hover:text-foreground"
               >
                 Send an email
               </a>
-              <a
-                href={siteConfig.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/60 anim hover:text-foreground"
-              >
-                Message on LinkedIn
-              </a>
+              {linkedin && (
+                <a
+                  href={linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground/60 anim hover:text-foreground"
+                >
+                  Message on LinkedIn
+                </a>
+              )}
             </div>
           </div>
         </div>
 
         <p className="text-foreground/60 text-center text-sm">
-          &copy; {new Date().getFullYear()} {siteConfig.author.name}. All rights
+          &copy; {new Date().getFullYear()} {name}. All rights
           reserved.
         </p>
       </div>

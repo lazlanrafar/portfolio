@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { GoogleAnalytics } from "@/components/atoms/google-analytics";
 import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -12,9 +13,11 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const { name, role } = await getProfile();
+  return {
   title: {
-    default: `${siteConfig.author.name} — ${siteConfig.author.role}`,
+    default: `${name} — ${role}`,
     template: `%s | ${siteConfig.name}`,
   },
   description:
@@ -33,8 +36,8 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
   ],
-  authors: [{ name: siteConfig.author.name, url: siteConfig.url }],
-  creator: siteConfig.author.name,
+  authors: [{ name: name, url: siteConfig.url }],
+  creator: name,
   metadataBase: new URL(siteConfig.url),
   alternates: {
     canonical: siteConfig.url,
@@ -43,14 +46,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: `${siteConfig.author.name} — ${siteConfig.author.role}`,
+    title: `${name} — ${role}`,
     description:
       "Software Engineer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure on AWS.",
     siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.author.name} — ${siteConfig.author.role}`,
+    title: `${name} — ${role}`,
     description:
       "Software Engineer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure on AWS.",
     creator: "@lazlanrafar",
@@ -66,7 +69,8 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-};
+  };
+}
 
 export default function RootLayout({
   children,

@@ -4,26 +4,34 @@ import { WorkCard } from "@/components/molecules/work-card";
 import { BookmarkList } from "@/components/molecules/bookmark-list";
 import { Skills } from "@/components/organisms/skills";
 import { TechIcon } from "@/components/atoms/tech-icon";
-import {
-  siteConfig,
-  experience,
-  education,
-  awards,
-  techItems,
-  workstationItems,
-  inspirationItems,
-  bookmarkItems,
-} from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: `Learn more about ${siteConfig.author.name} — a Full-Stack Software Engineer from Bali, Indonesia.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const description =
+    profile.seo?.description ??
+    `Learn more about ${profile.name} — a Full-Stack Software Engineer from ${profile.location}.`;
+  return {
+    title: profile.seo?.title ?? "About",
+    description,
+    openGraph: profile.seo?.image ? { images: [profile.seo.image] } : undefined,
+  };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const {
+    longBio,
+    experience,
+    education,
+    awards,
+    techItems,
+    workstationItems,
+    inspirationItems,
+    bookmarkItems,
+  } = await getProfile();
   return (
     <PageLayout>
       <SectionWrapper
@@ -36,9 +44,10 @@ export default function AboutPage() {
               About
             </h1>
           </div>
-          <div className="text-muted-foreground space-y-4 text-sm md:text-base">
-            <p>{siteConfig.author.longBio}</p>
-          </div>
+          <div
+            className="text-muted-foreground space-y-4 text-sm md:text-base"
+            dangerouslySetInnerHTML={{ __html: longBio }}
+          />
         </div>
 
         <Skills />

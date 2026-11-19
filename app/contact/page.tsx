@@ -1,41 +1,32 @@
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
-import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: `Get in touch with ${siteConfig.author.name}.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { name } = await getProfile();
+  return { title: "Contact", description: `Get in touch with ${name}.` };
+}
 
-const contactLinks = [
-  {
-    label: "Email",
-    value: siteConfig.author.email,
-    href: `mailto:${siteConfig.author.email}`,
-    external: false,
-  },
-  {
-    label: "GitHub",
-    value: "github.com/lazlanrafar",
-    href: siteConfig.social.github,
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/lazlanrafar",
-    href: siteConfig.social.linkedin,
-    external: true,
-  },
-  {
-    label: "Instagram",
-    value: "@lazlanrafar",
-    href: siteConfig.social.instagram,
-    external: true,
-  },
-];
+/** "github.com/lazlanrafar", "@lazlanrafar" for Instagram. */
+function displayUrl(url: string): string {
+  const u = new URL(url);
+  const path = u.pathname.replace(/\/$/, "");
+  const host = u.hostname.replace(/^www\./, "");
+  return host === "instagram.com" ? `@${path.slice(1)}` : `${host}${path}`;
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { email, location, socials } = await getProfile();
+  const contactLinks = [
+    { label: "Email", value: email, href: `mailto:${email}`, external: false },
+    ...socials.map(({ label, url }) => ({
+      label,
+      value: displayUrl(url),
+      href: url,
+      external: true,
+    })),
+  ];
   return (
     <PageLayout>
       <SectionWrapper
@@ -53,7 +44,7 @@ export default function ContactPage() {
               I&apos;m always open to new opportunities and collaborations.
               Based in{" "}
               <span className="text-foreground font-medium">
-                {siteConfig.author.location}
+                {location}
               </span>
               , available worldwide.
             </p>

@@ -1,6 +1,7 @@
-import { skillCategories } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 
-export function Skills() {
+export async function Skills() {
+  const { skillCategories } = await getProfile();
   return (
     <div className="w-full space-y-4">
       <div className="flex h-8 w-full items-center">

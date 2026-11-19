@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 
 type SocialName = "mail" | "github" | "linkedin" | "instagram";
 
@@ -37,38 +37,32 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
-const socialLinks: {
-  name: SocialName;
-  href: string;
+const networks: {
+  name: Exclude<SocialName, "mail">;
   icon: React.ComponentType<{ className?: string }>;
-  target?: string;
-  rel?: string;
 }[] = [
-  { name: "mail", href: "/contact", icon: Mail },
-  {
-    name: "github",
-    href: siteConfig.social.github,
-    icon: GithubIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
-  {
-    name: "linkedin",
-    href: siteConfig.social.linkedin,
-    icon: LinkedinIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
-  {
-    name: "instagram",
-    href: siteConfig.social.instagram,
-    icon: InstagramIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
+  { name: "github", icon: GithubIcon },
+  { name: "linkedin", icon: LinkedinIcon },
+  { name: "instagram", icon: InstagramIcon },
 ];
 
-export function CtaSection() {
+export async function CtaSection() {
+  const { social } = await getProfile();
+  const socialLinks: {
+    name: SocialName;
+    href: string;
+    icon: React.ComponentType<{ className?: string }>;
+    target?: string;
+    rel?: string;
+  }[] = [
+    { name: "mail", href: "/contact", icon: Mail },
+    ...networks.flatMap(({ name, icon }) => {
+      const href = social[name];
+      return href
+        ? [{ name, href, icon, target: "_blank", rel: "noopener noreferrer" }]
+        : [];
+    }),
+  ];
   return (
     <div className="w-full space-y-4">
       <div className="flex h-8 w-full items-center">

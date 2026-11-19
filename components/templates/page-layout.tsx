@@ -1,11 +1,13 @@
 import { NavDock } from "@/components/organisms/nav-dock";
 import { Footer } from "@/components/organisms/footer";
+import { getProfile } from "@/lib/profile";
 
 interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-export function PageLayout({ children }: PageLayoutProps) {
+export async function PageLayout({ children }: PageLayoutProps) {
+  const { name, email, socials } = await getProfile();
   return (
     <>
       <div className="relative flex min-h-svh flex-col items-center justify-center">
@@ -15,7 +17,7 @@ export function PageLayout({ children }: PageLayoutProps) {
         </main>
         <NavDock />
       </div>
-      <Footer />
+      <Footer name={name} email={email} socials={socials} />
     </>
   );
 }

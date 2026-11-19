@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { PageLayout } from "@/components/templates/page-layout";
 import { TableOfContents } from "@/components/molecules/table-of-contents";
 import { getProject, getProjects, parseToc } from "@/lib/kadocms";
-import { siteConfig } from "@/lib/data";
+import { getProfile } from "@/lib/profile";
 import type { Metadata } from "next";
 
 interface Props {
@@ -47,6 +47,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   } catch {
     notFound();
   }
+  const author = await getProfile();
 
   const toc = parseToc(project.description);
 
@@ -131,7 +132,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div className="relative">
                 <Image
                   src="https://github.com/lazlanrafar.png"
-                  alt={siteConfig.author.name}
+                  alt={author.name}
                   width={44}
                   height={44}
                   className="border-border size-11 border object-cover"
@@ -140,10 +141,10 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
               <div className="flex flex-col">
                 <p className="text-foreground text-sm font-semibold">
-                  {siteConfig.author.name}
+                  {author.name}
                 </p>
                 <p className="text-muted-foreground text-xs font-medium">
-                  {siteConfig.author.role}
+                  {author.role}
                 </p>
               </div>
             </div>
