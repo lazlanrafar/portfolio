@@ -6,7 +6,11 @@ interface ContainerProps {
   as?: React.ElementType;
 }
 
-export function Container({ children, className, as: As = "div" }: ContainerProps) {
+export function Container({
+  children,
+  className,
+  as: As = "div",
+}: ContainerProps) {
   return (
     <As className={cn("mx-auto w-full max-w-3xl px-6", className)}>
       {children}

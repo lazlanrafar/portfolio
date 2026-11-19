@@ -18,13 +18,23 @@ bun lint         # ESLint
 - **Tailwind CSS v4** — uses `@import "tailwindcss"` (not a `tailwind.config.js`), `@custom-variant`, `@utility`, and `@theme inline` in `globals.css`; no `tailwind.config` file exists
 - **framer-motion** for animations (`framer-motion`, not `motion/react`)
 - **next-themes** for dark mode (`defaultTheme="light"`, `enableColorScheme={false}`)
-- **microCMS** as headless CMS for projects (server-side fetch only, API key in `.env`)
+- **KadoCMS** as headless CMS for projects (server-side fetch only; `KADOCMS_URL` and `KADOCMS_API_KEY` in `.env.local`)
 
 ## Architecture
 
 ### Data flow
 
-All static personal data (bio, experience, skills, process steps, workstation, inspiration, bookmarks, tech items) lives in `lib/data.ts`. Project data is fetched from microCMS via `lib/microcms.ts` — `getProjects()` / `getProject(id)` with `revalidate: 3600`.
+The owner's profile (name, role, bio, socials, process steps, skills, tech icons, experience, education, awards, workstation, inspiration, bookmarks) comes from KadoCMS (content type `profile`, one entry) via `lib/profile.ts` — `getProfile(lang)`, wrapped in React `cache` so a render fetches it once; it returns the shapes the components render (periods, flags and groups are worked out there). Client components (`Footer`, `ProcessSection`) get it as props from their server parent. `lib/data.ts` keeps only `siteConfig` (site name and URL) and `navLinks`. Project data is fetched from KadoCMS (Delivery API, content type `project`) via `lib/kadocms.ts` — `getProjects()` / `getProject(slug)` with `revalidate: 3600`. Rich text arrives as a document tree and is rendered to HTML there (headings get ids for the table of contents); media arrive as ids and become KadoCMS image URLs (`?w=…&format=webp`). Old microCMS project ids redirect to slugs (`lib/legacy-project-ids.json`, `next.config.mjs`). Blog posts come from KadoCMS too (content type `post`) via `lib/posts.ts` — `getAllPosts()` / `getPost(slug)`; the rich-text body is turned back into MDX there, so `app/blog/[slug]` keeps its MDX pipeline (`mdx-components.tsx`, rehype-pretty-code, heading anchors) and the TOC reads Markdown headings. YouTube embeds come back as `<iframe>`; other embeds (Spotify) are links, since KadoCMS rich text only embeds YouTube.
+
+### Languages (en, id, ja)
+
+Every page lives under `app/[lang]/` (root layout included; `dynamicParams = false`, `generateStaticParams` gives en, id, ja). English is served at the root: `proxy.ts` rewrites `/about` to `/en/about`, redirects `/en/...` to the root (308), passes `/id/...` and `/ja/...`, and sends root URLs to the language saved in the `NEXT_LOCALE` cookie (set by the dock's language menu). `robots.ts`, `sitemap.ts`, `llms.txt` and `opengraph-image.png` stay at `app/`.
+
+- `lib/i18n.ts`: `LOCALES`, `localePath(lang, path)` (en has no prefix), `splitLocale`, `format`/`splitAround` for `{placeholder}` templates, Intl and og locale maps. Client components read the language with `hooks/use-lang.ts`.
+- UI text lives in `dictionaries/{en,id,ja}.json` (`getDictionary(lang)` in `lib/dictionary.ts`; id and ja must have every English key, the type check enforces it). Pages call `langFrom(params)` (404 for anything else). Every internal `href` goes through `localePath`.
+- Content: `getProfile(lang)`, `getProjects(lang)`, `getProject(slug, lang)`, `getAllPosts(lang)`, `getPost(slug, lang)` ask KadoCMS for that locale with `fallback_locale=en`, so untranslated entries show English. Localized fields: project title/description/seo, post title/description/body/seo, profile role/bio/long_bio/location/process/experience/education/awards/workstation/bookmarks/seo; slugs, media, links, tech and dates are shared.
+- SEO: `pageMetadata({ lang, ... })` sets the canonical per language and hreflang alternates (en, id, ja, x-default); the sitemap lists each page once with its alternates.
+- Japanese uses Noto Sans JP, loaded only on `/ja` (`--font-noto-sans-jp` in the font stack).
 
 ### Component hierarchy (atomic design)
 
@@ -44,7 +54,7 @@ motion/      — animation wrappers (SectionWrapper — stagger entrance on scro
 
 ### Project detail page
 
-`app/projects/[id]/page.tsx` uses a full-width flex layout: `<article className="relative flex h-auto w-full grow px-4">` with `TableOfContents` (sticky, `left-16` offset, visible at 768px+) on the left and `<div className="mx-auto w-full max-w-lg">` as the content column. Content is fetched with `generateStaticParams` + `revalidate: 3600`.
+`app/[lang]/projects/[id]/page.tsx` uses a full-width flex layout: `<article className="relative flex h-auto w-full grow px-4">` with `TableOfContents` (sticky, `left-16` offset, visible at 768px+) on the left and `<div className="mx-auto w-full max-w-lg">` as the content column. Content is fetched with `generateStaticParams` + `revalidate: 3600`.
 
 ### Theming
 
@@ -62,5 +72,6 @@ SVG icons live in `public/icons/tech/`. Some have `{name}-dark.svg` / `{name}-li
 
 - **No rounded corners anywhere** — never use `rounded-*` Tailwind classes
 - **No `scroll={false}`** on `<Link>` components used for page navigation (breaks scroll-to-top)
-- All personal data changes go in `lib/data.ts`; do not hardcode content in components
-- `lib/microcms.ts` exports `parseToc(html)` which decodes HTML entities and extracts `h2–h4` headings with IDs from microCMS rich-text HTML
+- SEO: every page builds its metadata with `pageMetadata()` from `lib/seo.ts` (own canonical path, Open Graph, Twitter card; share images as JPEG via `shareImage()`) and renders schema.org data with `<JsonLd>` (`components/atoms/json-ld.tsx`). Never set `alternates.canonical` in the root layout: it would point every page at the home page. JSON-LD states only what the page shows. `/llms.txt` (`app/llms.txt/route.ts`) and the sitemap are built from KadoCMS content
+- Personal data is edited in KadoCMS (the `profile` entry), not in code; do not hardcode content in components. Tech icon names must match a file in `public/icons/tech`
+- `lib/kadocms.ts` exports `parseToc(html)` which decodes HTML entities and extracts `h2–h4` headings with ids from the rich-text HTML it renders

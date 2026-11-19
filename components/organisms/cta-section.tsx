@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { siteConfig } from "@/lib/data";
+import { getDictionary } from "@/lib/dictionary";
+import { localePath, type Locale } from "@/lib/i18n";
+import { getProfile } from "@/lib/profile";
 
 type SocialName = "mail" | "github" | "linkedin" | "instagram";
 
@@ -37,58 +39,53 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
-const socialLinks: {
-  name: SocialName;
-  href: string;
+const networks: {
+  name: Exclude<SocialName, "mail">;
   icon: React.ComponentType<{ className?: string }>;
-  target?: string;
-  rel?: string;
 }[] = [
-  { name: "mail", href: "/contact", icon: Mail },
-  {
-    name: "github",
-    href: siteConfig.social.github,
-    icon: GithubIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
-  {
-    name: "linkedin",
-    href: siteConfig.social.linkedin,
-    icon: LinkedinIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
-  {
-    name: "instagram",
-    href: siteConfig.social.instagram,
-    icon: InstagramIcon,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
+  { name: "github", icon: GithubIcon },
+  { name: "linkedin", icon: LinkedinIcon },
+  { name: "instagram", icon: InstagramIcon },
 ];
 
-export function CtaSection() {
+export async function CtaSection({ lang }: { lang: Locale }) {
+  const { social } = await getProfile(lang);
+  const title = getDictionary(lang).home.connect;
+  const socialLinks: {
+    name: SocialName;
+    href: string;
+    icon: React.ComponentType<{ className?: string }>;
+    target?: string;
+    rel?: string;
+  }[] = [
+    { name: "mail", href: localePath(lang, "/contact"), icon: Mail },
+    ...networks.flatMap(({ name, icon }) => {
+      const href = social[name];
+      return href
+        ? [{ name, href, icon, target: "_blank", rel: "noopener noreferrer" }]
+        : [];
+    }),
+  ];
   return (
     <div className="w-full space-y-4">
       <div className="flex h-8 w-full items-center">
         <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-          Let&apos;s Connect
+          {title}
         </h2>
       </div>
 
-      <div className="grid w-full max-w-lg grid-cols-4 gap-2">
+      <div className="grid w-full grid-cols-4 gap-2">
         {socialLinks.map(({ name, href, icon: Icon, target, rel }) => (
           <Link
             key={name}
             href={href}
-           
+
             target={target}
             rel={rel}
             aria-label={name}
             className={cn(
               "anim group bg-muted text-muted-foreground flex h-12 w-full cursor-pointer items-center justify-center",
-              colorVariant[name]
+              colorVariant[name],
             )}
           >
             <Icon className="anim size-4 group-hover:size-5 sm:size-5 sm:group-hover:size-6" />

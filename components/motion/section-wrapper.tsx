@@ -12,7 +12,7 @@ interface SectionWrapperProps {
 }
 
 const DEFAULT_SECTION_CLASS = "flex h-auto w-full grow flex-col";
-const DEFAULT_ITEM_CLASS = "flex w-full max-w-lg flex-col items-center";
+const DEFAULT_ITEM_CLASS = "flex w-full max-w-2xl flex-col items-center";
 
 export function SectionWrapper({
   id,
@@ -30,8 +30,8 @@ export function SectionWrapper({
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) {
-      setIsInView(true);
-      return;
+      const timer = setTimeout(() => setIsInView(true), 0);
+      return () => clearTimeout(timer);
     }
 
     const currentSection = sectionRef.current;
@@ -44,7 +44,7 @@ export function SectionWrapper({
           observer.disconnect();
         }
       },
-      { rootMargin: "-50px", threshold: 0 }
+      { rootMargin: "-50px", threshold: 0 },
     );
 
     observer.observe(currentSection);
@@ -62,15 +62,18 @@ export function SectionWrapper({
         return (
           <div
             key={index}
-            style={!disableAnimation ? { transitionDelay: `${delay}s` } : undefined}
+            style={
+              !disableAnimation ? { transitionDelay: `${delay}s` } : undefined
+            }
             className={cn(
               DEFAULT_ITEM_CLASS,
               itemClassName,
-              !disableAnimation && "md:transition-all md:duration-400 md:ease-in-out",
+              !disableAnimation &&
+                "md:transition-all md:duration-400 md:ease-in-out",
               !disableAnimation &&
                 (isInView
                   ? "md:translate-y-0 md:opacity-100 md:blur-none"
-                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-[4px]")
+                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-xs"),
             )}
           >
             {child}

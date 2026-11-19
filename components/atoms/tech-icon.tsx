@@ -6,9 +6,20 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const themedIcons = new Set([
-  "astro", "aws", "drizzle", "express", "github",
-  "go", "markdown", "motion", "prisma", "shadcn",
-  "sketch", "swr", "vercel", "zed",
+  "astro",
+  "aws",
+  "drizzle",
+  "express",
+  "github",
+  "go",
+  "markdown",
+  "motion",
+  "prisma",
+  "shadcn",
+  "sketch",
+  "swr",
+  "vercel",
+  "zed",
 ]);
 
 export function TechIcon({

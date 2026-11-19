@@ -1,11 +1,18 @@
-import { siteConfig } from "@/lib/data";
+import { getDictionary } from "@/lib/dictionary";
+import { splitAround, type Locale } from "@/lib/i18n";
+import { getProfile } from "@/lib/profile";
 
-export function Hero() {
+export async function Hero({ lang }: { lang: Locale }) {
+  const { name, role, location, bio } = await getProfile(lang);
+  const [before, after] = splitAround(
+    getDictionary(lang).home.intro,
+    "location",
+  );
   return (
     <div className="w-full space-y-8">
       <div className="space-y-1">
         <h1 className="text-foreground flex items-center gap-1.5 text-base font-semibold leading-none md:text-lg">
-          {siteConfig.author.name}
+          {name}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -22,17 +29,15 @@ export function Hero() {
           </svg>
         </h1>
         <p className="text-muted-foreground text-xs font-medium leading-none md:text-sm">
-          {siteConfig.author.role}
+          {role}
         </p>
       </div>
 
       <div className="text-muted-foreground text-sm md:text-base">
         <p>
-          I&apos;m a full-stack developer from{" "}
-          <span className="text-foreground font-medium">
-            {siteConfig.author.location}
-          </span>
-          . {siteConfig.author.bio}
+          {before}
+          <span className="text-foreground font-medium">{location}</span>
+          {after} {bio}
         </p>
       </div>
     </div>

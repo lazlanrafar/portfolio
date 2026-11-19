@@ -32,12 +32,17 @@ export function ButtonLink({
     size === "sm" && "h-8 gap-1.5 px-3 text-xs",
     size === "md" && "h-10 gap-2 px-4 text-sm",
     size === "lg" && "h-12 gap-2 px-6 text-base",
-    className
+    className,
   );
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={classes}
+      >
         {children}
       </a>
     );

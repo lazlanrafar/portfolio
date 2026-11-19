@@ -3,27 +3,40 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import type { TocItem } from "@/lib/microcms";
+import type { TocItem } from "@/lib/kadocms";
 
-export function TableOfContents({ toc }: { toc: TocItem[] }) {
+export function TableOfContents({
+  toc,
+  title,
+}: {
+  toc: TocItem[];
+  title: string;
+}) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const mq = window.matchMedia("(min-width: 768px)");
-    setIsDesktop(mq.matches);
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+      setIsDesktop(mq.matches);
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      mq.removeEventListener("change", onChange);
+    };
   }, []);
 
   useEffect(() => {
     if (!isDesktop || toc.length === 0) return;
 
     const headings = Array.from(
-      document.querySelectorAll<HTMLElement>("h2[id], h3[id], h4[id]")
+      document.querySelectorAll<HTMLElement>("h2[id], h3[id], h4[id]"),
     );
 
     const onScroll = () => {
@@ -45,9 +58,7 @@ export function TableOfContents({ toc }: { toc: TocItem[] }) {
     const el = document.getElementById(id);
     if (!el) return;
     const y =
-      el.getBoundingClientRect().top +
-      window.scrollY -
-      window.innerHeight / 3;
+      el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3;
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
@@ -61,9 +72,7 @@ export function TableOfContents({ toc }: { toc: TocItem[] }) {
           transition={{ duration: 0.3 }}
           className="sticky top-16 left-16 h-fit w-36 shrink-0"
         >
-          <h3 className="mb-3 text-sm font-semibold tracking-wide">
-            On this page
-          </h3>
+          <h3 className="mb-3 text-sm font-semibold tracking-wide">{title}</h3>
           <nav>
             <ul className="space-y-2">
               {toc.map((item) => (
@@ -76,7 +85,7 @@ export function TableOfContents({ toc }: { toc: TocItem[] }) {
                       item.depth === 4 && "pl-6",
                       activeId === item.id
                         ? "text-foreground"
-                        : "text-muted-foreground"
+                        : "text-muted-foreground",
                     )}
                   >
                     {item.text}

@@ -4,7 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  /* Noto Sans JP is set only on /ja pages; elsewhere the fallback keeps the stack valid. */
+  --font-sans: var(--font-plus-jakarta-sans), var(--font-noto-sans-jp, "Plus Jakarta Sans"), "Plus Jakarta Sans", sans-serif;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-muted: hsl(var(--muted));
@@ -62,6 +63,21 @@
 
 @utility anim-fast {
   @apply transition-all duration-200 ease-in-out;
+}
+
+/* rehype-pretty-code dual-theme (CSS variable approach) */
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+  color: var(--shiki-light);
+}
+.dark code[data-theme*=" "],
+.dark code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+}
+
+/* MDX content styles */
+.mdx iframe {
+  @apply mb-4 w-full;
 }
 
 @utility dock-shadow {

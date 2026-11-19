@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "プロフィール",
+    "projects": "プロジェクト",
+    "blog": "ブログ",
+    "contact": "お問い合わせ",
+    "theme": "テーマ",
+    "language": "言語"
+  },
+  "meta": {
+    "site": "インドネシア・バリ島在住のソフトウェアエンジニア。React、Vue.js、Node.js、AWS のクラウドインフラを専門としています。",
+    "about": "{location}を拠点とするフルスタックソフトウェアエンジニア、{name}について。",
+    "projects": "{name}が手がけたプロジェクト集。EC、不動産、教育、物流などの Web アプリケーション。",
+    "projectsList": "クライアント向けおよび個人で開発した Web・モバイルアプリケーション。",
+    "blog": "コード、デザイン、ソフトウェアエンジニアリングについての記事。",
+    "contact": "{name}へのお問い合わせ。"
+  },
+  "home": {
+    "intro": "{location}を拠点とするフルスタック開発者です。",
+    "selectedWork": "主な実績",
+    "allProjects": "すべてのプロジェクト",
+    "skills": "スキル",
+    "process": "開発プロセス",
+    "processIntro": "高品質な Web アプリケーションを段階的に構築するアプローチです。{method} メソッドにより、各フェーズを最適化し、効率的で拡張性の高い成果をお届けします。",
+    "connect": "つながりましょう"
+  },
+  "about": {
+    "title": "プロフィール",
+    "tools": "ツール",
+    "experience": "職歴",
+    "education": "学歴",
+    "awards": "受賞歴",
+    "workstation": "作業環境",
+    "inspiration": "影響を受けた人・もの",
+    "bookmarks": "ブックマーク",
+    "inspirationCategories": {
+      "Engineers": "エンジニア",
+      "Designers": "デザイナー",
+      "Creators": "クリエイター",
+      "Libraries": "ライブラリ"
+    }
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "intro": "これまでにクライアント向けや個人で開発した {count}をご紹介します。",
+    "count": "{count} 件のプロジェクト",
+    "back": "戻る",
+    "backLabel": "プロジェクト一覧に戻る",
+    "newTab": "{label}（新しいタブで開く）",
+    "thumbnail": "{title} のサムネイル",
+    "screenshot": "{title} のスクリーンショット",
+    "readMore": "{title} の詳細を見る"
+  },
+  "blog": {
+    "title": "ブログ",
+    "empty": "まだ記事はありません。",
+    "back": "戻る",
+    "backLabel": "ブログに戻る",
+    "share": "{title} を X で共有",
+    "cover": "{title} のカバー画像",
+    "notFound": "記事が見つかりません"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "intro": "新しい機会やコラボレーションをいつでも歓迎します。{location}を拠点に、世界中どこからでもご依頼を承ります。",
+    "email": "メール"
+  },
+  "footer": {
+    "tagline": "クリーンなコードと優れた UX で、本番品質の Web アプリを開発しています。",
+    "top": "トップ",
+    "email": "メール",
+    "copied": "コピーしました",
+    "backToTop": "ページの先頭へ",
+    "copyEmail": "メールアドレスをコピー",
+    "navigate": "ナビゲーション",
+    "connect": "SNS",
+    "stayConnected": "連絡先",
+    "sendEmail": "メールを送る",
+    "messageLinkedIn": "LinkedIn でメッセージ",
+    "rights": "All rights reserved."
+  },
+  "filter": {
+    "search": "{noun}を検索",
+    "clearSearch": "検索をクリア",
+    "all": "すべて",
+    "more": "他 {count} 件",
+    "less": "閉じる",
+    "count": "{count} 件の{noun}",
+    "countOf": "{total} 件中 {shown} 件の{noun}",
+    "noMatch": "該当する{noun}はありません。",
+    "clear": "フィルターをクリア",
+    "group": "タグで絞り込む",
+    "projects": "プロジェクト",
+    "project": "プロジェクト",
+    "posts": "記事",
+    "post": "記事"
+  },
+  "toc": "目次",
+  "bookmarks": {
+    "previous": "前のページ",
+    "next": "次のページ",
+    "link": "{title} へのリンク"
+  },
+  "profile": {
+    "present": "現在",
+    "categories": {
+      "Frontend": "フロントエンド",
+      "Backend": "バックエンド",
+      "Database": "データベース",
+      "Mobile": "モバイル",
+      "Infrastructure": "DevOps・クラウド",
+      "CMS": "CMS",
+      "Other": "その他"
+    }
+  },
+  "breadcrumb": {
+    "home": "ホーム"
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { processItems } from "@/lib/data";
+import { splitAround } from "@/lib/i18n";
 
 function ProcessStep({
   name,
@@ -28,7 +28,7 @@ function ProcessStep({
       <div
         className={cn(
           "col-span-5 flex flex-col gap-y-1 sm:col-span-7 sm:gap-y-2",
-          !isLast && "pb-6"
+          !isLast && "pb-6",
         )}
       >
         <h3 className="text-foreground text-sm font-semibold">{name}</h3>
@@ -40,30 +40,39 @@ function ProcessStep({
   );
 }
 
-export function ProcessSection() {
+export function ProcessSection({
+  items,
+  title,
+  intro,
+}: {
+  items: { name: string; description: string }[];
+  title: string;
+  /** The intro with a {method} placeholder for the highlighted method name. */
+  intro: string;
+}) {
+  const [before, after] = splitAround(intro, "method");
   return (
     <div className="w-full space-y-4">
-      <div className="w-full max-w-lg space-y-1">
+      <div className="w-full space-y-1">
         <div className="flex h-8 w-full items-center">
           <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-            My Process
+            {title}
           </h2>
         </div>
         <p className="text-muted-foreground text-sm md:text-base">
-          A step-by-step approach to building high-quality web applications.
-          Using the <span className="text-foreground font-medium">4D</span>{" "}
-          method, each phase is tailored to deliver efficient and scalable
-          results.
+          {before}
+          <span className="text-foreground font-medium">4D</span>
+          {after}
         </p>
       </div>
 
-      <div className="flex w-full max-w-lg flex-col">
-        {processItems.map((item, index) => (
+      <div className="flex w-full flex-col">
+        {items.map((item, index) => (
           <ProcessStep
             key={index}
             {...item}
             index={index}
-            isLast={index === processItems.length - 1}
+            isLast={index === items.length - 1}
           />
         ))}
       </div>
