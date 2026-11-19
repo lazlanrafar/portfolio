@@ -12,14 +12,21 @@ interface Bookmark {
   description: string;
 }
 
-export function BookmarkList({ items }: { items: Bookmark[] }) {
+export function BookmarkList({
+  items,
+  labels,
+}: {
+  items: Bookmark[];
+  /** Accessible names in the page's language; `link` has a {title} placeholder. */
+  labels: { previous: string; next: string; link: string };
+}) {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 3;
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
   const paginatedItems = items.slice(
     currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
+    (currentPage + 1) * itemsPerPage,
   );
 
   return (
@@ -40,7 +47,7 @@ export function BookmarkList({ items }: { items: Bookmark[] }) {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`Link to ${item.title}`}
+                aria-label={labels.link.replace("{title}", item.title)}
                 className="group/mark text-foreground group-hover/book:text-muted-foreground flex w-fit items-start gap-x-3 py-1 transition-colors hover:text-foreground!"
               >
                 <ArrowRight className="mt-[5px] size-3 shrink-0 transition-transform group-hover/mark:translate-x-0.5" />
@@ -62,10 +69,10 @@ export function BookmarkList({ items }: { items: Bookmark[] }) {
             <button
               onClick={() => setCurrentPage((p) => p - 1)}
               disabled={currentPage === 0}
-              aria-label="Previous page"
+              aria-label={labels.previous}
               className={cn(
                 "anim bg-muted flex size-7 items-center justify-center transition-opacity",
-                currentPage === 0 ? "opacity-20" : "opacity-100"
+                currentPage === 0 ? "opacity-20" : "opacity-100",
               )}
             >
               <ChevronLeft className="size-3.5" />
@@ -73,10 +80,10 @@ export function BookmarkList({ items }: { items: Bookmark[] }) {
             <button
               onClick={() => setCurrentPage((p) => p + 1)}
               disabled={currentPage === totalPages - 1}
-              aria-label="Next page"
+              aria-label={labels.next}
               className={cn(
                 "anim bg-muted flex size-7 items-center justify-center transition-opacity",
-                currentPage === totalPages - 1 ? "opacity-20" : "opacity-100"
+                currentPage === totalPages - 1 ? "opacity-20" : "opacity-100",
               )}
             >
               <ChevronRight className="size-3.5" />

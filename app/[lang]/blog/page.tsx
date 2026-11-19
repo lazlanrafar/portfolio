@@ -7,29 +7,43 @@ import { PageLayout } from "@/components/templates/page-layout";
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { getAllPosts, formatPostDate } from "@/lib/posts";
 import { FilterableList } from "@/components/organisms/filterable-list";
+import { filterLabels, getDictionary, langFrom } from "@/lib/dictionary";
+import { localePath } from "@/lib/i18n";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Blog",
-  description: "Thoughts on code, design, and software engineering.",
-  path: "/blog",
-});
+interface Props {
+  params: Promise<{ lang: string }>;
+}
 
-export default async function BlogPage() {
-  const posts = await getAllPosts();
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = await langFrom(params);
+  const dict = getDictionary(lang);
+  return pageMetadata({
+    lang,
+    title: dict.blog.title,
+    description: dict.meta.blog,
+    path: "/blog",
+  });
+}
+
+export default async function BlogPage({ params }: Props) {
+  const lang = await langFrom(params);
+  const posts = await getAllPosts(lang);
+  const dict = getDictionary(lang);
 
   return (
-    <PageLayout>
+    <PageLayout lang={lang}>
       <JsonLd
         data={graph(
           collectionLd(
-            "Blog",
+            lang,
+            dict.blog.title,
             "/blog",
-            "Thoughts on code, design, and software engineering.",
+            dict.meta.blog,
             posts.map((p) => ({ name: p.title, path: `/blog/${p.slug}` })),
           ),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Blog", path: "/blog" },
+          breadcrumbLd(lang, [
+            { name: dict.breadcrumb.home, path: "/" },
+            { name: dict.blog.title, path: "/blog" },
           ]),
         )}
       />
@@ -41,20 +55,19 @@ export default async function BlogPage() {
           <div className="w-full space-y-4">
             <div className="flex h-8 w-full items-center">
               <h1 className="text-foreground text-sm font-bold uppercase leading-none">
-                Blog
+                {dict.blog.title}
               </h1>
             </div>
             <p className="text-muted-foreground text-sm md:text-base">
-              Thoughts on code, design, and software engineering.
+              {dict.meta.blog}
             </p>
           </div>
 
           {posts.length === 0 ? (
-            <p className="text-muted-foreground text-sm">No posts yet.</p>
+            <p className="text-muted-foreground text-sm">{dict.blog.empty}</p>
           ) : (
             <FilterableList
-              noun="posts"
-              nounOne="post"
+              labels={filterLabels(dict, "post")}
               listClassName="flex flex-col gap-6"
               items={posts.map((post, i) => ({
                 id: post.slug,
@@ -62,7 +75,7 @@ export default async function BlogPage() {
                 tags: post.tags,
                 node: (
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={localePath(lang, `/blog/${post.slug}`)}
                     className="group flex items-start gap-4"
                   >
                     <div className="bg-muted relative aspect-video w-32 shrink-0 overflow-hidden sm:w-56">
@@ -98,7 +111,7 @@ export default async function BlogPage() {
                         {post.description}
                       </p>
                       <p className="text-muted-foreground text-xs">
-                        {formatPostDate(post.date)}
+                        {formatPostDate(post.date, lang)}
                       </p>
                     </div>
                   </Link>

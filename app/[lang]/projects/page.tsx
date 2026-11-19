@@ -2,37 +2,50 @@ import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { FilterableList } from "@/components/organisms/filterable-list";
 import { ProjectCard } from "@/components/molecules/project-card";
+import { JsonLd } from "@/components/atoms/json-ld";
+import { filterLabels, getDictionary, langFrom } from "@/lib/dictionary";
+import { format, localePath, splitAround } from "@/lib/i18n";
 import { getProjects } from "@/lib/kadocms";
 import { getProfile } from "@/lib/profile";
-import { JsonLd } from "@/components/atoms/json-ld";
 import { breadcrumbLd, collectionLd, graph, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { name } = await getProfile();
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = await langFrom(params);
+  const { name } = await getProfile(lang);
+  const dict = getDictionary(lang);
   return pageMetadata({
-    title: "Projects",
-    description: `A collection of projects built by ${name} — web applications across e-commerce, real estate, education, and logistics.`,
+    lang,
+    title: dict.projects.title,
+    description: format(dict.meta.projects, { name }),
     path: "/projects",
   });
 }
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
+export default async function ProjectsPage({ params }: Props) {
+  const lang = await langFrom(params);
+  const projects = await getProjects(lang);
+  const dict = getDictionary(lang);
+  const [before, after] = splitAround(dict.projects.intro, "count");
 
   return (
-    <PageLayout>
+    <PageLayout lang={lang}>
       <JsonLd
         data={graph(
           collectionLd(
-            "Projects",
+            lang,
+            dict.projects.title,
             "/projects",
-            "Web and mobile applications built for clients and personal use.",
+            dict.meta.projectsList,
             projects.map((p) => ({ name: p.title, path: `/projects/${p.id}` })),
           ),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Projects", path: "/projects" },
+          breadcrumbLd(lang, [
+            { name: dict.breadcrumb.home, path: "/" },
+            { name: dict.projects.title, path: "/projects" },
           ]),
         )}
       />
@@ -44,21 +57,20 @@ export default async function ProjectsPage() {
           <div className="w-full space-y-4">
             <div className="flex h-8 w-full items-center">
               <h1 className="text-foreground text-sm font-bold uppercase leading-none">
-                Projects
+                {dict.projects.title}
               </h1>
             </div>
             <p className="text-muted-foreground text-sm md:text-base">
-              A selection of{" "}
+              {before}
               <span className="text-foreground font-medium">
-                {projects.length} projects
-              </span>{" "}
-              I&apos;ve built for clients and personal use over the years.
+                {format(dict.projects.count, { count: projects.length })}
+              </span>
+              {after}
             </p>
           </div>
 
           <FilterableList
-            noun="projects"
-            nounOne="project"
+            labels={filterLabels(dict, "project")}
             listClassName="grid w-full grid-cols-1 gap-4 sm:grid-cols-2"
             items={projects.map((project, i) => ({
               id: project.id,
@@ -68,7 +80,16 @@ export default async function ProjectsPage() {
                 project.description.replace(/<[^>]+>/g, " "),
               ].join(" "),
               tags: project.skills,
-              node: <ProjectCard project={project} priority={i < 2} />,
+              node: (
+                <ProjectCard
+                  project={project}
+                  href={localePath(lang, `/projects/${project.id}`)}
+                  label={format(dict.projects.readMore, {
+                    title: project.title,
+                  })}
+                  priority={i < 2}
+                />
+              ),
             }))}
           />
         </div>

@@ -4,7 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  /* Noto Sans JP is set only on /ja pages; elsewhere the fallback keeps the stack valid. */
+  --font-sans: var(--font-plus-jakarta-sans), var(--font-noto-sans-jp, "Plus Jakarta Sans"), "Plus Jakarta Sans", sans-serif;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-muted: hsl(var(--muted));

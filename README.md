@@ -38,7 +38,9 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Project Structure
 
 ```
-app/                  # Next.js App Router pages
+app/[lang]/           # Pages, in English (root), Indonesian (/id) and Japanese (/ja)
+dictionaries/         # UI text per language
+proxy.ts              # Language routing
 components/
   atoms/              # Single-purpose elements
   molecules/          # Composite components

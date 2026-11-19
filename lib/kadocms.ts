@@ -5,6 +5,8 @@
  * image URLs that KadoCMS resizes on the fly.
  */
 
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n";
+
 export interface ProjectImage {
   url: string;
   /** A tiny blurred copy as a data URL, shown while the image loads. */
@@ -48,7 +50,11 @@ interface Entry {
   skills?: string[] | null;
   project_url?: string | null;
   github_url?: string | null;
-  seo?: { meta_title?: string; meta_description?: string; share_image?: string | null } | null;
+  seo?: {
+    meta_title?: string;
+    meta_description?: string;
+    share_image?: string | null;
+  } | null;
   updated_at: string;
 }
 
@@ -60,14 +66,37 @@ interface ListResponse {
 const API_KEY = process.env.KADOCMS_API_KEY!;
 const BASE_URL = (process.env.KADOCMS_URL ?? "").replace(/\/$/, "");
 
-export async function fetchKado<T>(path: string, params: Record<string, string>): Promise<T> {
+/**
+ * A Delivery API read. With a language other than English, entries not translated yet come back
+ * in English (fallback_locale); a language the CMS project does not have yet reads English too.
+ */
+export async function fetchKado<T>(
+  path: string,
+  params: Record<string, string>,
+  lang: Locale = DEFAULT_LOCALE,
+): Promise<T> {
   const url = new URL(`${BASE_URL}/api/v1/${path}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  if (lang !== DEFAULT_LOCALE) {
+    url.searchParams.set("locale", lang);
+    url.searchParams.set("fallback_locale", DEFAULT_LOCALE);
+  }
   const res = await fetch(url.toString(), {
     headers: { Authorization: `Bearer ${API_KEY}` },
     next: { revalidate: 3600 },
   });
-  if (!res.ok) throw new Error(`KadoCMS error ${res.status}: ${await res.text()}`);
+  if (res.status === 422 && lang !== DEFAULT_LOCALE) {
+    const body = await res.json().catch(() => null);
+    if (body?.details?.path === "locale") {
+      console.warn(
+        `KadoCMS: locale ${lang} is not enabled, reading ${DEFAULT_LOCALE}`,
+      );
+      return fetchKado(path, params);
+    }
+    throw new Error(`KadoCMS error 422: ${JSON.stringify(body)}`);
+  }
+  if (!res.ok)
+    throw new Error(`KadoCMS error ${res.status}: ${await res.text()}`);
   return res.json();
 }
 
@@ -97,7 +126,10 @@ export async function blurFor(id: string): Promise<string | undefined> {
 }
 
 /** The thumbnail with its blur placeholder. */
-async function withBlur(p: Project, thumbnailId?: string | null): Promise<Project> {
+async function withBlur(
+  p: Project,
+  thumbnailId?: string | null,
+): Promise<Project> {
   if (!p.thumbnail || !thumbnailId) return p;
   const blurDataURL = await blurFor(thumbnailId);
   return blurDataURL ? { ...p, thumbnail: { ...p.thumbnail, blurDataURL } } : p;
@@ -111,7 +143,9 @@ function toProject(e: Entry): Project {
     if (e.project_url) links.push({ label: "Live site", url: e.project_url });
     if (e.github_url) links.push({ label: "Source code", url: e.github_url });
   }
-  const tech = (e.tech_stack ?? []).map((t) => t.name).filter((n): n is string => !!n);
+  const tech = (e.tech_stack ?? [])
+    .map((t) => t.name)
+    .filter((n): n is string => !!n);
   return {
     id: e.slug,
     title: e.title,
@@ -119,7 +153,10 @@ function toProject(e: Entry): Project {
     thumbnail: image(e.thumbnail),
     gallery: (e.gallery ?? [])
       .filter((g) => !!g.image)
-      .map((g) => ({ image: image(g.image)!, caption: g.caption ?? undefined })),
+      .map((g) => ({
+        image: image(g.image)!,
+        caption: g.caption ?? undefined,
+      })),
     start_date: e.start_date ?? undefined,
     end_date: e.end_date ?? undefined,
     links,
@@ -135,21 +172,42 @@ function toProject(e: Entry): Project {
   };
 }
 
-/** Newest first, in the order they were added. */
-export async function getProjects(limit = 100): Promise<Project[]> {
-  const data = await fetchKado<ListResponse>("content/project", {
-    page_size: String(Math.min(limit, 100)),
-    sort: "created_at:desc",
-  });
-  return Promise.all(data.data.map((e) => withBlur(toProject(e), e.thumbnail)));
+/** Newest first, in the order they were added (in English); every language keeps that order. */
+export async function getProjects(
+  lang: Locale,
+  limit = 100,
+): Promise<Project[]> {
+  const list = (l: Locale) =>
+    fetchKado<ListResponse>(
+      "content/project",
+      { page_size: "100", sort: "created_at:desc" },
+      l,
+    );
+  let entries = (await list(lang)).data;
+  if (lang !== DEFAULT_LOCALE) {
+    // A translation's row is created when it is written, so its created_at says nothing about
+    // the project: keep the English order (the same request the English pages cache).
+    const order = new Map(
+      (await list(DEFAULT_LOCALE)).data.map((e, i) => [e.document_id, i]),
+    );
+    entries = [...entries].sort(
+      (a, b) =>
+        (order.get(a.document_id) ?? Infinity) -
+        (order.get(b.document_id) ?? Infinity),
+    );
+  }
+  return Promise.all(
+    entries.slice(0, limit).map((e) => withBlur(toProject(e), e.thumbnail)),
+  );
 }
 
 /** One project by its slug; throws when there is none. */
-export async function getProject(slug: string): Promise<Project> {
-  const data = await fetchKado<ListResponse>("content/project", {
-    "filters[slug]": slug,
-    page_size: "1",
-  });
+export async function getProject(slug: string, lang: Locale): Promise<Project> {
+  const data = await fetchKado<ListResponse>(
+    "content/project",
+    { "filters[slug]": slug, page_size: "1" },
+    lang,
+  );
   const entry = data.data[0];
   if (!entry) throw new Error(`KadoCMS: no project "${slug}"`);
   return withBlur(toProject(entry), entry.thumbnail);
@@ -173,18 +231,23 @@ const escape = (s: string) =>
     .replace(/"/g, "&quot;");
 
 const plainText = (n: RichNode): string =>
-  n.type === "text" ? (n.text ?? "") : (n.content ?? []).map(plainText).join("");
+  n.type === "text"
+    ? (n.text ?? "")
+    : (n.content ?? []).map(plainText).join("");
 
 const headingId = (text: string) =>
   text
     .toLowerCase()
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
+    .normalize("NFC")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "") || "section";
 
 const safeHref = (href: unknown) =>
-  typeof href === "string" && /^(https?:|mailto:|\/|#)/.test(href) ? href : null;
+  typeof href === "string" && /^(https?:|mailto:|\/|#)/.test(href)
+    ? href
+    : null;
 
 function renderText(n: RichNode): string {
   let html = escape(n.text ?? "");
@@ -242,7 +305,9 @@ export function renderRichText(doc?: RichNode | null): string {
         return "<br />";
       case "image": {
         const src = safeHref(n.attrs?.src);
-        return src ? `<img src="${escape(src)}" alt="${escape(String(n.attrs?.alt ?? ""))}" />` : "";
+        return src
+          ? `<img src="${escape(src)}" alt="${escape(String(n.attrs?.alt ?? ""))}" />`
+          : "";
       }
       default:
         // Unknown blocks keep their text.

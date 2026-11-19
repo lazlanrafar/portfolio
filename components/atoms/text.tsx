@@ -9,7 +9,12 @@ interface TextProps {
   as?: React.ElementType;
 }
 
-export function Text({ children, variant = "default", className, as: As = "p" }: TextProps) {
+export function Text({
+  children,
+  variant = "default",
+  className,
+  as: As = "p",
+}: TextProps) {
   return (
     <As
       className={cn(
@@ -17,7 +22,7 @@ export function Text({ children, variant = "default", className, as: As = "p" }:
         variant === "default" && "text-foreground",
         variant === "muted" && "text-muted-foreground",
         variant === "small" && "text-sm text-muted-foreground",
-        className
+        className,
       )}
     >
       {children}

@@ -5,11 +5,13 @@ import { BookmarkList } from "@/components/molecules/bookmark-list";
 import { Skills } from "@/components/organisms/skills";
 import { TechIcon } from "@/components/atoms/tech-icon";
 import { getProfile } from "@/lib/profile";
+import { getDictionary, langFrom } from "@/lib/dictionary";
+import { format } from "@/lib/i18n";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/atoms/json-ld";
 import {
-  absoluteUrl,
+  pageUrl,
   breadcrumbLd,
   graph,
   pageMetadata,
@@ -18,20 +20,32 @@ import {
 } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const profile = await getProfile();
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = await langFrom(params);
+  const profile = await getProfile(lang);
+  const dict = getDictionary(lang);
   return pageMetadata({
-    title: profile.seo?.title ?? "About",
+    lang,
+    title: profile.seo?.title ?? dict.about.title,
     description:
       profile.seo?.description ??
-      `Learn more about ${profile.name} — a Full-Stack Software Engineer from ${profile.location}.`,
+      format(dict.meta.about, {
+        name: profile.name,
+        location: profile.location,
+      }),
     path: "/about",
     image: profile.seo?.image && shareImage(profile.seo.image),
   });
 }
 
-export default async function AboutPage() {
-  const profile = await getProfile();
+export default async function AboutPage({ params }: Props) {
+  const lang = await langFrom(params);
+  const profile = await getProfile(lang);
+  const dict = getDictionary(lang);
   const {
     longBio,
     experience,
@@ -43,18 +57,19 @@ export default async function AboutPage() {
     bookmarkItems,
   } = profile;
   return (
-    <PageLayout>
+    <PageLayout lang={lang}>
       <JsonLd
         data={graph(
           {
             "@type": "ProfilePage",
-            url: absoluteUrl("/about"),
+            url: pageUrl(lang, "/about"),
+            inLanguage: lang,
             dateModified: profile.updatedAt,
-            mainEntity: personLd(profile),
+            mainEntity: personLd(profile, lang),
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "About", path: "/about" },
+          breadcrumbLd(lang, [
+            { name: dict.breadcrumb.home, path: "/" },
+            { name: dict.about.title, path: "/about" },
           ]),
         )}
       />
@@ -65,7 +80,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h1 className="text-foreground text-sm font-bold uppercase leading-none">
-              About
+              {dict.about.title}
             </h1>
           </div>
           <div
@@ -74,12 +89,12 @@ export default async function AboutPage() {
           />
         </div>
 
-        <Skills />
+        <Skills lang={lang} />
 
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Tools
+              {dict.about.tools}
             </h2>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -98,7 +113,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Experience
+              {dict.about.experience}
             </h2>
           </div>
           <div className="flex w-full flex-col">
@@ -117,7 +132,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Education
+              {dict.about.education}
             </h2>
           </div>
           <div className="flex w-full flex-col">
@@ -136,7 +151,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Awards
+              {dict.about.awards}
             </h2>
           </div>
           <div className="flex w-full flex-col">
@@ -155,7 +170,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Workstation
+              {dict.about.workstation}
             </h2>
           </div>
           <ul className="flex flex-col gap-y-3">
@@ -179,7 +194,7 @@ export default async function AboutPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Inspiration
+              {dict.about.inspiration}
             </h2>
           </div>
           <ul className="flex flex-col gap-y-2">
@@ -218,10 +233,10 @@ export default async function AboutPage() {
         <div className="relative w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h2 className="text-foreground text-sm font-bold uppercase leading-none">
-              Bookmarks
+              {dict.about.bookmarks}
             </h2>
           </div>
-          <BookmarkList items={bookmarkItems} />
+          <BookmarkList items={bookmarkItems} labels={dict.bookmarks} />
         </div>
       </SectionWrapper>
     </PageLayout>

@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "meta": {
+    "site": "Software Engineer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure on AWS.",
+    "about": "Learn more about {name}, a full-stack software engineer from {location}.",
+    "projects": "A collection of projects built by {name}: web applications across e-commerce, real estate, education, and logistics.",
+    "projectsList": "Web and mobile applications built for clients and personal use.",
+    "blog": "Thoughts on code, design, and software engineering.",
+    "contact": "Get in touch with {name}."
+  },
+  "home": {
+    "intro": "I'm a full-stack developer from {location}.",
+    "selectedWork": "Selected Work",
+    "allProjects": "All projects",
+    "skills": "Skills",
+    "process": "My Process",
+    "processIntro": "A step-by-step approach to building high-quality web applications. Using the {method} method, each phase is tailored to deliver efficient and scalable results.",
+    "connect": "Let's Connect"
+  },
+  "about": {
+    "title": "About",
+    "tools": "Tools",
+    "experience": "Experience",
+    "education": "Education",
+    "awards": "Awards",
+    "workstation": "Workstation",
+    "inspiration": "Inspiration",
+    "bookmarks": "Bookmarks",
+    "inspirationCategories": {
+      "Engineers": "Engineers",
+      "Designers": "Designers",
+      "Creators": "Creators",
+      "Libraries": "Libraries"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "intro": "A selection of {count} I've built for clients and personal use over the years.",
+    "count": "{count} projects",
+    "back": "Go back",
+    "backLabel": "Go back to projects",
+    "newTab": "{label} (opens in a new tab)",
+    "thumbnail": "{title} thumbnail",
+    "screenshot": "{title} screenshot",
+    "readMore": "Read more about {title}"
+  },
+  "blog": {
+    "title": "Blog",
+    "empty": "No posts yet.",
+    "back": "Go back",
+    "backLabel": "Go back to blog",
+    "share": "Share {title} on X",
+    "cover": "{title} cover image",
+    "notFound": "Post not found"
+  },
+  "contact": {
+    "title": "Let's connect",
+    "intro": "I'm always open to new opportunities and collaborations. Based in {location}, available worldwide.",
+    "email": "Email"
+  },
+  "footer": {
+    "tagline": "Building production-grade web apps with clean code and great UX.",
+    "top": "top",
+    "email": "email",
+    "copied": "copied!",
+    "backToTop": "Back to top",
+    "copyEmail": "Copy email",
+    "navigate": "Navigate",
+    "connect": "Connect",
+    "stayConnected": "Stay Connected",
+    "sendEmail": "Send an email",
+    "messageLinkedIn": "Message on LinkedIn",
+    "rights": "All rights reserved."
+  },
+  "filter": {
+    "search": "Search {noun}",
+    "clearSearch": "Clear search",
+    "all": "All",
+    "more": "+{count} more",
+    "less": "Show less",
+    "count": "{count} {noun}",
+    "countOf": "{shown} of {total} {noun}",
+    "noMatch": "No {noun} match.",
+    "clear": "Clear filters",
+    "group": "Filter by tag",
+    "projects": "projects",
+    "project": "project",
+    "posts": "posts",
+    "post": "post"
+  },
+  "toc": "On this page",
+  "bookmarks": {
+    "previous": "Previous page",
+    "next": "Next page",
+    "link": "Link to {title}"
+  },
+  "profile": {
+    "present": "Present",
+    "categories": {
+      "Frontend": "Frontend",
+      "Backend": "Backend",
+      "Database": "Database",
+      "Mobile": "Mobile",
+      "Infrastructure": "DevOps & Cloud",
+      "CMS": "CMS",
+      "Other": "Other"
+    }
+  },
+  "breadcrumb": {
+    "home": "Home"
+  }
+}

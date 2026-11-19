@@ -1,7 +1,13 @@
+import { getDictionary } from "@/lib/dictionary";
+import { splitAround, type Locale } from "@/lib/i18n";
 import { getProfile } from "@/lib/profile";
 
-export async function Hero() {
-  const { name, role, location, bio } = await getProfile();
+export async function Hero({ lang }: { lang: Locale }) {
+  const { name, role, location, bio } = await getProfile(lang);
+  const [before, after] = splitAround(
+    getDictionary(lang).home.intro,
+    "location",
+  );
   return (
     <div className="w-full space-y-8">
       <div className="space-y-1">
@@ -29,11 +35,9 @@ export async function Hero() {
 
       <div className="text-muted-foreground text-sm md:text-base">
         <p>
-          I&apos;m a full-stack developer from{" "}
-          <span className="text-foreground font-medium">
-            {location}
-          </span>
-          . {bio}
+          {before}
+          <span className="text-foreground font-medium">{location}</span>
+          {after} {bio}
         </p>
       </div>
     </div>

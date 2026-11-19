@@ -28,7 +28,7 @@ export function Button({
         size === "sm" && "h-8 gap-1.5 px-3 text-xs",
         size === "md" && "h-10 gap-2 px-4 text-sm",
         size === "lg" && "h-12 gap-2 px-6 text-base",
-        className
+        className,
       )}
       {...props}
     >

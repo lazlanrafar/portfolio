@@ -2,16 +2,16 @@
 export const siteConfig = {
   name: "Azlan Rafar",
   url: "https://lazlanrafar.com",
-  description:
-    "Software Engineer from Bali, Indonesia. Specializing in React, Vue.js, Node.js, and cloud infrastructure on AWS.",
 };
 
+/** The site's pages, in menu order; labels come from the dictionary (nav.<key>). */
 export const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", key: "home" },
+  { href: "/about", key: "about" },
+  { href: "/projects", key: "projects" },
+  { href: "/blog", key: "blog" },
+  { href: "/contact", key: "contact" },
 ] as const;
 
-export type NavLink = (typeof navLinks)[number];
+/** A menu link with its label in the page's language. */
+export type NavItem = { href: string; label: string };

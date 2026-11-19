@@ -7,19 +7,25 @@ import type { TocItem } from "@/lib/posts";
 
 type PostTocProps = {
   toc: TocItem[];
+  /** The heading, in the page's language. */
+  title: string;
   className?: string;
 };
 
+/** The heading id rehype-slug (github-slugger) gives: letters of any script kept, spaces to "-". */
 function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^\p{L}\p{M}\p{N}\p{Pc} -]/gu, "")
+    .replace(/ /g, "-");
 }
 
-function renderItems(items: TocItem[], activeId: string | null, onScroll: (id: string) => void) {
+function renderItems(
+  items: TocItem[],
+  activeId: string | null,
+  onScroll: (id: string) => void,
+) {
   return items.map((item) => {
     const id = slugify(item.value);
     const isActive = activeId === id;
@@ -50,7 +56,7 @@ function renderItems(items: TocItem[], activeId: string | null, onScroll: (id: s
   });
 }
 
-export function PostToc({ toc, className }: PostTocProps) {
+export function PostToc({ toc, title, className }: PostTocProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -87,7 +93,10 @@ export function PostToc({ toc, className }: PostTocProps) {
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3;
+      const y =
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        window.innerHeight / 3;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -103,10 +112,12 @@ export function PostToc({ toc, className }: PostTocProps) {
           className={cn("sticky top-16 left-16 h-fit w-36 shrink-0", className)}
         >
           <h3 className="mb-3 text-sm font-semibold tracking-wide lg:text-base lg:text-nowrap">
-            On this page
+            {title}
           </h3>
           <nav>
-            <ul className="space-y-2">{renderItems(toc, activeId, scrollToHeading)}</ul>
+            <ul className="space-y-2">
+              {renderItems(toc, activeId, scrollToHeading)}
+            </ul>
           </nav>
         </motion.div>
       )}

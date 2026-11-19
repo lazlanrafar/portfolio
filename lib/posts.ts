@@ -4,6 +4,7 @@
  * heading anchors) and the table of contents keeps reading Markdown headings.
  */
 import { blurFor, fetchKado, mediaUrl, type RichNode } from "@/lib/kadocms";
+import { INTL_LOCALE, type Locale } from "@/lib/i18n";
 
 export type TocItem = {
   depth: number;
@@ -36,7 +37,11 @@ interface PostEntry {
   tags?: string[] | null;
   cover?: string | null;
   body?: RichNode | null;
-  seo?: { meta_title?: string; meta_description?: string; share_image?: string | null } | null;
+  seo?: {
+    meta_title?: string;
+    meta_description?: string;
+    share_image?: string | null;
+  } | null;
   updated_at: string;
 }
 
@@ -76,7 +81,10 @@ function extractToc(content: string): TocItem[] {
 
   while ((match = headingRegex.exec(cleaned)) !== null) {
     // The TOC shows the words, not the Markdown escapes the serializer added.
-    flat.push({ depth: match[1].length, value: match[2].replace(/\\(.)/g, "$1").trim() });
+    flat.push({
+      depth: match[1].length,
+      value: match[2].replace(/\\(.)/g, "$1").trim(),
+    });
   }
 
   return buildTree(flat);
@@ -88,7 +96,10 @@ function extractToc(content: string): TocItem[] {
 const escapeText = (s: string) => s.replace(/([\\`*_[\]<>{}|~])/g, "\\$1");
 
 function codeSpan(text: string): string {
-  const longest = Math.max(0, ...(text.match(/`+/g) ?? []).map((r) => r.length));
+  const longest = Math.max(
+    0,
+    ...(text.match(/`+/g) ?? []).map((r) => r.length),
+  );
   const fence = "`".repeat(longest + 1);
   const pad = text.startsWith("`") || text.endsWith("`") ? " " : "";
   return `${fence}${pad}${text}${pad}${fence}`;
@@ -110,7 +121,8 @@ function inline(nodes: RichNode[] = []): string {
         if (m.type === "bold") out = `**${out}**`;
         else if (m.type === "italic") out = `_${out}_`;
         else if (m.type === "strike") out = `~~${out}~~`;
-        else if (m.type === "link") out = `[${out}](${String(m.attrs?.href ?? "")})`;
+        else if (m.type === "link")
+          out = `[${out}](${String(m.attrs?.href ?? "")})`;
       }
       return out;
     })
@@ -140,11 +152,15 @@ function block(n: RichNode): string {
         .join("\n");
     case "codeBlock": {
       const text = (n.content ?? []).map((c) => c.text ?? "").join("");
-      const fence = "`".repeat(Math.max(3, ...(text.match(/`+/g) ?? []).map((r) => r.length + 1)));
+      const fence = "`".repeat(
+        Math.max(3, ...(text.match(/`+/g) ?? []).map((r) => r.length + 1)),
+      );
       return `${fence}${n.attrs?.language ? String(n.attrs.language) : ""}\n${text}\n${fence}`;
     }
     case "bulletList":
-      return (n.content ?? []).map((li) => `- ${indent(blocks(li.content), "  ")}`).join("\n");
+      return (n.content ?? [])
+        .map((li) => `- ${indent(blocks(li.content), "  ")}`)
+        .join("\n");
     case "orderedList": {
       const start = Number(n.attrs?.start) || 1;
       return (n.content ?? [])
@@ -199,24 +215,29 @@ async function toPost(e: PostEntry): Promise<Post> {
 }
 
 /** Published posts, newest first by their date. */
-export async function getAllPosts(): Promise<Post[]> {
-  const data = await fetchKado<{ data: PostEntry[] }>("content/post", {
-    page_size: "100",
-    sort: "date:desc",
-  });
+export async function getAllPosts(lang: Locale): Promise<Post[]> {
+  const data = await fetchKado<{ data: PostEntry[] }>(
+    "content/post",
+    { page_size: "100", sort: "date:desc" },
+    lang,
+  );
   return Promise.all(data.data.map(toPost));
 }
 
-export async function getPost(slug: string): Promise<Post | undefined> {
-  const data = await fetchKado<{ data: PostEntry[] }>("content/post", {
-    "filters[slug]": slug,
-    page_size: "1",
-  });
+export async function getPost(
+  slug: string,
+  lang: Locale,
+): Promise<Post | undefined> {
+  const data = await fetchKado<{ data: PostEntry[] }>(
+    "content/post",
+    { "filters[slug]": slug, page_size: "1" },
+    lang,
+  );
   return data.data[0] ? toPost(data.data[0]) : undefined;
 }
 
-export function formatPostDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+export function formatPostDate(dateStr: string, lang: Locale): string {
+  return new Date(dateStr).toLocaleDateString(INTL_LOCALE[lang], {
     year: "numeric",
     month: "long",
     day: "numeric",

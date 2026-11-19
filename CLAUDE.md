@@ -24,7 +24,17 @@ bun lint         # ESLint
 
 ### Data flow
 
-The owner's profile (name, role, bio, socials, process steps, skills, tech icons, experience, education, awards, workstation, inspiration, bookmarks) comes from KadoCMS (content type `profile`, one entry) via `lib/profile.ts` — `getProfile()`, wrapped in React `cache` so a render fetches it once; it returns the shapes the components render (periods, flags and groups are worked out there). Client components (`Footer`, `ProcessSection`) get it as props from their server parent. `lib/data.ts` keeps only `siteConfig` (site name and URL) and `navLinks`. Project data is fetched from KadoCMS (Delivery API, content type `project`) via `lib/kadocms.ts` — `getProjects()` / `getProject(slug)` with `revalidate: 3600`. Rich text arrives as a document tree and is rendered to HTML there (headings get ids for the table of contents); media arrive as ids and become KadoCMS image URLs (`?w=…&format=webp`). Old microCMS project ids redirect to slugs (`lib/legacy-project-ids.json`, `next.config.mjs`). Blog posts come from KadoCMS too (content type `post`) via `lib/posts.ts` — `getAllPosts()` / `getPost(slug)`; the rich-text body is turned back into MDX there, so `app/blog/[slug]` keeps its MDX pipeline (`mdx-components.tsx`, rehype-pretty-code, heading anchors) and the TOC reads Markdown headings. YouTube embeds come back as `<iframe>`; other embeds (Spotify) are links, since KadoCMS rich text only embeds YouTube.
+The owner's profile (name, role, bio, socials, process steps, skills, tech icons, experience, education, awards, workstation, inspiration, bookmarks) comes from KadoCMS (content type `profile`, one entry) via `lib/profile.ts` — `getProfile(lang)`, wrapped in React `cache` so a render fetches it once; it returns the shapes the components render (periods, flags and groups are worked out there). Client components (`Footer`, `ProcessSection`) get it as props from their server parent. `lib/data.ts` keeps only `siteConfig` (site name and URL) and `navLinks`. Project data is fetched from KadoCMS (Delivery API, content type `project`) via `lib/kadocms.ts` — `getProjects()` / `getProject(slug)` with `revalidate: 3600`. Rich text arrives as a document tree and is rendered to HTML there (headings get ids for the table of contents); media arrive as ids and become KadoCMS image URLs (`?w=…&format=webp`). Old microCMS project ids redirect to slugs (`lib/legacy-project-ids.json`, `next.config.mjs`). Blog posts come from KadoCMS too (content type `post`) via `lib/posts.ts` — `getAllPosts()` / `getPost(slug)`; the rich-text body is turned back into MDX there, so `app/blog/[slug]` keeps its MDX pipeline (`mdx-components.tsx`, rehype-pretty-code, heading anchors) and the TOC reads Markdown headings. YouTube embeds come back as `<iframe>`; other embeds (Spotify) are links, since KadoCMS rich text only embeds YouTube.
+
+### Languages (en, id, ja)
+
+Every page lives under `app/[lang]/` (root layout included; `dynamicParams = false`, `generateStaticParams` gives en, id, ja). English is served at the root: `proxy.ts` rewrites `/about` to `/en/about`, redirects `/en/...` to the root (308), passes `/id/...` and `/ja/...`, and sends root URLs to the language saved in the `NEXT_LOCALE` cookie (set by the dock's language menu). `robots.ts`, `sitemap.ts`, `llms.txt` and `opengraph-image.png` stay at `app/`.
+
+- `lib/i18n.ts`: `LOCALES`, `localePath(lang, path)` (en has no prefix), `splitLocale`, `format`/`splitAround` for `{placeholder}` templates, Intl and og locale maps. Client components read the language with `hooks/use-lang.ts`.
+- UI text lives in `dictionaries/{en,id,ja}.json` (`getDictionary(lang)` in `lib/dictionary.ts`; id and ja must have every English key, the type check enforces it). Pages call `langFrom(params)` (404 for anything else). Every internal `href` goes through `localePath`.
+- Content: `getProfile(lang)`, `getProjects(lang)`, `getProject(slug, lang)`, `getAllPosts(lang)`, `getPost(slug, lang)` ask KadoCMS for that locale with `fallback_locale=en`, so untranslated entries show English. Localized fields: project title/description/seo, post title/description/body/seo, profile role/bio/long_bio/location/process/experience/education/awards/workstation/bookmarks/seo; slugs, media, links, tech and dates are shared.
+- SEO: `pageMetadata({ lang, ... })` sets the canonical per language and hreflang alternates (en, id, ja, x-default); the sitemap lists each page once with its alternates.
+- Japanese uses Noto Sans JP, loaded only on `/ja` (`--font-noto-sans-jp` in the font stack).
 
 ### Component hierarchy (atomic design)
 
@@ -44,7 +54,7 @@ motion/      — animation wrappers (SectionWrapper — stagger entrance on scro
 
 ### Project detail page
 
-`app/projects/[id]/page.tsx` uses a full-width flex layout: `<article className="relative flex h-auto w-full grow px-4">` with `TableOfContents` (sticky, `left-16` offset, visible at 768px+) on the left and `<div className="mx-auto w-full max-w-lg">` as the content column. Content is fetched with `generateStaticParams` + `revalidate: 3600`.
+`app/[lang]/projects/[id]/page.tsx` uses a full-width flex layout: `<article className="relative flex h-auto w-full grow px-4">` with `TableOfContents` (sticky, `left-16` offset, visible at 768px+) on the left and `<div className="mx-auto w-full max-w-lg">` as the content column. Content is fetched with `generateStaticParams` + `revalidate: 3600`.
 
 ### Theming
 

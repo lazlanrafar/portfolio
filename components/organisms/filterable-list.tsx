@@ -4,6 +4,26 @@ import { Suspense, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { format } from "@/lib/i18n";
+
+/** Filter UI text; search, noMatch and count templates already carry their noun. */
+export interface FilterLabels {
+  search: string;
+  clearSearch: string;
+  all: string;
+  /** "+{count} more" */
+  more: string;
+  less: string;
+  /** "{count} {noun}" */
+  count: string;
+  /** "{shown} of {total} {noun}" */
+  countOf: string;
+  noMatch: string;
+  clear: string;
+  group: string;
+  noun: string;
+  nounOne: string;
+}
 
 export interface FilterableItem {
   id: string;
@@ -16,10 +36,8 @@ export interface FilterableItem {
 
 interface FilterableListProps {
   items: FilterableItem[];
-  /** Plural noun for search, counts and the empty state: "projects", "posts". */
-  noun: string;
-  /** Singular noun for a count of one: "project", "post". */
-  nounOne: string;
+  /** UI text in the page's language (dictionary `filter`, with nouns filled in). */
+  labels: FilterLabels;
   /** Classes for the list of matches, e.g. a grid. */
   listClassName?: string;
 }
@@ -76,8 +94,7 @@ interface FilterableViewProps extends FilterableListProps, Filters {
 
 function FilterableView({
   items,
-  noun,
-  nounOne,
+  labels: t,
   listClassName,
   query,
   tag,
@@ -124,15 +141,15 @@ function FilterableView({
             type="search"
             value={query}
             onChange={(e) => onChange?.({ query: e.target.value })}
-            placeholder={`Search ${noun}`}
-            aria-label={`Search ${noun}`}
+            placeholder={t.search}
+            aria-label={t.search}
             className="placeholder:text-muted-foreground w-full bg-transparent text-sm outline-none [&::-webkit-search-cancel-button]:hidden"
           />
           {query && (
             <button
               type="button"
               onClick={() => onChange?.({ query: "" })}
-              aria-label="Clear search"
+              aria-label={t.clearSearch}
               className="text-muted-foreground hover:text-foreground anim cursor-pointer"
             >
               <X className="size-4" />
@@ -144,10 +161,10 @@ function FilterableView({
           <div
             className="flex flex-wrap gap-1.5"
             role="group"
-            aria-label="Filter by tag"
+            aria-label={t.group}
           >
             <TagChip
-              label="All"
+              label={t.all}
               active={!tag}
               onClick={() => onChange?.({ tag: "" })}
             />
@@ -165,7 +182,9 @@ function FilterableView({
                 onClick={() => setShowAllTags((v) => !v)}
                 className="text-muted-foreground hover:text-foreground anim cursor-pointer px-1 text-xs font-medium"
               >
-                {showAllTags ? "Show less" : `+${tags.length - TAG_LIMIT} more`}
+                {showAllTags
+                  ? t.less
+                  : t.more.replace("{count}", String(tags.length - TAG_LIMIT))}
               </button>
             )}
           </div>
@@ -173,9 +192,12 @@ function FilterableView({
       </div>
 
       <p className="text-muted-foreground text-xs" aria-live="polite">
-        {filtered
-          ? `${matches.length} of ${items.length} ${items.length === 1 ? nounOne : noun}`
-          : `${items.length} ${items.length === 1 ? nounOne : noun}`}
+        {format(filtered ? t.countOf : t.count, {
+          shown: matches.length,
+          total: items.length,
+          count: items.length,
+          noun: items.length === 1 ? t.nounOne : t.noun,
+        })}
       </p>
 
       {matches.length > 0 ? (
@@ -188,13 +210,13 @@ function FilterableView({
         </div>
       ) : (
         <div className="text-muted-foreground space-y-2 py-8 text-center text-sm">
-          <p>No {noun} match.</p>
+          <p>{t.noMatch}</p>
           <button
             type="button"
             onClick={() => onChange?.({ query: "", tag: "" })}
             className="text-foreground cursor-pointer font-medium underline-offset-2 hover:underline"
           >
-            Clear filters
+            {t.clear}
           </button>
         </div>
       )}

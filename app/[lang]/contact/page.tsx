@@ -1,9 +1,11 @@
 import { SectionWrapper } from "@/components/motion/section-wrapper";
 import { PageLayout } from "@/components/templates/page-layout";
 import { getProfile } from "@/lib/profile";
+import { getDictionary, langFrom } from "@/lib/dictionary";
+import { format, splitAround } from "@/lib/i18n";
 import { JsonLd } from "@/components/atoms/json-ld";
 import {
-  absoluteUrl,
+  pageUrl,
   breadcrumbLd,
   graph,
   pageMetadata,
@@ -11,11 +13,18 @@ import {
 } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { name } = await getProfile();
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = await langFrom(params);
+  const { name } = await getProfile(lang);
+  const dict = getDictionary(lang);
   return pageMetadata({
-    title: "Contact",
-    description: `Get in touch with ${name}.`,
+    lang,
+    title: dict.nav.contact,
+    description: format(dict.meta.contact, { name }),
     path: "/contact",
   });
 }
@@ -28,11 +37,19 @@ function displayUrl(url: string): string {
   return host === "instagram.com" ? `@${path.slice(1)}` : `${host}${path}`;
 }
 
-export default async function ContactPage() {
-  const profile = await getProfile();
+export default async function ContactPage({ params }: Props) {
+  const lang = await langFrom(params);
+  const profile = await getProfile(lang);
+  const dict = getDictionary(lang);
+  const [before, after] = splitAround(dict.contact.intro, "location");
   const { email, location, socials } = profile;
   const contactLinks = [
-    { label: "Email", value: email, href: `mailto:${email}`, external: false },
+    {
+      label: dict.contact.email,
+      value: email,
+      href: `mailto:${email}`,
+      external: false,
+    },
     ...socials.map(({ label, url }) => ({
       label,
       value: displayUrl(url),
@@ -41,17 +58,18 @@ export default async function ContactPage() {
     })),
   ];
   return (
-    <PageLayout>
+    <PageLayout lang={lang}>
       <JsonLd
         data={graph(
           {
             "@type": "ContactPage",
-            url: absoluteUrl("/contact"),
-            mainEntity: personLd(profile),
+            url: pageUrl(lang, "/contact"),
+            inLanguage: lang,
+            mainEntity: personLd(profile, lang),
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Contact", path: "/contact" },
+          breadcrumbLd(lang, [
+            { name: dict.breadcrumb.home, path: "/" },
+            { name: dict.nav.contact, path: "/contact" },
           ]),
         )}
       />
@@ -62,15 +80,14 @@ export default async function ContactPage() {
         <div className="w-full space-y-4">
           <div className="flex h-8 w-full items-center">
             <h1 className="text-foreground text-sm font-bold uppercase leading-none">
-              Let&apos;s connect
+              {dict.contact.title}
             </h1>
           </div>
           <div className="text-muted-foreground text-sm md:text-base">
             <p>
-              I&apos;m always open to new opportunities and collaborations.
-              Based in{" "}
-              <span className="text-foreground font-medium">{location}</span>,
-              available worldwide.
+              {before}
+              <span className="text-foreground font-medium">{location}</span>
+              {after}
             </p>
           </div>
         </div>

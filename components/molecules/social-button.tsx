@@ -8,7 +8,12 @@ interface SocialButtonProps {
   className?: string;
 }
 
-export function SocialButton({ href, label, icon, className }: SocialButtonProps) {
+export function SocialButton({
+  href,
+  label,
+  icon,
+  className,
+}: SocialButtonProps) {
   return (
     <Link
       href={href}
@@ -17,7 +22,7 @@ export function SocialButton({ href, label, icon, className }: SocialButtonProps
       aria-label={label}
       className={cn(
         "flex h-9 w-9 items-center justify-center text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
-        className
+        className,
       )}
     >
       {icon}

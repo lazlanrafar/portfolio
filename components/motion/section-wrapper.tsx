@@ -44,7 +44,7 @@ export function SectionWrapper({
           observer.disconnect();
         }
       },
-      { rootMargin: "-50px", threshold: 0 }
+      { rootMargin: "-50px", threshold: 0 },
     );
 
     observer.observe(currentSection);
@@ -62,15 +62,18 @@ export function SectionWrapper({
         return (
           <div
             key={index}
-            style={!disableAnimation ? { transitionDelay: `${delay}s` } : undefined}
+            style={
+              !disableAnimation ? { transitionDelay: `${delay}s` } : undefined
+            }
             className={cn(
               DEFAULT_ITEM_CLASS,
               itemClassName,
-              !disableAnimation && "md:transition-all md:duration-400 md:ease-in-out",
+              !disableAnimation &&
+                "md:transition-all md:duration-400 md:ease-in-out",
               !disableAnimation &&
                 (isInView
                   ? "md:translate-y-0 md:opacity-100 md:blur-none"
-                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-xs")
+                  : "translate-y-0 opacity-100 blur-none md:translate-y-4 md:opacity-0 md:blur-xs"),
             )}
           >
             {child}

@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "projects": "Proyek",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "theme": "Tema",
+    "language": "Bahasa"
+  },
+  "meta": {
+    "site": "Software Engineer dari Bali, Indonesia. Fokus pada React, Vue.js, Node.js, dan infrastruktur cloud di AWS.",
+    "about": "Kenali {name} lebih dekat, software engineer full-stack dari {location}.",
+    "projects": "Kumpulan proyek yang dibangun oleh {name}: aplikasi web untuk e-commerce, properti, pendidikan, dan logistik.",
+    "projectsList": "Aplikasi web dan mobile untuk klien dan keperluan pribadi.",
+    "blog": "Catatan tentang kode, desain, dan rekayasa perangkat lunak.",
+    "contact": "Hubungi {name}."
+  },
+  "home": {
+    "intro": "Saya developer full-stack dari {location}.",
+    "selectedWork": "Karya Pilihan",
+    "allProjects": "Semua proyek",
+    "skills": "Keahlian",
+    "process": "Proses Kerja",
+    "processIntro": "Pendekatan langkah demi langkah untuk membangun aplikasi web berkualitas. Dengan metode {method}, setiap tahap disesuaikan agar hasilnya efisien dan mudah dikembangkan.",
+    "connect": "Mari Terhubung"
+  },
+  "about": {
+    "title": "Tentang",
+    "tools": "Teknologi",
+    "experience": "Pengalaman",
+    "education": "Pendidikan",
+    "awards": "Penghargaan",
+    "workstation": "Perangkat Kerja",
+    "inspiration": "Inspirasi",
+    "bookmarks": "Bookmark",
+    "inspirationCategories": {
+      "Engineers": "Engineer",
+      "Designers": "Desainer",
+      "Creators": "Kreator",
+      "Libraries": "Library"
+    }
+  },
+  "projects": {
+    "title": "Proyek",
+    "intro": "Pilihan {count} yang saya bangun untuk klien dan keperluan pribadi selama beberapa tahun terakhir.",
+    "count": "{count} proyek",
+    "back": "Kembali",
+    "backLabel": "Kembali ke daftar proyek",
+    "newTab": "{label} (dibuka di tab baru)",
+    "thumbnail": "Gambar {title}",
+    "screenshot": "Tangkapan layar {title}",
+    "readMore": "Baca selengkapnya tentang {title}"
+  },
+  "blog": {
+    "title": "Blog",
+    "empty": "Belum ada tulisan.",
+    "back": "Kembali",
+    "backLabel": "Kembali ke blog",
+    "share": "Bagikan {title} di X",
+    "cover": "Gambar sampul {title}",
+    "notFound": "Tulisan tidak ditemukan"
+  },
+  "contact": {
+    "title": "Mari terhubung",
+    "intro": "Saya selalu terbuka untuk peluang dan kolaborasi baru. Berbasis di {location}, siap bekerja dengan siapa pun di mana pun.",
+    "email": "Email"
+  },
+  "footer": {
+    "tagline": "Membangun aplikasi web siap produksi dengan kode yang rapi dan UX yang baik.",
+    "top": "atas",
+    "email": "email",
+    "copied": "tersalin!",
+    "backToTop": "Kembali ke atas",
+    "copyEmail": "Salin email",
+    "navigate": "Navigasi",
+    "connect": "Terhubung",
+    "stayConnected": "Tetap Terhubung",
+    "sendEmail": "Kirim email",
+    "messageLinkedIn": "Pesan di LinkedIn",
+    "rights": "Hak cipta dilindungi."
+  },
+  "filter": {
+    "search": "Cari {noun}",
+    "clearSearch": "Hapus pencarian",
+    "all": "Semua",
+    "more": "+{count} lagi",
+    "less": "Lebih sedikit",
+    "count": "{count} {noun}",
+    "countOf": "{shown} dari {total} {noun}",
+    "noMatch": "Tidak ada {noun} yang cocok.",
+    "clear": "Hapus filter",
+    "group": "Filter berdasarkan tag",
+    "projects": "proyek",
+    "project": "proyek",
+    "posts": "tulisan",
+    "post": "tulisan"
+  },
+  "toc": "Di halaman ini",
+  "bookmarks": {
+    "previous": "Halaman sebelumnya",
+    "next": "Halaman berikutnya",
+    "link": "Tautan ke {title}"
+  },
+  "profile": {
+    "present": "Sekarang",
+    "categories": {
+      "Frontend": "Frontend",
+      "Backend": "Backend",
+      "Database": "Database",
+      "Mobile": "Mobile",
+      "Infrastructure": "DevOps & Cloud",
+      "CMS": "CMS",
+      "Other": "Lainnya"
+    }
+  },
+  "breadcrumb": {
+    "home": "Beranda"
+  }
+}

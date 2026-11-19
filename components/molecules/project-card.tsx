@@ -5,19 +5,29 @@ import type { Project } from "@/lib/kadocms";
 
 interface ProjectCardProps {
   project: Project;
+  /** The project page in the current language. */
+  href: string;
+  /** Accessible name of the link, in the current language. */
+  label: string;
   className?: string;
   /** Above the fold: load it first instead of lazily. */
   priority?: boolean;
 }
 
-export function ProjectCard({ project, className, priority = false }: ProjectCardProps) {
-  const { id, title, thumbnail, skills } = project;
+export function ProjectCard({
+  project,
+  href,
+  label,
+  className,
+  priority = false,
+}: ProjectCardProps) {
+  const { title, thumbnail, skills } = project;
 
   return (
     <Link
-      href={`/projects/${id}`}
-     
-      aria-label={`Read more about ${title}`}
+      href={href}
+
+      aria-label={label}
       className={cn("group/card w-full space-y-1.5", className)}
     >
       <div className="bg-muted overflow-hidden ">

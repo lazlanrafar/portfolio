@@ -26,9 +26,9 @@ function summary(html: string, max = 200): string {
 
 export async function GET() {
   const [profile, projects, posts] = await Promise.all([
-    getProfile(),
-    getProjects(),
-    getAllPosts(),
+    getProfile("en"),
+    getProjects("en"),
+    getAllPosts("en"),
   ]);
 
   // The long bio usually opens with the short one; say it once.
@@ -49,6 +49,8 @@ export async function GET() {
     `- [Projects](${absoluteUrl("/projects")}): ${projects.length} web and mobile projects.`,
     `- [Blog](${absoluteUrl("/blog")}): articles on code, design and software engineering.`,
     `- [Contact](${absoluteUrl("/contact")}): email ${profile.email} and social profiles.`,
+    "",
+    `Every page is also in Indonesian under ${absoluteUrl("/id")} and in Japanese under ${absoluteUrl("/ja")}.`,
     "",
     "## Experience",
     "",
